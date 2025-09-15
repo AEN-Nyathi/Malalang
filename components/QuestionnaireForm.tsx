@@ -6,6 +6,7 @@ interface FileUploadState {
   progress: number;
   fileName: string | null;
   error: string | null;
+  previewUrl?: string;
 }
 
 const initialFileUploadState: FileUploadState = {
@@ -20,8 +21,9 @@ const FileUploadWidget: React.FC<{
   label: string;
   description: string;
   id: string;
-  multiple?: boolean;
-}> = ({ label, description, id, multiple = false }) => {
+  accept: string;
+  showPreview?: boolean;
+}> = ({ label, description, id, accept, showPreview = false }) => {
   const [uploadState, setUploadState] = useState<FileUploadState>(initialFileUploadState);
   
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,6 +32,13 @@ const FileUploadWidget: React.FC<{
 
     // Reset state for new upload
     setUploadState({ ...initialFileUploadState, status: 'uploading', fileName: file.name });
+    
+    // Create object URL for preview if applicable
+    let previewUrl: string | undefined = undefined;
+    if (showPreview && file.type.startsWith('image/')) {
+        previewUrl = URL.createObjectURL(file);
+    }
+
 
     // File size validation (e.g., 10MB limit)
     if (file.size > 10 * 1024 * 1024) {
@@ -39,6 +48,7 @@ const FileUploadWidget: React.FC<{
         fileName: file.name,
         error: 'File is too large (max 10MB).',
       });
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
       return;
     }
     
@@ -48,14 +58,17 @@ const FileUploadWidget: React.FC<{
         const newProgress = prev.progress + 10;
         if (newProgress >= 100) {
           clearInterval(interval);
-          return { ...prev, progress: 100, status: 'success' };
+          return { ...prev, progress: 100, status: 'success', previewUrl };
         }
-        return { ...prev, progress: newProgress };
+        return { ...prev, progress: newProgress, previewUrl };
       });
     }, 100);
   };
   
   const resetUpload = () => {
+    if (uploadState.previewUrl) {
+        URL.revokeObjectURL(uploadState.previewUrl);
+    }
     setUploadState(initialFileUploadState);
   };
   
@@ -69,7 +82,7 @@ const FileUploadWidget: React.FC<{
       <p className={descriptionClass}>{description}</p>
       
       {uploadState.status === 'idle' && (
-        <input type="file" id={id} name={id} multiple={multiple} className={fileInputClasses} onChange={handleFileChange} />
+        <input type="file" id={id} name={id} accept={accept} className={fileInputClasses} onChange={handleFileChange} />
       )}
 
       {uploadState.status === 'uploading' && (
@@ -83,11 +96,15 @@ const FileUploadWidget: React.FC<{
 
       {uploadState.status === 'success' && (
         <div className="mt-2 flex items-center justify-between bg-brand-secondary/10 p-3 rounded-lg">
-            <div className="flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-brand-secondary mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <div className="flex items-center min-w-0">
+                {showPreview && uploadState.previewUrl ? (
+                    <img src={uploadState.previewUrl} alt="logo preview" className="w-10 h-10 object-contain rounded-md mr-3" />
+                ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-brand-secondary mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                )}
                 <p className="text-sm text-slate-200 truncate">{uploadState.fileName}</p>
             </div>
-            <button type="button" onClick={resetUpload} className="text-slate-400 hover:text-white">&times;</button>
+            <button type="button" onClick={resetUpload} className="text-slate-400 hover:text-white flex-shrink-0 ml-2">&times;</button>
         </div>
       )}
 
@@ -112,13 +129,16 @@ const QuestionnaireForm: React.FC = () => {
     phone: '',
     businessName: '',
     currentWebsite: '',
-    competitors: '',
     businessDescription: '',
-    targetAudienceAge: '',
-    targetAudienceGender: '',
-    targetAudienceLocation: '',
-    targetAudiencePainPoints: '',
     uniqueSellingProposition: '',
+    
+    // Competitors
+    competitor1_name: '', competitor1_likes: '', competitor1_dislikes: '',
+    
+    // Audience
+    targetAudience_demographics: '',
+    targetAudience_goals: '',
+    targetAudience_painPoints: '',
 
     // Section 2: Project Goals
     primaryGoal: '',
@@ -131,8 +151,8 @@ const QuestionnaireForm: React.FC = () => {
     brandWords: '',
     designStyle: '',
     designStyleOther: '',
+    hasLogo: '',
     hasBranding: '',
-    hasOtherBranding: '',
     brandColors: '',
     likedWebsites: '',
     dislikedWebsites: '',
@@ -204,23 +224,14 @@ const QuestionnaireForm: React.FC = () => {
   const legendClass = "text-2xl font-bold text-white border-b border-slate-700 pb-3 mb-6 w-full";
   const descriptionClass = "text-sm text-slate-400 mt-1";
   const subLabelClass = "text-sm text-slate-400 font-medium";
+  const subFieldsetSpace = "space-y-4 bg-slate-900/50 p-4 rounded-md border border-slate-700/50";
 
   const pagesOptions = ['Home', 'About Us', 'Our Team', 'Services', 'Pricing', 'Portfolio/Gallery', 'Testimonials', 'Blog', 'Contact', 'FAQ', 'Privacy Policy'];
-  const featuresOptions = [
-    // Content Display
-    'Photo Gallery',
-    'Testimonials Section',
-    'Social Media Feed Integration',
-    'Embedded Maps',
-    // User Interaction
-    'Advanced Forms',
-    'Newsletter Signup',
-    'Live Chat',
-    'Customer Login Area',
-    // Business Logic
-    'E-commerce / Online Store',
-    'Booking / Appointment System',
-  ];
+  const featuresOptions = {
+    'Content Display': ['Photo Gallery', 'Testimonials Section', 'Social Media Feed Integration', 'Embedded Maps'],
+    'User Interaction': ['Advanced Forms', 'Newsletter Signup', 'Live Chat', 'Customer Login Area'],
+    'Business Logic': ['E-commerce / Online Store', 'Booking / Appointment System'],
+  };
   
 
   return (
@@ -237,49 +248,44 @@ const QuestionnaireForm: React.FC = () => {
             <div><label htmlFor="businessName" className={labelClass}>Business Name</label><input type="text" id="businessName" name="businessName" onChange={handleChange} className={inputClass} required /></div>
           </div>
           <div><label htmlFor="currentWebsite" className={labelClass}>Current Website & Social Media Links (if any)</label><input type="text" id="currentWebsite" name="currentWebsite" onChange={handleChange} className={inputClass} placeholder="e.g., yoursite.com, facebook.com/yourbusiness" /></div>
-          <div><label htmlFor="competitors" className={labelClass}>Please list your main competitors and their websites.</label><textarea id="competitors" name="competitors" rows={3} onChange={handleChange} className={inputClass} /></div>
           <div><label htmlFor="businessDescription" className={labelClass}>Briefly describe your business and the services/products you offer.</label><textarea id="businessDescription" name="businessDescription" rows={4} onChange={handleChange} className={inputClass} required /></div>
+          <div><label htmlFor="uniqueSellingProposition" className={labelClass}>What makes your business unique compared to your competitors?</label><p className={descriptionClass}>What is your unique selling proposition (USP)?</p><textarea id="uniqueSellingProposition" name="uniqueSellingProposition" rows={3} onChange={handleChange} className={inputClass} /></div>
           
           <div>
-            <label className={labelClass}>Who is your ideal customer or target audience?</label>
-            <div className="grid md:grid-cols-2 gap-x-6 gap-y-4 mt-2 bg-slate-900/50 p-4 rounded-md border border-slate-700/50">
-                <div>
-                    <label htmlFor="targetAudienceAge" className={subLabelClass}>Age Range</label>
-                    <input type="text" id="targetAudienceAge" name="targetAudienceAge" onChange={handleChange} className={inputClass} placeholder="e.g., 25-45" />
-                </div>
-                <div>
-                    <label htmlFor="targetAudienceGender" className={subLabelClass}>Gender</label>
-                    <select id="targetAudienceGender" name="targetAudienceGender" onChange={handleChange} className={inputClass}>
-                        <option value="">Select...</option>
-                        <option value="All">All Genders</option>
-                        <option value="Female">Primarily Female</option>
-                        <option value="Male">Primarily Male</option>
-                    </select>
-                </div>
-                <div className="md:col-span-2">
-                    <label htmlFor="targetAudienceLocation" className={subLabelClass}>Location</label>
-                    <input type="text" id="targetAudienceLocation" name="targetAudienceLocation" onChange={handleChange} className={inputClass} placeholder="e.g., Phalaborwa, Limpopo" />
-                </div>
-                <div className="md:col-span-2">
-                    <label htmlFor="targetAudiencePainPoints" className={subLabelClass}>What problems does your business solve for them?</label>
-                    <textarea id="targetAudiencePainPoints" name="targetAudiencePainPoints" rows={3} onChange={handleChange} className={inputClass} placeholder="e.g., 'They need a reliable plumber who shows up on time.'" />
-                </div>
+            <label className={labelClass}>Competitor Analysis</label>
+            <div className={subFieldsetSpace}>
+                <label htmlFor="competitor1_name" className={subLabelClass}>Competitor 1 Website</label>
+                <input type="text" id="competitor1_name" name="competitor1_name" onChange={handleChange} className={inputClass} placeholder="www.competitor.com" />
+                <label htmlFor="competitor1_likes" className={subLabelClass}>What do you LIKE about their website?</label>
+                <textarea id="competitor1_likes" name="competitor1_likes" rows={2} onChange={handleChange} className={inputClass} />
+                <label htmlFor="competitor1_dislikes" className={subLabelClass}>What do you DISLIKE about their website?</label>
+                <textarea id="competitor1_dislikes" name="competitor1_dislikes" rows={2} onChange={handleChange} className={inputClass} />
             </div>
           </div>
-
-          <div><label htmlFor="uniqueSellingProposition" className={labelClass}>What makes your business unique compared to your competitors?</label><p className={descriptionClass}>What is your unique selling proposition (USP)?</p><textarea id="uniqueSellingProposition" name="uniqueSellingProposition" rows={3} onChange={handleChange} className={inputClass} /></div>
+          
+          <div>
+            <label className={labelClass}>Target Audience</label>
+            <div className={subFieldsetSpace}>
+                <label htmlFor="targetAudience_demographics" className={subLabelClass}>Describe your ideal customer (age, gender, location, occupation, etc.)</label>
+                <textarea id="targetAudience_demographics" name="targetAudience_demographics" rows={3} onChange={handleChange} className={inputClass} />
+                <label htmlFor="targetAudience_painPoints" className={subLabelClass}>What problems does your business solve for them?</label>
+                <textarea id="targetAudience_painPoints" name="targetAudience_painPoints" rows={3} onChange={handleChange} className={inputClass} placeholder="e.g., 'They need a reliable plumber who shows up on time.'" />
+                <label htmlFor="targetAudience_goals" className={subLabelClass}>What do you want them to DO on your website?</label>
+                <textarea id="targetAudience_goals" name="targetAudience_goals" rows={3} onChange={handleChange} className={inputClass} placeholder="e.g., 'Fill out the contact form', 'Book an appointment', 'Buy a product'." />
+            </div>
+          </div>
         </fieldset>
 
         {/* Section 2 */}
         <fieldset className={fieldsetSpace}>
           <legend className={legendClass}>2. Project Goals & Scope</legend>
           <div><label htmlFor="primaryGoal" className={labelClass}>What is the single most important goal for this website?</label><p className={descriptionClass}>e.g., "Generate 10 new leads per month," "Sell products online," "Establish professional credibility."</p><input type="text" id="primaryGoal" name="primaryGoal" onChange={handleChange} className={inputClass} /></div>
-          <div><label htmlFor="successMetrics" className={labelClass}>How will you measure the success of the new website?</label><p className={descriptionClass}>What specific metrics will tell you the site is working? (e.g., more contact form submissions, higher online sales, fewer support calls).</p><input type="text" id="successMetrics" name="successMetrics" onChange={handleChange} className={inputClass} /></div>
+          <div><label htmlFor="successMetrics" className={labelClass}>How will you measure the success of the new website?</label><p className={descriptionClass}>What specific numbers will tell you the site is working?</p><textarea id="successMetrics" name="successMetrics" rows={3} onChange={handleChange} className={inputClass} placeholder="e.g., More contact form submissions, higher online sales, fewer support calls, etc." /></div>
           <div><label className={labelClass}>What are the key pages you think you'll need?</label>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-2">{pagesOptions.map(page => <label key={page} className="flex items-center space-x-2 text-slate-300"><input type="checkbox" name="requiredPages" value={page} onChange={handleCheckboxChange} className="form-checkbox bg-slate-700 border-slate-600 text-brand-primary focus:ring-brand-primary" /> <span>{page}</span></label>)}</div>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
-            <div><label htmlFor="budget" className={labelClass}>What is your approximate budget for this project?</label><select id="budget" name="budget" onChange={handleChange} className={inputClass}><option value="">Please select a range</option><option value="< R1,000">&lt; R1,000</option><option value="R1,000 - R1,500">R1,000 - R1,500</option><option value="R1,500 - R2,000">R1,500 - R2,000</option><option value="R2,000 - R5,000">R2,000 - R5,000</option><option value="R5,000 - R10,000">R5,000 - R10,000</option><option value="> R10,000">&gt; R10,000</option></select></div>
+            <div><label htmlFor="budget" className={labelClass}>What is your approximate budget for this project?</label><select id="budget" name="budget" onChange={handleChange} className={inputClass}><option value="">Please select a range</option><option value="<1500">&lt; R1,500</option><option value="1500-2000">R1,500 - R2,000</option><option value="2000-5000">R2,000 - R5,000</option><option value="5000-10000">R5,000 - R10,000</option><option value=">10000">&gt; R10,000</option></select></div>
             <div><label htmlFor="timeline" className={labelClass}>What is your desired timeline for launching the website?</label><select id="timeline" name="timeline" onChange={handleChange} className={inputClass}><option value="">Please select</option><option value="1-2 Weeks">1-2 Weeks</option><option value="2-4 Weeks">2-4 Weeks</option><option value="1-2 Months">1-2 Months</option><option value="Flexible">Flexible</option></select></div>
           </div>
         </fieldset>
@@ -298,32 +304,34 @@ const QuestionnaireForm: React.FC = () => {
             )}
             </div>
           </div>
-          <div><label htmlFor="hasBranding" className={labelClass}>Do you have an existing logo?</label><select id="hasBranding" name="hasBranding" value={formData.hasBranding} onChange={handleChange} className={inputClass}><option value="">Please select</option><option value="yes">Yes, I have a logo.</option><option value="no">No, I need one created.</option></select></div>
+          <div><label htmlFor="hasLogo" className={labelClass}>Do you have an existing logo?</label><select id="hasLogo" name="hasLogo" value={formData.hasLogo} onChange={handleChange} className={inputClass}><option value="">Please select</option><option value="yes">Yes, I have a logo.</option><option value="no">No, I need one created.</option></select></div>
           
-          {(formData.hasBranding === 'yes') && (
+          {(formData.hasLogo === 'yes') && (
             <FileUploadWidget 
               id="logoUpload"
               label="Upload Your Logo"
               description="Please upload your logo in a high-quality format (e.g., SVG, PNG, AI)."
+              accept="image/*"
+              showPreview={true}
             />
           )}
 
           <div>
-            <label htmlFor="hasOtherBranding" className={labelClass}>Do you have other brand design materials?</label>
+            <label htmlFor="hasBranding" className={labelClass}>Do you have other brand design materials?</label>
             <p className={descriptionClass}>e.g., flyers, social media posts, brand guides.</p>
-            <select id="hasOtherBranding" name="hasOtherBranding" value={formData.hasOtherBranding} onChange={handleChange} className={inputClass}>
+            <select id="hasBranding" name="hasBranding" value={formData.hasBranding} onChange={handleChange} className={inputClass}>
               <option value="">Please select</option>
               <option value="yes">Yes, I will provide them.</option>
               <option value="no">No, I don't have any.</option>
             </select>
           </div>
 
-          {formData.hasOtherBranding === 'yes' && (
+          {formData.hasBranding === 'yes' && (
             <FileUploadWidget 
               id="brandMaterialsUpload"
               label="Upload Brand Materials"
-              description="You can upload multiple files or a single .zip file."
-              multiple
+              description="You can upload a single .zip file with your assets."
+              accept=".zip,.rar,.7zip"
             />
           )}
           
@@ -354,7 +362,21 @@ const QuestionnaireForm: React.FC = () => {
           <div><label htmlFor="contentProvider" className={labelClass}>Who will be providing the written content (text) and images for the website?</label><select id="contentProvider" name="contentProvider" onChange={handleChange} className={inputClass}><option value="">Please select</option><option value="client-all">I will provide all text and images.</option><option value="client-some">I will provide some, but I need help.</option><option value="developer-all">I need you to source/create all content.</option></select></div>
           <div><label htmlFor="needsBlog" className={labelClass}>Do you require a blog or news section on your website?</label><select id="needsBlog" name="needsBlog" onChange={handleChange} className={inputClass}><option value="">Please select</option><option value="yes">Yes</option><option value="no">No</option><option value="not-sure">Not sure yet</option></select></div>
           <div><label className={labelClass}>Do you need any of the following special features?</label>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">{featuresOptions.map(feature => <label key={feature} className="flex items-center space-x-2 text-slate-300"><input type="checkbox" name="features" value={feature} onChange={handleCheckboxChange} className="form-checkbox bg-slate-700 border-slate-600 text-brand-primary focus:ring-brand-primary" /> <span>{feature}</span></label>)}</div>
+            <div className="space-y-4 mt-2">
+            {Object.entries(featuresOptions).map(([category, options]) => (
+              <div key={category}>
+                <h4 className="text-slate-400 font-semibold text-md mb-2">{category}</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {options.map(feature => (
+                    <label key={feature} className="flex items-center space-x-2 text-slate-300">
+                      <input type="checkbox" name="features" value={feature} onChange={handleCheckboxChange} className="form-checkbox bg-slate-700 border-slate-600 text-brand-primary focus:ring-brand-primary" />
+                      <span>{feature}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            ))}
+            </div>
           </div>
         </fieldset>
 

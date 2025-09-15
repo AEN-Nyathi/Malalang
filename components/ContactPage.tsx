@@ -31,7 +31,7 @@ const ContactPage: React.FC = () => {
                    <div>
                     <h3 className="font-semibold text-white">WhatsApp</h3>
                     <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="hover:text-brand-primary transition-colors duration-300">
-                      +27 72 123 4567 (Placeholder)
+                      +27 62 840 835
                     </a>
                   </div>
                 </div>

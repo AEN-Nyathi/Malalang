@@ -9,8 +9,8 @@ const Header: React.FC = () => {
     <header className="sticky top-0 z-50 bg-brand-dark/80 backdrop-blur-lg border-b border-slate-300/10">
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <Link to="/" className="text-2xl font-bold text-white">
-            Malalang <span className="text-brand-primary">Pty Ltd</span>
+          <Link to="/" aria-label="Malalang Pty Ltd Home">
+            <img src="/logo.jpg" alt="Malalang Pty Ltd Logo" className="h-12 w-auto" />
           </Link>
           
           {/* Desktop Nav */}

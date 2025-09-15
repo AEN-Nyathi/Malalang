@@ -4,7 +4,7 @@ import { WHATSAPP_LINK } from '../constants';
 
 const Hero: React.FC = () => {
   return (
-    <section id="home" className="relative text-white py-24 md:py-32 bg-cover bg-center" style={{backgroundImage: "linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('https://picsum.photos/seed/ Phalaborwa/1920/1080')"}}>
+    <section id="home" className="relative text-white py-24 md:py-32 bg-cover bg-center" style={{backgroundImage: "linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1920&auto=format&fit=crop')"}}>
       <div className="container mx-auto px-6 text-center">
         <h1 className="text-4xl md:text-6xl font-extrabold leading-tight mb-4">
           Professional Websites for Local Businesses.
