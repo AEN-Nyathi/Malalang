@@ -1,0 +1,474 @@
+import React from 'react';
+import type { ServicePackage, AddonService, ProcessStep, PortfolioItem, Testimonial, FaqItem, BlogPost, Author } from './types';
+
+export const NAV_LINKS = [
+  { name: 'Home', href: '/' },
+  { name: 'Services', href: '/services' },
+  { name: 'Pricing', href: '/pricing' },
+  { name: 'Blog', href: '/blog' },
+  { name: 'Palette Generator', href: '/color-palette-generator' },
+  { name: 'Questionnaire', href: '/questionnaire' },
+  { name: 'Contact', href: '/contact' },
+];
+
+export const SERVICE_PACKAGES: ServicePackage[] = [
+  {
+    title: 'Economic Package',
+    price: 'R1,000',
+    description: 'A professional 3-page site based on a pre-selected template. Client provides all content.',
+    features: [
+      '3 Pages (e.g., Home, About, Contact)',
+      'Template-based Design',
+      'Mobile Responsive',
+      'Basic Contact Form',
+    ],
+  },
+  {
+    title: 'Standard Package',
+    price: 'R1,500 ± R200',
+    description: 'Our most popular option for a complete, custom-designed online presence.',
+    features: [
+      'Up to 5 Custom Pages',
+      'Unique Design Tailored to Your Brand',
+      'Mobile Responsive',
+      'Basic SEO Setup',
+      'Hosting Configuration',
+    ],
+    isFeatured: true,
+  },
+  {
+    title: 'E-commerce Package',
+    price: 'From R5,000',
+    description: 'A fully functional online store to sell your products. Price scales with complexity.',
+    features: [
+      'Full Online Store Setup',
+      'Product Management System',
+      'Secure Payment Gateway Integration',
+      'Custom Design',
+    ],
+  },
+];
+
+export const ADDON_SERVICES: AddonService[] = [
+    { title: 'Additional Page', price: 'R150/page' },
+    { title: 'Booking System Integration', price: 'R200' },
+    { title: 'Professional Content Creation', price: 'R300' },
+    { title: 'Newsletter Integration', price: 'R100' },
+];
+
+export const LAUNCH_PACK_SERVICES: AddonService[] = [
+    { title: 'Google Business Profile Setup', price: 'R300' },
+    { title: 'Google Analytics & Search Console Setup', price: 'R300' },
+    { title: 'Basic On-Page SEO', price: 'R500' },
+];
+
+export const RECURRING_SERVICE: AddonService = {
+  title: 'Web Care Plan',
+  price: 'R199/month',
+};
+
+const ProcessStepIcon: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+    <div className="flex items-center justify-center w-12 h-12 bg-brand-primary/10 text-brand-primary rounded-full ring-8 ring-brand-dark">
+        {children}
+    </div>
+);
+
+export const PROCESS_STEPS: ProcessStep[] = [
+    { step: 1, title: 'Intake & Agreement', description: 'We start with a face-to-face meeting to understand your needs. A simple WhatsApp confirmation is all we need to begin—no deposit required.', icon: <ProcessStepIcon><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg></ProcessStepIcon> },
+    { step: 2, title: 'Development', description: 'We build your website on a private staging link (e.g., yourname.vercel.app), so you can watch the progress live.', icon: <ProcessStepIcon><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg></ProcessStepIcon> },
+    { step: 3, title: 'Review & Feedback', description: 'You review the site and provide feedback. We include up to two rounds of revisions to get everything just right.', icon: <ProcessStepIcon><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg></ProcessStepIcon> },
+    { step: 4, title: 'Launch & Handover', description: 'After a final face-to-face sign-off, we handle all the technical details to launch your site. Payment is only due now.', icon: <ProcessStepIcon><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg></ProcessStepIcon> },
+    { step: 5, title: 'Upsell & Support', description: 'We present our "Complete Launch Pack" to boost your online presence from day one and offer ongoing support.', icon: <ProcessStepIcon><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg></ProcessStepIcon> }
+];
+
+export const PORTFOLIO_ITEMS: PortfolioItem[] = [
+  { title: 'Kruger View Safaris', category: 'Travel & Tourism', imageUrl: 'https://picsum.photos/seed/safari/800/600', description: 'A visually stunning website with an integrated booking system for a local tour operator.' },
+  { title: 'Phalaborwa Security Training', category: 'Professional Services', imageUrl: 'https://picsum.photos/seed/security/800/600', description: 'A clean, professional site outlining courses and certification for a security training company.' },
+  { title: 'The Corner Cafe', category: 'Retail & Eateries', imageUrl: 'https://picsum.photos/seed/cafe/800/600', description: 'A charming website featuring the menu, gallery, and contact information for a local cafe.' },
+  { title: 'Lulekani Auto Repairs', category: 'Local Services', imageUrl: 'https://picsum.photos/seed/auto/800/600', description: 'A straightforward and reliable website for a local mechanic, focused on services and trust.' },
+];
+
+export const TESTIMONIALS: Testimonial[] = [
+    {
+        quote: "Malalang Pty Ltd delivered a fantastic website that exceeded our expectations. The no-deposit model gave us complete peace of mind. Highly recommended for any local business!",
+        author: "Jane Doe",
+        company: "Kruger View Safaris"
+    },
+    {
+        quote: "The process was so simple and transparent. Abram was a pleasure to work with, always listening to our needs and delivering quality work. Our online presence has never been stronger.",
+        author: "John Smith",
+        company: "The Corner Cafe"
+    },
+    {
+        quote: "Finally, a web developer who understands the challenges of small businesses in Phalaborwa. The face-to-face meetings made all the difference. We're thrilled with the final product.",
+        author: "Emily White",
+        company: "Lulekani Auto Repairs"
+    }
+];
+
+export const FAQ_ITEMS: FaqItem[] = [
+    {
+        question: "Why don't you require a deposit?",
+        answer: "Our 'no deposit' policy is the foundation of our business. We believe in building trust first. We're confident in the quality of our work and want to remove any financial risk for you, our client. You only pay when you are 100% happy with the website."
+    },
+    {
+        question: "How long does it take to build a website?",
+        answer: "A standard 5-page website typically takes 1 to 2 weeks from our initial meeting to launch. E-commerce sites or more complex projects may take longer. We'll provide a clear timeline in our proposal."
+    },
+    {
+        question: "Do I need to buy a domain and hosting first?",
+        answer: "No, you don't need to worry about that initially. We develop your site on a private staging link. You will only need to purchase your domain name (e.g., yourbusiness.com) right before we launch the site. We can guide you through this process and handle the technical setup for you."
+    },
+    {
+        question: "What happens after the website is launched?",
+        answer: "Once launched, the website is fully yours. We transfer all ownership and access to you. We then recommend our 'Complete Launch Pack' to boost your new site's visibility, and our affordable 'Web Care Plan' for ongoing maintenance, security, and support."
+    }
+];
+
+export const AUTHORS: Author[] = [
+  {
+    id: 'abram-ntsako',
+    name: 'Abram Ntsako',
+    imageUrl: 'https://picsum.photos/seed/abram/200/200',
+    bio: 'Abram Ntsako is the founder of Malalang Pty Ltd, a web development studio dedicated to empowering local businesses in Phalaborwa. With a passion for clean code and user-centric design, he helps SMEs build a strong online presence without breaking the bank.',
+  }
+];
+
+
+export const BLOG_POSTS: BlogPost[] = [
+  {
+    slug: 'choosing-the-right-web-package',
+    title: 'How to Choose the Right Web Development Package for Your Business',
+    authorId: 'abram-ntsako',
+    date: 'August 02, 2024',
+    imageUrl: 'https://picsum.photos/seed/web-package/1200/600',
+    excerpt: 'Feeling lost in a sea of web development options? This guide breaks down our packages to help you make an informed decision that aligns with your business goals and budget.',
+    tags: ['Web Development', 'Business Strategy'],
+    content: (
+      <>
+        <p>Choosing the right web development package is a critical decision for any small business. It's not just about cost; it's about finding the right fit for your current needs and future ambitions. Let's break down the options we offer to help you decide.</p>
+        
+        <h3>1. The Economic Package</h3>
+        <p>This package is perfect for new businesses, sole proprietors, or anyone needing a simple, professional online brochure. If your primary goal is to establish a legitimate online presence where customers can find your contact information and learn about your core services, this is the most cost-effective entry point.</p>
+        <ul>
+          <li><strong>Best for:</strong> Startups, freelancers, basic info sites.</li>
+          <li><strong>Key Feature:</strong> Quick turnaround on a pre-selected template.</li>
+          <li><strong>Consider if:</strong> You have all your content (text and images) ready to go.</li>
+        </ul>
+
+        <h3>2. The Standard Package</h3>
+        <p>Our most popular choice, the Standard Package, offers a custom-designed website that reflects your unique brand identity. It provides more room for content, including dedicated pages for different services or a detailed portfolio. This is the workhorse package for established businesses looking to make a serious impression.</p>
+        <blockquote>
+          <p>This is the ideal balance of custom design, functionality, and affordability. It provides a solid foundation that can grow with your business.</p>
+        </blockquote>
+
+        <h3>3. The E-commerce Package</h3>
+        <p>Ready to sell products online? This package is your all-in-one solution. We handle the entire setup, from product listings to secure payment gateway integration. The complexity and price can scale, but the foundation is a robust online store ready to generate revenue.</p>
+        <p>We often use a simple HTML structure for initial mockups. Here's an example of what a product card's basic structure might look like in code:</p>
+        <pre>
+          <code>
+{`<div class="product-card">
+  <img src="product-image.jpg" alt="Product Name">
+  <h3>Product Name</h3>
+  <p class="price">R299.99</p>
+  <button>Add to Cart</button>
+</div>`}
+          </code>
+        </pre>
+        <p>Making the right choice sets your business up for success. If you're still unsure, don't hesitate to reach out. We're happy to discuss your specific needs in a free, no-obligation consultation.</p>
+      </>
+    ),
+  },
+  {
+    slug: 'why-your-small-business-needs-a-website',
+    title: '5 Reasons Why Every Phalaborwa Small Business Needs a Website in 2024',
+    authorId: 'abram-ntsako',
+    date: 'July 26, 2024',
+    imageUrl: 'https://picsum.photos/seed/business-website/1200/600',
+    excerpt: 'In today\'s digital-first world, not having a website means you\'re invisible to a huge portion of your potential customers. Discover the top reasons why a professional online presence is no longer a luxury, but a necessity.',
+    tags: ['Marketing', 'Small Business'],
+    content: (
+      <>
+        <p>In the bustling local economy of Phalaborwa, standing out is more crucial than ever. While word-of-mouth is powerful, the digital landscape offers unparalleled opportunities for growth. If you're still on the fence about investing in a website for your small business, here are five compelling reasons to make the leap.</p>
+        <h3>1. 24/7 Accessibility</h3>
+        <p>Your website acts as your digital storefront, open 24 hours a day, 7 days a week. It allows potential customers to find information about your products or services, check your hours, and contact you at their convenience, even when your physical doors are closed.</p>
+        <h3>2. Build Credibility and Trust</h3>
+        <p>A professional, well-designed website instantly boosts your business's credibility. It shows that you are a legitimate and serious operation. Our "no deposit" model at Malalang Pty Ltd is built on this very principle of trust—we build your credible online presence before you pay a cent.</p>
+        <h3>3. Reach a Wider Audience</h3>
+        <p>A website breaks down geographical barriers. While your business is based in Phalaborwa, your website can be accessed by tourists planning a trip, potential clients in nearby towns, or even national customers, depending on your business model.</p>
+        <h3>4. Cost-Effective Marketing</h3>
+        <p>Compared to a traditional advertising like print or radio, a website is an incredibly cost-effective marketing tool. It has a global reach and can be updated easily with new promotions, products, or information. Combined with our "Complete Launch Pack," which includes SEO setup, your website becomes a powerful engine for attracting new customers.</p>
+        <h3>5. Showcase Your Work</h3>
+        <p>A website is the perfect platform to display your products, services, and past work. A gallery of your best projects, like our portfolio section, or testimonials from happy clients can be the deciding factor for a potential customer.</p>
+      </>
+    ),
+  },
+  {
+    slug: 'understanding-our-no-deposit-model',
+    title: 'The Malalang Difference: How Our "Pay on Completion" Model Benefits You',
+    authorId: 'abram-ntsako',
+    date: 'July 20, 2024',
+    imageUrl: 'https://picsum.photos/seed/no-deposit/1200/600',
+    excerpt: 'We\'ve removed the biggest barrier for small businesses wanting a website: the upfront cost. Learn how our unique, trust-first approach puts you in control and guarantees your satisfaction.',
+    tags: ['Business Model', 'Client Trust'],
+    content: (
+       <>
+        <p>Starting a new project can be daunting, especially when it involves a significant financial outlay before you've even seen the results. At Malalang Pty Ltd, we decided to flip the traditional web development model on its head. Here's how our "Pay on Completion" model works and why it's a game-changer for local businesses in Phalaborwa.</p>
+        <h3>Zero Financial Risk</h3>
+        <p>The most significant advantage is simple: you don't pay anything upfront. No deposit, no hidden fees. We absorb all the initial development costs. This means you can commission a new website with complete peace of mind, knowing that you haven't risked a single rand.</p>
+        <h3>Our Motivation is Your Satisfaction</h3>
+        <p>This model forces us to be at our best. Since we only get paid if you are 100% satisfied with the final product, our primary focus is on delivering exceptional quality that meets and exceeds your expectations. Your happiness is directly tied to our success.</p>
+        <h3>A Collaborative and Transparent Process</h3>
+        <p>We build your website on a private staging link, which you can access at any time. This transparency allows you to see the progress in real-time and provide feedback along the way. Our process includes two rounds of revisions to ensure the final site is exactly what you envisioned.</p>
+        <h3>Building Trust, Not Just Websites</h3>
+        <p>We are a local business, just like you. Our goal is to build long-term partnerships within the Phalaborwa community. By starting our relationship on a foundation of trust, we hope to become your go-to digital partner for years to come.</p>
+      </>
+    ),
+  },
+  {
+    slug: 'seo-101-for-phalaborwa-businesses',
+    title: 'SEO 101 for Phalaborwa Businesses',
+    authorId: 'abram-ntsako',
+    date: 'August 10, 2024',
+    imageUrl: 'https://picsum.photos/seed/seo-101/1200/600',
+    excerpt: 'Search Engine Optimization (SEO) sounds complex, but it\'s essential for getting found online. This guide breaks down the basics for local Phalaborwa businesses.',
+    tags: ['SEO', 'Marketing', 'Local Business'],
+    content: (
+      <>
+        <p>Want more local customers to find you on Google? That's where SEO comes in. It's the process of making your website more attractive to search engines. Here’s a simple breakdown for Phalaborwa business owners.</p>
+        <h3>What is Local SEO?</h3>
+        <p>Local SEO focuses on attracting customers in your specific geographic area. When someone in Phalaborwa searches "mechanic near me," you want your business to be at the top of the list. That’s the power of local SEO.</p>
+        <h3>Simple Steps to Get Started:</h3>
+        <ul>
+            <li><strong>Claim Your Google Business Profile:</strong> This is the most important step. It's free and puts you on Google Maps. We cover this in our Launch Pack!</li>
+            <li><strong>Use Local Keywords:</strong> Include "Phalaborwa," "Lulekani," or other local terms in your website content naturally.</li>
+            <li><strong>Get Online Reviews:</strong> Encourage happy customers to leave reviews on your Google Business Profile.</li>
+        </ul>
+        <p>By focusing on these basics, you can significantly improve your visibility to customers who are actively searching for your services in the area.</p>
+      </>
+    ),
+  },
+  {
+    slug: 'why-your-website-must-be-mobile-friendly',
+    title: 'Why Your Website Must Be Mobile-Friendly in 2024',
+    authorId: 'abram-ntsako',
+    date: 'August 15, 2024',
+    imageUrl: 'https://picsum.photos/seed/mobile-friendly/1200/600',
+    excerpt: 'Most of your customers are browsing on their phones. If your website isn\'t easy to use on a small screen, you\'re losing business. It\'s that simple.',
+    tags: ['Web Development', 'User Experience'],
+    content: (
+      <>
+        <p>Take a look around. How many people do you see on their phones? A lot. That's how most people access the internet today. If your website is difficult to read or navigate on a mobile device, potential customers will simply leave and go to a competitor.</p>
+        <blockquote>
+          <p>A mobile-friendly website isn't a feature anymore; it's a fundamental requirement for online success. Google also ranks mobile-friendly sites higher in search results.</p>
+        </blockquote>
+        <h3>What Makes a Site Mobile-Friendly?</h3>
+        <ul>
+            <li><strong>Responsive Design:</strong> The layout automatically adjusts to fit any screen size, from a phone to a desktop computer. All our websites are built this way.</li>
+            <li><strong>Readable Text:</strong> No pinching and zooming required to read your content.</li>
+            <li><strong>Easy-to-Tap Buttons:</strong> Buttons and links are spaced out so users don't accidentally tap the wrong one.</li>
+            <li><strong>Fast Loading Speed:</strong> Mobile users are often on slower connections, so your site needs to load quickly.</li>
+        </ul>
+        <p>Ensuring your website works perfectly on mobile is one of our top priorities because we know it’s critical for your business growth.</p>
+      </>
+    ),
+  },
+  {
+    slug: 'beginners-guide-to-domains-and-hosting',
+    title: "A Beginner's Guide to Domain Names and Hosting",
+    authorId: 'abram-ntsako',
+    date: 'August 22, 2024',
+    imageUrl: 'https://picsum.photos/seed/domain-hosting/1200/600',
+    excerpt: 'Every website needs an address and a place to live online. This guide demystifies domain names and web hosting for beginners.',
+    tags: ['Web Development', 'Technical'],
+    content: (
+      <>
+        <p>When you get a website, you’ll hear the terms "domain name" and "hosting." They might sound technical, but the concepts are quite simple.</p>
+        <h3>What is a Domain Name?</h3>
+        <p>A domain name is your website's address on the internet (e.g., `malalang.co.za` or `google.com`). It's what people type into their browser to find you. It should be memorable and relevant to your business.</p>
+        <h3>What is Web Hosting?</h3>
+        <p>If the domain is the address, hosting is the actual house where your website's files (images, text, code) are stored. This "house" is a powerful computer called a server, which is connected to the internet 24/7.</p>
+        <blockquote>
+          <p>You need both a domain name and hosting to have a live website. You rent both on a yearly or monthly basis.</p>
+        </blockquote>
+        <p>When you work with us, we guide you through the process of getting a domain and can include hosting as part of our affordable Web Care Plan, so you don't have to worry about the technical details.</p>
+      </>
+    ),
+  },
+  {
+    slug: '5-tips-for-writing-website-content',
+    title: '5 Tips for Writing Website Content That Converts',
+    authorId: 'abram-ntsako',
+    date: 'September 01, 2024',
+    imageUrl: 'https://picsum.photos/seed/content-writing/1200/600',
+    excerpt: 'Great design gets visitors to your site, but great content gets them to take action. Here are five tips for writing compelling text for your website.',
+    tags: ['Content Strategy', 'Marketing'],
+    content: (
+      <>
+        <p>Your website's words are your online salesperson. They need to be clear, persuasive, and helpful. If you’re writing your own content, keep these five tips in mind.</p>
+        <h3>1. Know Your Audience</h3>
+        <p>Write for your ideal customer. Use language they understand and address the problems they need to solve. What are their biggest questions? Answer them.</p>
+        <h3>2. Keep it Simple and Scannable</h3>
+        <p>People don't read websites; they scan them. Use short sentences, small paragraphs, headings, and bullet points to break up your text and make it easy to digest.</p>
+        <h3>3. Focus on Benefits, Not Just Features</h3>
+        <p>Don't just list what your product or service does (features). Explain how it helps your customer (benefits). For example, instead of "Mobile-Responsive Design," say "Reach More Customers on Their Phones."</p>
+        <h3>4. Include a Clear Call to Action (CTA)</h3>
+        <p>Tell visitors what you want them to do next. "Call Us Today," "Get a Free Quote," or "View Our Services" are all clear CTAs. Make them stand out.</p>
+        <h3>5. Be Authentic</h3>
+        <p>Let your brand's personality shine through. Being genuine builds trust. If you need help, our Professional Content Creation add-on can handle the writing for you.</p>
+      </>
+    ),
+  },
+  {
+    slug: 'website-expense-or-investment',
+    title: 'Is a Website an Expense or an Investment?',
+    authorId: 'abram-ntsako',
+    date: 'September 08, 2024',
+    imageUrl: 'https://picsum.photos/seed/investment/1200/600',
+    excerpt: 'Shifting your mindset about your website is key. It\'s not just a cost to be minimized; it\'s a powerful tool for generating revenue and growing your business.',
+    tags: ['Business Strategy', 'Finance'],
+    content: (
+      <>
+        <p>Many small business owners view a website as a necessary evil—a line item on the budget. But a well-crafted website is one of the most powerful investments you can make in your business's future.</p>
+        <h3>The Expense Mindset</h3>
+        <p>Viewing a website as an expense leads to one goal: finding the cheapest option possible. This often results in a poor-quality site that doesn't attract customers, hurts your brand's credibility, and ultimately costs you more in lost opportunities.</p>
+        <h3>The Investment Mindset</h3>
+        <p>Viewing a website as an investment focuses on the return. An effective website can:</p>
+        <ul>
+            <li>Generate new leads and sales 24/7.</li>
+            <li>Automate customer service with FAQs and contact forms.</li>
+            <li>Build your brand and establish you as an expert.</li>
+            <li>Reach a wider audience beyond your immediate location.</li>
+        </ul>
+        <p>Our "no deposit" model is designed to make this investment risk-free. We build the asset for you first, and you only pay when you see its value. Think of your website not as a cost, but as your hardest-working employee.</p>
+      </>
+    ),
+  },
+  {
+    slug: '7-essential-website-security-practices',
+    title: '7 Essential Security Practices for Your Small Business Website',
+    authorId: 'abram-ntsako',
+    date: 'September 15, 2024',
+    imageUrl: 'https://picsum.photos/seed/security-practices/1200/600',
+    excerpt: 'A hacked website can destroy your reputation and cost you customers. Protecting your online presence is crucial. Here are seven key security practices to follow.',
+    tags: ['Security', 'Technical'],
+    content: (
+      <>
+        <p>Website security isn't just for big corporations. Small business sites are often targeted because they are perceived as easier to breach. Here’s how you can protect your digital asset.</p>
+        <h3>Key Security Measures:</h3>
+        <ol className="list-decimal list-inside space-y-2">
+            <li><strong>Use Strong Passwords:</strong> For your hosting, your website admin area, and everything else. Use a password manager.</li>
+            <li><strong>Enable HTTPS (SSL Certificate):</strong> This encrypts data between your site and your visitors, showing a padlock icon in the browser. It's essential for trust and SEO.</li>
+            <li><strong>Keep Software Updated:</strong> If your site uses a CMS like WordPress, always keep the core software, plugins, and themes updated to patch vulnerabilities.</li>
+            <li><strong>Regular Backups:</strong> Regularly back up your website's files and database. If something goes wrong, you can restore a clean version.</li>
+            <li><strong>Use a Web Application Firewall (WAF):</strong> A WAF can block malicious traffic before it even reaches your site.</li>
+            <li><strong>Limit User Permissions:</strong> Don't give every user administrator access. Grant only the permissions necessary for their role.</li>
+            <li><strong>Regular Security Scans:</strong> Use tools to scan your website for malware and vulnerabilities.</li>
+        </ol>
+        <p>Our Web Care Plan includes security monitoring and backups, taking this worry off your plate so you can focus on your business.</p>
+      </>
+    ),
+  },
+  {
+    slug: 'google-business-profile-guide',
+    title: 'Your Google Business Profile: The Most Important Local Listing',
+    authorId: 'abram-ntsako',
+    date: 'September 23, 2024',
+    imageUrl: 'https://picsum.photos/seed/gbp-guide/1200/600',
+    excerpt: 'For local businesses, your Google Business Profile is arguably more important than your website for attracting nearby customers. Here\'s why you need to optimize it.',
+    tags: ['SEO', 'Local Business', 'Marketing'],
+    content: (
+      <>
+        <p>When you search for a local service on Google, what’s the first thing you see? Usually, it's a map with three business listings. This is the "local pack," and getting your business in there can be a game-changer. The tool that powers this is your Google Business Profile (GBP).</p>
+        <h3>Why is GBP so Important?</h3>
+        <p>Your GBP is a free profile that lets you control how your business appears on Google Search and Maps. It’s where customers can find your:</p>
+        <ul>
+            <li>Address and service area</li>
+            <li>Phone number and website link</li>
+            <li>Opening hours</li>
+            <li>Customer reviews and photos</li>
+        </ul>
+        <blockquote>
+          <p>A complete and active GBP sends strong signals to Google that you are a legitimate, active local business, which dramatically increases your chances of showing up in the local pack.</p>
+        </blockquote>
+        <p>Optimizing your GBP is a core part of our "Complete Launch Pack." We ensure it's set up correctly, with all the essential information to help you attract local customers from day one.</p>
+      </>
+    ),
+  },
+  {
+    slug: 'red-flags-when-hiring-web-developer',
+    title: 'Red Flags to Watch for When Hiring a Web Developer',
+    authorId: 'abram-ntsako',
+    date: 'October 02, 2024',
+    imageUrl: 'https://picsum.photos/seed/red-flags/1200/600',
+    excerpt: 'Choosing the right web developer is crucial for your project\'s success. Here are some common red flags to be aware of during your search.',
+    tags: ['Business Strategy', 'Web Development'],
+    content: (
+      <>
+        <p>Finding a reliable web developer can be challenging. While there are many great professionals out there, there are also some who might not be a good fit for your business. Here are some red flags to watch out for.</p>
+        <h3>1. Unclear Pricing or a Large Upfront Deposit</h3>
+        <p>A developer who is vague about costs or demands a huge deposit (e.g., more than 50%) before starting work can be a risk. This is why we operate on a no-deposit model—to eliminate that risk for you entirely.</p>
+        <h3>2. Poor Communication</h3>
+        <p>If they are slow to respond, use excessive jargon without explaining it, or don't seem to be listening to your needs, it's a sign of communication problems to come.</p>
+        <h3>3. A Lack of a Portfolio or References</h3>
+        <p>A credible developer should be proud to show you their past work and connect you with previous clients. If they are hesitant to do so, it's a major red flag.</p>
+        <h3>4. Promising #1 Google Rankings Overnight</h3>
+        <p>SEO is a long-term process. Anyone who guarantees top rankings quickly is making a promise they can't keep and likely uses shady tactics that can get your site penalized.</p>
+        <p>Trust your gut. A good partnership is built on clear communication, transparency, and mutual respect.</p>
+      </>
+    ),
+  },
+  {
+    slug: 'social-media-for-website-traffic',
+    title: 'How to Use Social Media to Drive Traffic to Your Website',
+    authorId: 'abram-ntsako',
+    date: 'October 11, 2024',
+    imageUrl: 'https://picsum.photos/seed/social-media/1200/600',
+    excerpt: 'Social media and your website should work together. Learn how to use platforms like Facebook to send interested visitors directly to your site.',
+    tags: ['Marketing', 'Social Media'],
+    content: (
+      <>
+        <p>Social media is a great tool for engagement, but its real power for business is in driving traffic to a platform you own: your website. Here are effective ways to do that.</p>
+        <h3>1. Optimize Your Profiles</h3>
+        <p>Make sure every social media profile has a clear link to your website in the bio or "About" section. It's the easiest way to get clicks.</p>
+        <h3>2. Share Your Blog Posts</h3>
+        <p>When you publish a new blog post (like this one!), share it across your social channels. Don't just post the link; write an engaging caption that teases the content and encourages people to click to learn more.</p>
+        <h3>3. Promote Your Services and Products</h3>
+        <p>Run a special offer? Post about it on social media and link directly to the service or product page on your website. Make it easy for people to buy.</p>
+        <h3>4. Use a Clear Call to Action</h3>
+        <p>Don't be afraid to tell people what to do. Use phrases like "Learn more on our website," "Shop the new collection here," or "Book your consultation now" with a direct link.</p>
+        <p>By consistently directing your followers to your website, you turn your social media presence into a powerful lead-generation tool.</p>
+      </>
+    ),
+  },
+  {
+    slug: 'understanding-website-maintenance',
+    title: 'Understanding Website Maintenance: Our Web Care Plan Explained',
+    authorId: 'abram-ntsako',
+    date: 'October 18, 2024',
+    imageUrl: 'https://picsum.photos/seed/web-care/1200/600',
+    excerpt: 'A website isn\'t a "set it and forget it" tool. Regular maintenance is crucial for security, performance, and keeping it running smoothly. Here’s what our plan covers.',
+    tags: ['Web Care', 'Technical', 'Services'],
+    content: (
+      <>
+        <p>Just like a car, a website needs regular tune-ups to perform at its best. Neglecting maintenance can lead to security breaches, slow loading times, or broken features. Our Web Care Plan is designed to handle this for you.</p>
+        <h3>What is Website Maintenance?</h3>
+        <p>It's the ongoing process of keeping your website healthy. This includes:</p>
+        <ul>
+            <li><strong>Security Monitoring:</strong> Actively scanning for and protecting against threats.</li>
+            <li><strong>Software Updates:</strong> Keeping your platform, plugins, and themes up-to-date.</li>
+            <li><strong>Regular Backups:</strong> Creating copies of your site so it can be restored if anything goes wrong.</li>
+            <li><strong>Performance Checks:</strong> Ensuring your site remains fast and responsive.</li>
+            <li><strong>Minor Content Updates:</strong> Small changes like updating text or swapping out an image.</li>
+        </ul>
+        <blockquote>
+          <p>Our Web Care Plan for R199/month covers all of the above, including 30 minutes of minor monthly changes. It's peace of mind that your investment is protected and continues to work for you.</p>
+        </blockquote>
+        <p>By investing a small amount each month, you can prevent major, costly problems down the road and ensure your website remains a secure and effective asset for your business.</p>
+      </>
+    ),
+  },
+];
+
+
+export const WHATSAPP_LINK = "https://wa.me/27721234567"; // Placeholder number
