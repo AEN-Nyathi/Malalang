@@ -471,4 +471,4 @@ export const BLOG_POSTS: BlogPost[] = [
 ];
 
 
-export const WHATSAPP_LINK = "https://wa.me/2762840835";
+export const WHATSAPP_LINK = "https://wa.me/27622840835";
