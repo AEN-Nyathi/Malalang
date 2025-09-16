@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import ImageColorPicker from '../../../components/ImageColorPicker';
+import { useMutation } from 'convex/react';
+import { api } from '../../../../convex/_generated/api';
 
 interface FileUploadState {
   status: 'idle' | 'uploading' | 'success' | 'error';
@@ -171,6 +173,8 @@ const QuestionnaireForm: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  // FIX: The useMutation hook expects a function reference from the generated API, not a string.
+  const addQuestionnaire = useMutation(api.questionnaires.addQuestionnaire);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -193,15 +197,22 @@ const QuestionnaireForm: React.FC = () => {
     setFormData(prev => ({ ...prev, brandColors: colors.join(', ') }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      // Convex mutations will ignore extra fields in the formData object
+      // so we can pass the whole state.
+      await addQuestionnaire(formData);
       setIsSubmitted(true);
       window.scrollTo(0, 0);
-    }, 1500);
+    } catch (error) {
+      console.error("Failed to submit questionnaire:", error);
+      alert("There was an error submitting your form. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isSubmitted) {
