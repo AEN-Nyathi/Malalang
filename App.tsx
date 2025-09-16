@@ -2,15 +2,18 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import HomePage from './components/HomePage';
-import BlogPage from './components/BlogPage';
-import BlogPostPage from './components/BlogPostPage';
-import ContactPage from './components/ContactPage';
-import ServicesPage from './components/ServicesPage';
-import PricingPage from './components/PricingPage';
-import QuestionnairePage from './components/QuestionnairePage';
-import ColorPalettePage from './components/ColorPalettePage';
-import { WHATSAPP_LINK } from './constants';
+import HomePage from './app/home/page';
+import BlogPage from './app/blog/page';
+import BlogPostPage from './app/blog/post/page';
+import ContactPage from './app/contact/page';
+import ServicesPage from './app/services/page';
+import ServiceDetailPage from './app/services/detail/page';
+import PricingPage from './app/pricing/page';
+import QuestionnairePage from './app/questionnaire/page';
+import ColorPalettePage from './app/color-palette-generator/page';
+import AboutPage from './app/about-us/page';
+import { WHATSAPP_LINK } from './lib/constants/site';
+import Cta from './components/Cta';
 
 const App: React.FC = () => {
   return (
@@ -18,7 +21,9 @@ const App: React.FC = () => {
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/about-us" element={<AboutPage />} />
         <Route path="/services" element={<ServicesPage />} />
+        <Route path="/services/:slug" element={<ServiceDetailPage />} />
         <Route path="/pricing" element={<PricingPage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:slug" element={<BlogPostPage />} />
@@ -26,6 +31,7 @@ const App: React.FC = () => {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/color-palette-generator" element={<ColorPalettePage />} />
       </Routes>
+      <Cta />
       <Footer />
       <a
         href={WHATSAPP_LINK}

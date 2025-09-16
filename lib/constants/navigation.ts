@@ -1,0 +1,10 @@
+export const NAV_LINKS = [
+  { name: 'Home', href: '/' },
+  { name: 'About Us', href: '/about-us' },
+  { name: 'Services', href: '/services' },
+  { name: 'Pricing', href: '/pricing' },
+  { name: 'Blog', href: '/blog' },
+  { name: 'Palette Generator', href: '/color-palette-generator' },
+  { name: 'Questionnaire', href: '/questionnaire' },
+  { name: 'Contact', href: '/contact' },
+];

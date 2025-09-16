@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { NAV_LINKS, WHATSAPP_LINK } from '../constants';
+import { NAV_LINKS } from '../lib/constants/navigation';
+import { WHATSAPP_LINK } from '../lib/constants/site';
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,11 +11,11 @@ const Header: React.FC = () => {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <Link to="/" aria-label="Malalang Pty Ltd Home">
-            <img src="../public/logo.jpg" alt="Malalang Pty Ltd Logo" className="h-12 w-auto" />
+            <img src="/logo.jpg" alt="Malalang Pty Ltd Logo" className="h-12 w-auto" />
           </Link>
           
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-6">
             {NAV_LINKS.map(link => (
               <Link key={link.name} to={link.href} className="text-slate-300 hover:text-brand-primary transition-colors duration-300">
                 {link.name}
