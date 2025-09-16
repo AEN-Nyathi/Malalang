@@ -10,7 +10,7 @@ const Header: React.FC = () => {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <Link to="/" aria-label="Malalang Pty Ltd Home">
-            <img src="/logo.jpg" alt="Malalang Pty Ltd Logo" className="h-12 w-auto" />
+            <img src="../public/logo.jpg" alt="Malalang Pty Ltd Logo" className="h-12 w-auto" />
           </Link>
           
           {/* Desktop Nav */}
