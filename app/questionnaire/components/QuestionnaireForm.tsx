@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ImageColorPicker from '../../../components/ImageColorPicker';
-import { useMutation } from 'convex/react';
-import { api } from '../../../convex/_generated/api';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../../../lib/firebase';
 
 interface FileUploadState {
   status: 'idle' | 'uploading' | 'success' | 'error';
@@ -173,8 +173,7 @@ const QuestionnaireForm: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  // FIX: The useMutation hook expects a function reference from the generated API, not a string.
-  const addQuestionnaire = useMutation(api.questionnaires.addQuestionnaire);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -200,16 +199,18 @@ const QuestionnaireForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError(null);
     
     try {
-      // Convex mutations will ignore extra fields in the formData object
-      // so we can pass the whole state.
-      await addQuestionnaire(formData);
+      await addDoc(collection(db, "questionnaires"), {
+        ...formData,
+        submittedAt: new Date(),
+      });
       setIsSubmitted(true);
       window.scrollTo(0, 0);
     } catch (error) {
       console.error("Failed to submit questionnaire:", error);
-      alert("There was an error submitting your form. Please try again.");
+      setError("There was an error submitting your form. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -402,14 +403,17 @@ const QuestionnaireForm: React.FC = () => {
         </fieldset>
 
         {/* Submission */}
-        <div className="text-right pt-4">
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="bg-brand-primary hover:bg-brand-primary/80 disabled:bg-slate-600 disabled:cursor-not-allowed text-white font-bold py-3 px-8 rounded-lg transition-colors duration-300 w-full md:w-auto"
-          >
-            {isSubmitting ? 'Submitting...' : 'Submit Questionnaire'}
-          </button>
+        <div className="pt-4">
+            {error && <p className="text-red-400 text-center mb-4">{error}</p>}
+            <div className="text-right">
+                <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="bg-brand-primary hover:bg-brand-primary/80 disabled:bg-slate-600 disabled:cursor-not-allowed text-white font-bold py-3 px-8 rounded-lg transition-colors duration-300 w-full md:w-auto"
+                >
+                    {isSubmitting ? 'Submitting...' : 'Submit Questionnaire'}
+                </button>
+            </div>
         </div>
       </form>
     </div>

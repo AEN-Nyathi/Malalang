@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { collection, addDoc } from "firebase/firestore";
+import { db } from '../../../lib/firebase';
 
 const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -8,25 +10,33 @@ const ContactForm: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError(null);
     
-    // Simulate a network request
-    setTimeout(() => {
+    try {
+      await addDoc(collection(db, "contacts"), {
+        ...formData,
+        createdAt: new Date(),
+      });
       setIsSubmitting(false);
       setIsSubmitted(true);
       setFormData({ name: '', email: '', message: '' });
 
-      // Optional: hide success message after some time
       setTimeout(() => setIsSubmitted(false), 5000);
-    }, 1500);
+    } catch (error) {
+        console.error("Error adding document: ", error);
+        setError("There was an error sending your message. Please try again.");
+        setIsSubmitting(false);
+    }
   };
 
   if (isSubmitted) {
@@ -81,16 +91,17 @@ const ContactForm: React.FC = () => {
             onChange={handleChange}
             className="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-brand-primary"
             required
-          />
+          ></textarea>
         </div>
+         {error && <p className="text-red-400 text-center mb-4">{error}</p>}
         <div className="text-right">
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="bg-brand-primary hover:bg-brand-primary/80 disabled:bg-slate-600 disabled:cursor-not-allowed text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300 w-full md:w-auto"
-          >
-            {isSubmitting ? 'Submitting...' : 'Send Message'}
-          </button>
+            <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-brand-primary hover:bg-brand-primary/80 disabled:bg-slate-600 disabled:cursor-not-allowed text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300"
+            >
+                {isSubmitting ? 'Sending...' : 'Send Message'}
+            </button>
         </div>
       </form>
     </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { PORTFOLIO_ITEMS } from '../../../lib/constants';
+import { PORTFOLIO_ITEMS } from '../../../lib/constants/portfolio';
 import type { PortfolioItem } from '../../../lib/types';
 
 const PortfolioCard: React.FC<{ item: PortfolioItem }> = ({ item }) => (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BLOG_POSTS, AUTHORS } from '../../../lib/constants';
+import { BLOG_POSTS, AUTHORS } from '../../../lib/constants/blog';
 
 const RecentPosts: React.FC = () => {
   // Assuming the newest posts are at the beginning of the array

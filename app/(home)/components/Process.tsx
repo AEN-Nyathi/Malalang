@@ -1,5 +1,5 @@
 import React from 'react';
-import { PROCESS_STEPS } from '../../../lib/constants';
+import { PROCESS_STEPS } from '../../../lib/constants/process';
 
 const Process: React.FC = () => {
   return (

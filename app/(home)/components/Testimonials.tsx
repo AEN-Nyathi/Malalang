@@ -1,5 +1,5 @@
 import React from 'react';
-import { TESTIMONIALS } from '../../../lib/constants';
+import { TESTIMONIALS } from '../../../lib/constants/testimonials';
 import type { Testimonial } from '../../../lib/types';
 
 const TestimonialCard: React.FC<{ testimonial: Testimonial }> = ({ testimonial }) => (

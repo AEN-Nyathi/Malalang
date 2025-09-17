@@ -1,5 +1,5 @@
 import React from 'react';
-import { SERVICE_PACKAGES, ADDON_SERVICES, LAUNCH_PACK_SERVICES, RECURRING_SERVICE } from '../../../lib/constants';
+import { SERVICE_PACKAGES, ADDON_CATEGORIES, LAUNCH_PACK_SERVICES, RECURRING_SERVICE } from '../../../lib/constants/services';
 import type { ServicePackage } from '../../../lib/types';
 
 const CheckIcon = () => (
@@ -50,17 +50,22 @@ const Services: React.FC = () => {
         
         <div className="mt-16 grid md:grid-cols-2 gap-12">
             <div>
-                <h3 className="text-2xl font-bold text-white mb-6 text-center md:text-left">À La Carte Add-ons</h3>
-                <div className="bg-brand-dark p-6 rounded-lg border border-slate-700">
-                    <ul className="space-y-4">
-                        {ADDON_SERVICES.map(service => (
-                            <li key={service.title} className="flex justify-between items-center text-slate-300">
-                                <span>{service.title}</span>
-                                <span className="font-bold text-white">{service.price}</span>
-                            </li>
-                        ))}
+              <h3 className="text-2xl font-bold text-white mb-6 text-center md:text-left">À La Carte Add-ons</h3>
+              <div className="space-y-6">
+                {ADDON_CATEGORIES.map(category => (
+                  <div key={category.name} className="bg-brand-dark p-6 rounded-lg border border-slate-700">
+                    <h4 className="text-xl font-semibold text-brand-primary mb-4">{category.name}</h4>
+                    <ul className="space-y-3">
+                      {category.addons.map(addon => (
+                        <li key={addon.title} className="flex justify-between items-start text-slate-300 border-t border-slate-800 pt-3 first:border-t-0 first:pt-0">
+                          <span className="flex-1 pr-2">{addon.title}</span>
+                          <span className="font-bold text-white text-right">{addon.price}</span>
+                        </li>
+                      ))}
                     </ul>
-                </div>
+                  </div>
+                ))}
+              </div>
             </div>
             <div>
                 <h3 className="text-2xl font-bold text-white mb-6 text-center md:text-left">Post-Launch & Growth</h3>

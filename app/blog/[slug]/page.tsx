@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { BLOG_POSTS, AUTHORS } from '../../../lib/constants';
+import { BLOG_POSTS, AUTHORS } from '../../../lib/constants/blog';
 import SocialShareButtons from './components/SocialShareButtons';
 import CommentsSection from './components/CommentsSection';
 import type { BlogPost } from '../../../lib/types';
