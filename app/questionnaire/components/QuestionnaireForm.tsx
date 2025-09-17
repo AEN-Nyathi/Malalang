@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ImageColorPicker from '../../../components/ImageColorPicker';
 import { useMutation } from 'convex/react';
-import { api } from '../../../../convex/_generated/api';
+import { api } from '../../../convex/_generated/api';
 
 interface FileUploadState {
   status: 'idle' | 'uploading' | 'success' | 'error';
