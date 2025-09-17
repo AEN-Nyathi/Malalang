@@ -1,4 +1,4 @@
-import type { PortfolioItem } from '../types';
+import type { PortfolioItem } from '/lib/types.ts';
 
 export const PORTFOLIO_ITEMS: PortfolioItem[] = [
   { title: 'Kruger View Safaris', category: 'Travel & Tourism', imageUrl: 'https://images.unsplash.com/photo-1521935684292-3a83a4286121?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTAwNXwwfDF8c2VhcmNofDI3fHxzYWZhcml8ZW58MHx8fHwxNzI0NTU2NzYyfDA&ixlib=rb-4.0.3&q=80&w=800', description: 'A visually stunning website with an integrated booking system for a local tour operator.' },

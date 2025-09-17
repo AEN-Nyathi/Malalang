@@ -1,19 +1,19 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import HomePage from './app/home/page';
-import BlogPage from './app/blog/page';
-import BlogPostPage from './app/blog/post/page';
-import ContactPage from './app/contact/page';
-import ServicesPage from './app/services/page';
-import ServiceDetailPage from './app/services/detail/page';
-import PricingPage from './app/pricing/page';
-import QuestionnairePage from './app/questionnaire/page';
-import ColorPalettePage from './app/color-palette-generator/page';
-import AboutPage from './app/about-us/page';
-import { WHATSAPP_LINK } from './lib/constants/site';
-import Cta from './components/Cta';
+import Header from '/components/Header.tsx';
+import Footer from '/components/Footer.tsx';
+import HomePage from '/app/home/page.tsx';
+import BlogPage from '/app/blog/page.tsx';
+import BlogPostPage from '/app/blog/slug/page.tsx';
+import ContactPage from '/app/contact/page.tsx';
+import ServicesPage from '/app/services/page.tsx';
+import ServiceDetailPage from '/app/services/detail/page.tsx';
+import PricingPage from '/app/pricing/page.tsx';
+import QuestionnairePage from '/app/questionnaire/page.tsx';
+import ColorPalettePage from '/app/color-palette-generator/page.tsx';
+import AboutPage from '/app/about-us/page.tsx';
+import { WHATSAPP_LINK } from '/lib/constants/site.ts';
+import Cta from '/components/Cta.tsx';
 
 const App: React.FC = () => {
   return (

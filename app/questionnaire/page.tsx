@@ -1,5 +1,5 @@
 import React from 'react';
-import QuestionnaireForm from './components/QuestionnaireForm';
+import QuestionnaireForm from '/app/questionnaire/components/QuestionnaireForm.tsx';
 
 const QuestionnairePage: React.FC = () => {
   return (

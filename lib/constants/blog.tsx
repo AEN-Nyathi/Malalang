@@ -1,5 +1,5 @@
 import React from 'react';
-import type { BlogPost, Author } from '../types';
+import type { BlogPost, Author } from '/lib/types.ts';
 
 export const AUTHORS: Author[] = [
   {
@@ -188,7 +188,7 @@ export const BLOG_POSTS: BlogPost[] = [
     title: '5 Tips for Writing Website Content That Converts',
     authorId: 'abram-ntsako',
     date: 'September 01, 2024',
-    imageUrl: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTAwNXwwfDF8c2VhcmNofDR8fGNvbnRlbnQlMjB3cml0aW5nfGVufDB8fHx8MTcyNDU1NzAyM3ww&ixlib-rb-4.0.3&q=80&w=1200',
+    imageUrl: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTAwNXwwfDF8c2VhcmNofDR8fGNvbnRlbnQlMjB3cml0aW5nfGVufDB8fHx8MTcyNDU1NzAyM3ww&ixlib=rb-4.0.3&q=80&w=1200',
     excerpt: 'Great design gets visitors to your site, but great content gets them to take action. Here are five tips for writing compelling text for your website.',
     tags: ['Content Strategy', 'Marketing'],
     metaTitle: '5 Tips for Writing Website Content That Converts | Malalang Pty Ltd',

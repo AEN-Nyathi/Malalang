@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import ImageColorPicker from '../../../components/ImageColorPicker';
+import ImageColorPicker from '/components/ImageColorPicker.tsx';
 import { collection, addDoc } from 'firebase/firestore';
-import { db } from '../../../lib/firebase';
+import { db } from '/lib/firebase.ts';
 
 interface FileUploadState {
   status: 'idle' | 'uploading' | 'success' | 'error';

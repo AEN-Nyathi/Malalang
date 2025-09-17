@@ -1,5 +1,5 @@
 import React from 'react';
-import ImageColorPicker from '../../components/ImageColorPicker';
+import ImageColorPicker from '/components/ImageColorPicker.tsx';
 
 const ColorPalettePage: React.FC = () => {
   return (

@@ -1,19 +1,39 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { BLOG_POSTS, AUTHORS } from '../../../lib/constants/blog';
-import SocialShareButtons from './components/SocialShareButtons';
-import CommentsSection from './components/CommentsSection';
-import type { BlogPost } from '../../../lib/types';
+import { BLOG_POSTS, AUTHORS } from '/lib/constants/blog.tsx';
+import SocialShareButtons from '/app/blog/slug/components/SocialShareButtons.tsx';
+import CommentsSection from '/app/blog/slug/components/CommentsSection.tsx';
+import type { BlogPost } from '/lib/types.ts';
 
 const BlogPostPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const post = BLOG_POSTS.find(p => p.slug === slug);
   const author = post ? AUTHORS.find(a => a.id === post.authorId) : undefined;
 
-  // Scroll to top on component mount
+  // Scroll to top and update meta tags on component mount
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [slug]);
+
+    if (post) {
+      const originalTitle = document.title;
+      document.title = post.metaTitle;
+      
+      const metaDescription = document.querySelector('meta[name="description"]');
+      const originalDescription = metaDescription ? metaDescription.getAttribute('content') : '';
+
+      if (metaDescription) {
+        metaDescription.setAttribute('content', post.metaDescription);
+      }
+
+      // Cleanup function to restore original meta tags
+      return () => {
+        document.title = originalTitle;
+        if (metaDescription && originalDescription) {
+          metaDescription.setAttribute('content', originalDescription);
+        }
+      };
+    }
+  }, [post]);
 
   if (!post || !author) {
     return (

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { collection, addDoc } from "firebase/firestore";
-import { db } from '../../../lib/firebase';
+import { db } from '/lib/firebase.ts';
 
 const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState({

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ProcessStep } from '../types';
+import type { ProcessStep } from '/lib/types.ts';
 
 const ProcessStepIcon: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     <div className="flex items-center justify-center w-12 h-12 bg-brand-primary/10 text-brand-primary rounded-full ring-8 ring-brand-dark">

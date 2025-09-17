@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { BLOG_POSTS, AUTHORS } from '../../lib/constants/blog';
+import { BLOG_POSTS, AUTHORS } from '/lib/constants/blog.tsx';
 
 const BlogPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -63,7 +63,8 @@ const BlogPage: React.FC = () => {
             >
               All Posts
             </button>
-            {allTags.map(tag => (
+            {/* FIX: Explicitly type the 'tag' variable as a string to resolve TypeScript inference issues. */}
+            {allTags.map((tag: string) => (
               <button
                 key={tag}
                 onClick={() => handleTagClick(tag)}

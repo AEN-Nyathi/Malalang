@@ -1,6 +1,6 @@
 import React from 'react';
-import { SERVICE_PACKAGES, ADDON_CATEGORIES, LAUNCH_PACK_SERVICES, RECURRING_SERVICE } from '../../../lib/constants/services';
-import type { ServicePackage } from '../../../lib/types';
+import { SERVICE_PACKAGES, ADDON_CATEGORIES, LAUNCH_PACK_SERVICES, RECURRING_SERVICE } from '/lib/constants/services.tsx';
+import type { ServicePackage } from '/lib/types.ts';
 
 const CheckIcon = () => (
     <svg className="w-5 h-5 text-brand-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

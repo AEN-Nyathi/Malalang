@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { SERVICE_PACKAGES } from '../../../lib/constants/services';
-import { WHATSAPP_LINK } from '../../../lib/constants/site';
+import { SERVICE_PACKAGES } from '/lib/constants/services.tsx';
+import { WHATSAPP_LINK } from '/lib/constants/site.ts';
 
 const ServiceDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();

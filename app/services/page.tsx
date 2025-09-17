@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { SERVICE_PACKAGES } from '../../lib/constants/services';
-import { WHATSAPP_LINK } from '../../lib/constants/site';
+import { SERVICE_PACKAGES } from '/lib/constants/services.tsx';
+import { WHATSAPP_LINK } from '/lib/constants/site.ts';
 
 const ServiceDetailCard: React.FC<{ service: typeof SERVICE_PACKAGES[0] }> = ({ service }) => (
   <div className="bg-brand-dark p-8 rounded-lg border border-slate-800 flex flex-col group hover:border-brand-primary/50 transition-colors duration-300">

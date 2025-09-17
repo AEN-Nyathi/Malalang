@@ -1,6 +1,6 @@
 import React from 'react';
-import { PORTFOLIO_ITEMS } from '../../../lib/constants/portfolio';
-import type { PortfolioItem } from '../../../lib/types';
+import { PORTFOLIO_ITEMS } from '/lib/constants/portfolio.ts';
+import type { PortfolioItem } from '/lib/types.ts';
 
 const PortfolioCard: React.FC<{ item: PortfolioItem }> = ({ item }) => (
     <div className="group relative overflow-hidden rounded-lg shadow-lg bg-slate-900">

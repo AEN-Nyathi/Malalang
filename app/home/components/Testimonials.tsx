@@ -1,6 +1,6 @@
 import React from 'react';
-import { TESTIMONIALS } from '../../../lib/constants/testimonials';
-import type { Testimonial } from '../../../lib/types';
+import { TESTIMONIALS } from '/lib/constants/testimonials.ts';
+import type { Testimonial } from '/lib/types.ts';
 
 const TestimonialCard: React.FC<{ testimonial: Testimonial }> = ({ testimonial }) => (
     <div className="bg-brand-dark p-8 rounded-lg border border-slate-800 flex flex-col h-full">

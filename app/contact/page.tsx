@@ -1,6 +1,6 @@
 import React from 'react';
-import ContactForm from './components/ContactForm';
-import { WHATSAPP_LINK } from '../../lib/constants/site';
+import ContactForm from '/app/contact/components/ContactForm.tsx';
+import { WHATSAPP_LINK } from '/lib/constants/site.ts';
 
 const ContactPage: React.FC = () => {
   return (
