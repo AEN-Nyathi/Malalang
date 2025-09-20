@@ -1,5 +1,5 @@
 import React from 'react';
-import { AUTHORS } from './lib/constants/blog.tsx';
+import { AUTHORS } from '../../lib/constants/blog.tsx';
 
 const values = [
   {
