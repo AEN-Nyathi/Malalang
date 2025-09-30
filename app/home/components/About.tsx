@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 const values = [
   {
@@ -28,15 +29,15 @@ const About: React.FC = () => {
     <section id="about" className="py-20 bg-slate-900">
       <div className="container mx-auto px-6">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white">Your Local Digital Partner</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-white">Your Local Digital Partner in Phalaborwa</h2>
           <p className="mt-4 text-lg text-slate-400 max-w-3xl mx-auto">
-            Our mission is to provide Phalaborwa businesses with affordable, high-quality websites through a transparent, collaborative, and risk-free process, enabling you to compete and grow in the digital economy.
+            We are a Phalaborwa-based web development studio dedicated to empowering local businesses. We build relationships on trust, transparency, and a shared goal: your complete satisfaction.
           </p>
         </div>
         
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {values.map((value) => (
-            <div key={value.title} className="bg-brand-dark p-6 rounded-lg text-center transform transition duration-500 hover:scale-105 hover:bg-slate-800">
+            <div key={value.title} className="bg-brand-dark p-6 rounded-lg text-center">
               <div className="text-brand-primary inline-block p-4 bg-brand-primary/10 rounded-full mb-4">
                 {value.icon}
               </div>
@@ -44,6 +45,11 @@ const About: React.FC = () => {
               <p className="text-slate-400">{value.description}</p>
             </div>
           ))}
+        </div>
+        <div className="text-center mt-12">
+            <Link href="/about" className="inline-block bg-brand-primary hover:bg-brand-primary/80 text-white font-bold py-3 px-6 rounded-lg text-lg transition-transform transform hover:scale-105 duration-300">
+                Learn More About Us
+            </Link>
         </div>
       </div>
     </section>

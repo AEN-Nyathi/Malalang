@@ -1,6 +1,7 @@
+'use client';
 import React, { useState } from 'react';
-import { FAQ_ITEMS } from '/lib/constants/faq.ts';
-import type { FaqItem } from '/lib/types.ts';
+import { FAQ_ITEMS } from '@/lib/constants/faq';
+import type { FaqItem } from '@/lib/types';
 
 const FaqItemComponent: React.FC<{ item: FaqItem; isOpen: boolean; onClick: () => void }> = ({ item, isOpen, onClick }) => {
     return (

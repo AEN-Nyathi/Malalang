@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { BLOG_POSTS, AUTHORS } from '/lib/constants/blog.tsx';
+import Link from 'next/link';
+import { BLOG_POSTS, AUTHORS } from '@/lib/constants/blog';
 
 const RecentPosts: React.FC = () => {
   // Assuming the newest posts are at the beginning of the array
@@ -22,17 +22,17 @@ const RecentPosts: React.FC = () => {
             const author = authorsById[post.authorId];
             return (
               <div key={post.slug} className="bg-slate-900 rounded-lg overflow-hidden shadow-lg flex flex-col group">
-                <Link to={`/blog/${post.slug}`} className="block">
+                <Link href={`/blog/${post.slug}`} className="block">
                   <img src={post.imageUrl} alt={post.title} className="w-full h-56 object-cover group-hover:opacity-80 transition-opacity duration-300" />
                 </Link>
                 <div className="p-6 flex flex-col flex-grow">
                   <p className="text-sm text-slate-400">{post.date} &bull; {author?.name || 'Unknown Author'}</p>
                   <h3 className="text-xl font-bold text-white mt-2 mb-3 group-hover:text-brand-primary transition-colors duration-300">
-                    <Link to={`/blog/${post.slug}`}>{post.title}</Link>
+                    <Link href={`/blog/${post.slug}`}>{post.title}</Link>
                   </h3>
                   <p className="text-slate-300 flex-grow text-base">{post.excerpt}</p>
                   <div className="mt-4">
-                    <Link to={`/blog/${post.slug}`} className="font-semibold text-brand-primary hover:text-brand-secondary transition-colors duration-300">
+                    <Link href={`/blog/${post.slug}`} className="font-semibold text-brand-primary hover:text-brand-secondary transition-colors duration-300">
                       Read More &rarr;
                     </Link>
                   </div>
@@ -43,7 +43,7 @@ const RecentPosts: React.FC = () => {
         </div>
 
         <div className="text-center mt-12">
-            <Link to="/blog" className="inline-block bg-brand-primary hover:bg-brand-primary/80 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300">
+            <Link href="/blog" className="inline-block bg-brand-primary hover:bg-brand-primary/80 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300">
                 View All Posts
             </Link>
         </div>

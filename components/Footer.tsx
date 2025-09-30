@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { NAV_LINKS } from '../lib/constants/navigation.ts';
+import Link from 'next/link';
+import { NAV_LINKS } from '@/lib/constants/navigation';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -10,13 +10,13 @@ const Footer: React.FC = () => {
     <footer className="bg-slate-900 border-t border-slate-300/10">
       <div className="container mx-auto px-6 py-8 text-center text-slate-400">
         <div className="mb-6">
-          <Link to="/">
+          <Link href="/">
             <img src="/logo.jpg" alt="Malalang Pty Ltd Logo" className="h-16 w-auto mx-auto" />
           </Link>
         </div>
         <nav className="flex justify-center flex-wrap gap-x-6 gap-y-2 mb-6">
             {footerLinks.map(link => (
-                <Link key={link.name} to={link.href} className="text-sm text-slate-300 hover:text-brand-primary transition-colors duration-300">
+                <Link key={link.name} href={link.href} className="text-sm text-slate-300 hover:text-brand-primary transition-colors duration-300">
                     {link.name}
                 </Link>
             ))}

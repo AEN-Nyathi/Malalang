@@ -1,5 +1,6 @@
 import React from 'react';
-import { PROCESS_STEPS } from '/lib/constants/process.tsx';
+import Link from 'next/link';
+import { PROCESS_STEPS } from '@/lib/constants/process';
 
 const Process: React.FC = () => {
   return (
@@ -16,7 +17,7 @@ const Process: React.FC = () => {
           {/* The connecting line */}
           <div className="absolute left-1/2 -ml-px w-0.5 h-full bg-slate-700 hidden md:block"></div>
 
-          {PROCESS_STEPS.map((step, index) => (
+          {PROCESS_STEPS.slice(0, 3).map((step, index) => (
             <div key={step.step} className="mb-12 md:mb-0">
               <div className="flex flex-col md:flex-row items-center">
                 
@@ -38,6 +39,11 @@ const Process: React.FC = () => {
               </div>
             </div>
           ))}
+        </div>
+        <div className="text-center mt-16">
+            <Link href="/about#process" className="inline-block bg-brand-primary hover:bg-brand-primary/80 text-white font-bold py-3 px-6 rounded-lg text-lg transition-transform transform hover:scale-105 duration-300">
+                See Our Full Process
+            </Link>
         </div>
       </div>
     </section>

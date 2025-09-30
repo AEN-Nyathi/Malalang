@@ -1,6 +1,8 @@
+'use client';
+
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { BLOG_POSTS, AUTHORS } from '/lib/constants/blog.tsx';
+import Link from 'next/link';
+import { BLOG_POSTS, AUTHORS } from '@/lib/constants/blog';
 
 const BlogPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -85,17 +87,17 @@ const BlogPage: React.FC = () => {
                 const author = authorsById[post.authorId];
                 return (
                   <div key={post.slug} className="bg-brand-dark rounded-lg overflow-hidden shadow-lg flex flex-col group">
-                    <Link to={`/blog/${post.slug}`} className="block">
+                    <Link href={`/blog/${post.slug}`} className="block">
                       <img src={post.imageUrl} alt={post.title} className="w-full h-56 object-cover group-hover:opacity-80 transition-opacity duration-300" />
                     </Link>
                     <div className="p-6 flex flex-col flex-grow">
                       <p className="text-sm text-slate-400">{post.date} &bull; {author?.name || 'Unknown Author'}</p>
                       <h2 className="text-2xl font-bold text-white mt-2 mb-3 group-hover:text-brand-primary transition-colors duration-300">
-                        <Link to={`/blog/${post.slug}`}>{post.title}</Link>
+                        <Link href={`/blog/${post.slug}`}>{post.title}</Link>
                       </h2>
                       <p className="text-slate-300 flex-grow">{post.excerpt}</p>
                       <div className="mt-4">
-                        <Link to={`/blog/${post.slug}`} className="font-semibold text-brand-primary hover:text-brand-secondary transition-colors duration-300">
+                        <Link href={`/blog/${post.slug}`} className="font-semibold text-brand-primary hover:text-brand-secondary transition-colors duration-300">
                           Read More &rarr;
                         </Link>
                       </div>

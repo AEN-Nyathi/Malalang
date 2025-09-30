@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { WHATSAPP_LINK } from '/lib/constants/site.ts';
+import Link from 'next/link';
+import { WHATSAPP_LINK } from '@/lib/constants/site';
 
 const Hero: React.FC = () => {
   return (
@@ -16,7 +16,7 @@ const Hero: React.FC = () => {
           <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="bg-brand-primary hover:bg-brand-primary/80 text-white font-bold py-4 px-8 rounded-lg text-lg transition-transform transform hover:scale-105 duration-300">
             Start Your Project Today
           </a>
-          <Link to="/pricing" className="bg-slate-700 hover:bg-slate-600 text-white font-bold py-4 px-8 rounded-lg text-lg transition-colors duration-300">
+          <Link href="/pricing" className="bg-slate-700 hover:bg-slate-600 text-white font-bold py-4 px-8 rounded-lg text-lg transition-colors duration-300">
             View Our Packages
           </Link>
         </div>

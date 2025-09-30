@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { WHATSAPP_LINK } from '/lib/constants/site.ts';
+import { WHATSAPP_LINK } from '@/lib/constants/site';
 
 const Cta: React.FC = () => {
   return (

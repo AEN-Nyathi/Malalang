@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { SERVICE_PACKAGES } from '/lib/constants/services.tsx';
-import { WHATSAPP_LINK } from '/lib/constants/site.ts';
+import Link from 'next/link';
+import { SERVICE_PACKAGES } from '@/lib/constants/services';
+import { WHATSAPP_LINK } from '@/lib/constants/site';
 
 const ServiceDetailCard: React.FC<{ service: typeof SERVICE_PACKAGES[0] }> = ({ service }) => (
   <div className="bg-brand-dark p-8 rounded-lg border border-slate-800 flex flex-col group hover:border-brand-primary/50 transition-colors duration-300">
@@ -15,7 +15,7 @@ const ServiceDetailCard: React.FC<{ service: typeof SERVICE_PACKAGES[0] }> = ({ 
     </div>
 
     <div>
-        <Link to={`/services/${service.slug}`} className="font-semibold text-brand-primary hover:text-brand-secondary transition-colors duration-300">
+        <Link href={`/services/${service.slug}`} className="font-semibold text-brand-primary hover:text-brand-secondary transition-colors duration-300">
           Learn More &rarr;
         </Link>
     </div>
@@ -51,7 +51,7 @@ const ServicesPage: React.FC = () => {
               Get a Free Consultation
             </a>
             <p className="mt-4">
-              <Link to="/pricing" className="text-brand-primary hover:underline">
+              <Link href="/pricing" className="text-brand-primary hover:underline">
                 Or view our detailed pricing page &rarr;
               </Link>
             </p>

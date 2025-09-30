@@ -1,10 +1,14 @@
+'use client';
+
 import React, { useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { SERVICE_PACKAGES } from '/lib/constants/services.tsx';
-import { WHATSAPP_LINK } from '/lib/constants/site.ts';
+import { useParams } from 'next/navigation';
+import Link from 'next/link';
+import { SERVICE_PACKAGES } from '@/lib/constants/services';
+import { WHATSAPP_LINK } from '@/lib/constants/site';
 
 const ServiceDetailPage: React.FC = () => {
-  const { slug } = useParams<{ slug: string }>();
+  const params = useParams();
+  const slug = params.slug as string;
   const service = SERVICE_PACKAGES.find(s => s.slug === slug);
 
   useEffect(() => {
@@ -17,7 +21,7 @@ const ServiceDetailPage: React.FC = () => {
         <div className="text-center">
           <h1 className="text-4xl font-bold text-white mb-4">Service Not Found</h1>
           <p className="text-slate-400 mb-8">Sorry, we couldn't find the service package you're looking for.</p>
-          <Link to="/services" className="bg-brand-primary hover:bg-brand-primary/80 text-white font-bold py-3 px-6 rounded-lg text-lg transition-colors duration-300">
+          <Link href="/services" className="bg-brand-primary hover:bg-brand-primary/80 text-white font-bold py-3 px-6 rounded-lg text-lg transition-colors duration-300">
             Back to Services
           </Link>
         </div>
@@ -75,7 +79,7 @@ const ServiceDetailPage: React.FC = () => {
                  </a>
               </div>
               <div className="text-center">
-                <Link to="/services" className="font-semibold text-brand-primary hover:text-brand-secondary transition-colors duration-300">
+                <Link href="/services" className="font-semibold text-brand-primary hover:text-brand-secondary transition-colors duration-300">
                     &larr; Back to All Services
                 </Link>
               </div>

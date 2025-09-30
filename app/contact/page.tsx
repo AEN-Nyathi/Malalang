@@ -1,6 +1,6 @@
 import React from 'react';
-import ContactForm from '/app/contact/components/ContactForm.tsx';
-import { WHATSAPP_LINK } from '/lib/constants/site.ts';
+import ContactForm from '@/app/contact/components/ContactForm';
+import { WHATSAPP_LINK, WHATSAPP_NUMBER } from '@/lib/constants/site';
 
 const ContactPage: React.FC = () => {
   return (
@@ -31,7 +31,7 @@ const ContactPage: React.FC = () => {
                    <div>
                     <h3 className="font-semibold text-white">WhatsApp</h3>
                     <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="hover:text-brand-primary transition-colors duration-300">
-                      +27 62 840 835
+                      {WHATSAPP_NUMBER}
                     </a>
                   </div>
                 </div>

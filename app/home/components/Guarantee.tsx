@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 const Guarantee: React.FC = () => {
   return (
@@ -15,8 +16,13 @@ const Guarantee: React.FC = () => {
             You Don't Pay a Cent Until You're 100% Satisfied.
           </p>
           <p className="mt-6 text-lg text-slate-400 max-w-3xl mx-auto">
-            We are the only web developer in Phalaborwa that operates on a trust-first model. We will build your entire website on a private link for you to review. If you're not completely happy with the final result, you don't owe us anything. It's that simple. We invest in you first.
+            We operate on a trust-first model. We build your website and you only pay when you are completely happy. This is our promise to you.
           </p>
+          <div className="text-center mt-8">
+            <Link href="/about#guarantee" className="inline-block bg-brand-primary hover:bg-brand-primary/80 text-white font-bold py-3 px-6 rounded-lg text-lg transition-transform transform hover:scale-105 duration-300">
+                Learn More About Our Guarantee
+            </Link>
+          </div>
         </div>
       </div>
     </section>

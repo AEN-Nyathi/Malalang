@@ -1,7 +1,9 @@
+'use client';
+
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { NAV_LINKS } from '../lib/constants/navigation.ts';
-import { WHATSAPP_LINK } from '../lib/constants/site.ts';
+import Link from 'next/link';
+import { NAV_LINKS } from '@/lib/constants/navigation';
+import { WHATSAPP_LINK } from '@/lib/constants/site';
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,14 +12,14 @@ const Header: React.FC = () => {
     <header className="sticky top-0 z-50 bg-brand-dark/80 backdrop-blur-lg border-b border-slate-300/10">
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <Link to="/" aria-label="Malalang Pty Ltd Home">
+          <Link href="/" aria-label="Malalang Pty Ltd Home">
             <img src="/logo.jpg" alt="Malalang Pty Ltd Logo" className="h-12 w-auto" />
           </Link>
           
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center space-x-6">
             {NAV_LINKS.map(link => (
-              <Link key={link.name} to={link.href} className="text-slate-300 hover:text-brand-primary transition-colors duration-300">
+              <Link key={link.name} href={link.href} className="text-slate-300 hover:text-brand-primary transition-colors duration-300">
                 {link.name}
               </Link>
             ))}
@@ -41,7 +43,7 @@ const Header: React.FC = () => {
           <div className="md:hidden mt-4">
             <nav className="flex flex-col space-y-4">
               {NAV_LINKS.map(link => (
-                <Link key={link.name} to={link.href} onClick={() => setIsOpen(false)} className="text-slate-300 hover:text-brand-primary transition-colors duration-300 text-center py-2 rounded-md bg-slate-800">
+                <Link key={link.name} href={link.href} onClick={() => setIsOpen(false)} className="text-slate-300 hover:text-brand-primary transition-colors duration-300 text-center py-2 rounded-md bg-slate-800">
                   {link.name}
                 </Link>
               ))}

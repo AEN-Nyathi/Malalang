@@ -1,6 +1,8 @@
+'use client';
+
 import React, { useState } from 'react';
 import { collection, addDoc } from "firebase/firestore";
-import { db } from '/lib/firebase.ts';
+import { db } from '@/lib/firebase';
 
 const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState({
