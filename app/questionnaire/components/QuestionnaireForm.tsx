@@ -1,3 +1,4 @@
+'use client';
 import React, { useState } from 'react';
 import ImageColorPicker from '/components/ImageColorPicker.tsx';
 import { collection, addDoc } from 'firebase/firestore';

@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { BLOG_POSTS, AUTHORS } from '/lib/constants/blog.tsx';
