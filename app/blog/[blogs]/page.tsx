@@ -1,17 +1,20 @@
-"use client";
+'use client';
+
 import React, { useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { BLOG_POSTS, AUTHORS } from '/lib/constants/blog.tsx';
-import SocialShareButtons from '/app/blog/slug/components/SocialShareButtons.tsx';
-import CommentsSection from '/app/blog/slug/components/CommentsSection.tsx';
-import type { BlogPost } from '/lib/types.ts';
+import { useParams } from 'next/navigation';
+import Link from 'next/link';
+import { BLOG_POSTS, AUTHORS } from '@/lib/constants/blog';
+import SocialShareButtons from './components/SocialShareButtons';
+import CommentsSection from './components/CommentsSection';
+import type { BlogPost } from '@/lib/types';
 
 const BlogPostPage: React.FC = () => {
-  const { slug } = useParams<{ slug: string }>();
-  const post = BLOG_POSTS.find(p => p.slug === slug);
-  const author = post ? AUTHORS.find(a => a.id === post.authorId) : undefined;
+  const params = useParams();
+  const slug = params.blogs as string;
 
-  // Scroll to top and update meta tags on component mount
+  const post = BLOG_POSTS.find(p => p.slug === slug);
+  const author = post ? AUTHORS.find(a => a.id === post.authorId) : null;
+
   useEffect(() => {
     window.scrollTo(0, 0);
 
@@ -42,7 +45,7 @@ const BlogPostPage: React.FC = () => {
         <div className="text-center">
           <h1 className="text-4xl font-bold text-white mb-4">Post Not Found</h1>
           <p className="text-slate-400 mb-8">Sorry, we couldn't find the blog post you're looking for.</p>
-          <Link to="/blog" className="bg-brand-primary hover:bg-brand-primary/80 text-white font-bold py-3 px-6 rounded-lg text-lg transition-colors duration-300">
+          <Link href="/blog" className="bg-brand-primary hover:bg-brand-primary/80 text-white font-bold py-3 px-6 rounded-lg text-lg transition-colors duration-300">
             Back to Blog
           </Link>
         </div>
@@ -81,7 +84,7 @@ const BlogPostPage: React.FC = () => {
   };
 
   const relatedPosts = getRelatedPosts();
-  const postUrl = window.location.href;
+  const postUrl = typeof window !== 'undefined' ? window.location.href : '';
 
   return (
     <main className="bg-slate-900 py-12 md:py-20">
@@ -109,7 +112,7 @@ const BlogPostPage: React.FC = () => {
         </div>
 
         <div className="mt-12 p-6 bg-brand-dark rounded-lg flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 border border-slate-800">
-          <img src={author.imageUrl} alt={author.name} className="w-24 h-24 rounded-full object-cover flex-shrink-0" />
+          <img src={author.avatarUrl} alt={author.name} className="w-24 h-24 rounded-full object-cover flex-shrink-0" />
           <div>
             <p className="text-slate-400 text-sm uppercase tracking-wider">Written by</p>
             <h3 className="text-2xl font-bold text-white mt-1">{author.name}</h3>
@@ -123,7 +126,7 @@ const BlogPostPage: React.FC = () => {
         
         <footer className="flex flex-col sm:flex-row justify-between items-center gap-6">
           <SocialShareButtons postUrl={postUrl} title={post.title} />
-          <Link to="/blog" className="font-semibold text-brand-primary hover:text-brand-secondary transition-colors duration-300">
+          <Link href="/blog" className="font-semibold text-brand-primary hover:text-brand-secondary transition-colors duration-300">
             &larr; Back to Blog
           </Link>
         </footer>
@@ -133,7 +136,7 @@ const BlogPostPage: React.FC = () => {
               <h2 className="text-3xl font-bold text-white mb-8 border-b border-slate-700 pb-4">You Might Also Like</h2>
               <div className="grid md:grid-cols-2 gap-8">
                   {relatedPosts.map(relatedPost => (
-                      <Link key={relatedPost.slug} to={`/blog/${relatedPost.slug}`} className="block bg-brand-dark rounded-lg overflow-hidden shadow-lg group">
+                      <Link key={relatedPost.slug} href={`/blog/${relatedPost.slug}`} className="block bg-brand-dark rounded-lg overflow-hidden shadow-lg group">
                           <img src={relatedPost.imageUrl} alt={relatedPost.title} className="w-full h-48 object-cover group-hover:opacity-80 transition-opacity duration-300" />
                           <div className="p-6">
                               <h3 className="text-xl font-bold text-white group-hover:text-brand-primary transition-colors duration-300">{relatedPost.title}</h3>
