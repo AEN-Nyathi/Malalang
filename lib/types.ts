@@ -50,6 +50,7 @@ export interface Author {
   name: string;
   imageUrl: string;
   bio: string;
+  avatarUrl: string;
 }
 
 export interface BlogPost {
@@ -63,4 +64,41 @@ export interface BlogPost {
   tags?: string[];
   metaTitle: string;
   metaDescription: string;
+}
+
+export interface Value {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}
+
+export interface Difference {
+    icon: React.ReactNode;
+    title: string;
+    description: string;
+}
+
+export interface Skill {
+    name: string;
+    icon: React.ReactNode;
+}
+
+export interface Contact {
+    name: string;
+    value: string;
+    icon: React.ReactNode;
+    link?: string;
+}
+
+export interface TeamMember extends Author {
+    title: string;
+    skills: Skill[];
+    contacts: Contact[];
+}
+
+export interface Project {
+    name: string;
+    description: string;
+    image: string;
+    link: string;
 }

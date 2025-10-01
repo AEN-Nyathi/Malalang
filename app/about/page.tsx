@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Link from 'next/link';
 import { AUTHORS } from '@/lib/constants/blog';
@@ -8,8 +7,9 @@ import { FaPhone, FaWhatsapp, FaFacebook, FaInstagram, FaTwitter, FaLinkedin, Fa
 import { SiNextdotjs, SiFirebase, SiAdobephotoshop, SiAdobeillustrator, SiAdobeaftereffects, SiAdobepremierepro } from 'react-icons/si';
 
 import { PiMicrosoftExcelLogo, PiMicrosoftPowerpointLogo, PiMicrosoftWordLogo } from 'react-icons/pi';
+import { Value, Difference, TeamMember, Project } from '@/lib/types';
 
-const values = [
+const values: Value[] = [
   {
     icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>,
     title: 'Trust First',
@@ -32,7 +32,7 @@ const values = [
   },
 ];
 
-const malalangDifference = [
+const malalangDifference: Difference[] = [
     {
         icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-brand-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 20.944A12.02 12.02 0 0012 21a12.02 12.02 0 009-8.056c.32-1.178.524-2.41.524-3.676 0-3.322-1.34-6.32-3.524-8.516z" /></svg>,
         title: "Risk-Free Model",
@@ -50,7 +50,7 @@ const malalangDifference = [
     }
 ];
 
-const teamMembers = [
+const teamMembers: TeamMember[] = [
   {
     ...AUTHORS.find(a => a.id === 'abram-ntsako'),
     title: 'Founder & Managing Director',
@@ -86,20 +86,23 @@ const teamMembers = [
     ]
   },
   {
-    name: 'Virtual Assistant',
-    title: 'Operations (Future Hire)',
+    name: 'Agreement Mongwe Assistant',
+    title: 'Operations',
     imageUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&auto=format&fit=crop',
     bio: 'Will handle administrative tasks, scheduling, and lead follow-up to streamline our operations.',
+    skills: [
+      { name: 'Word', icon: <PiMicrosoftWordLogo /> },
+      { name: 'Excel', icon: <PiMicrosoftExcelLogo /> },
+      { name: 'PowerPoint', icon: <PiMicrosoftPowerpointLogo /> },
+    ],
+    contacts: [
+      { name: 'phone', value: '079-113-8480', icon: <FaPhone /> },
+      { name: 'whatsapp', value: '079-113-8480', icon: <FaWhatsapp /> }]
   },
-  {
-    name: 'Junior Web Developer',
-    title: 'Development (Future Hire)',
-    imageUrl: 'https://images.unsplash.com/photo-1531482615713-2c65a449769b?q=80&w=400&auto=format&fit=crop',
-    bio: 'Will increase our project capacity and assist in bringing client visions to life under expert guidance.',
-  },
+ 
 ];
 
-const projects = [
+const projects: Project[] = [
     {
         name: "Let’s Hunt Crypto",
         description: "Let’s Hunt Crypto offers a comprehensive analysis of the cryptocurrency market. Besides monitoring price, volume, and market capitalization, it also tracks community growth, learning development, events, and family engagement.",
@@ -304,7 +307,7 @@ const AboutPage: React.FC = () => {
                 <h3 className="text-2xl font-bold text-white">{member.name}</h3>
                 <p className="text-brand-primary font-semibold mb-3">{member.title}</p>
                 <p className="text-slate-400">{member.bio}</p>
-                {member.skills && (
+            
                   <div className="mt-4">
                     <h4 className="text-xl font-bold text-white mb-2">Skills</h4>
                     <div className="flex flex-wrap justify-center">
@@ -315,8 +318,8 @@ const AboutPage: React.FC = () => {
                       ))}
                     </div>
                   </div>
-                )}
-                {member.contacts && (
+            
+              
                     <div className="mt-4">
                         <h4 className="text-xl font-bold text-white mb-2">Contact</h4>
                         <div className="flex flex-wrap justify-center">
@@ -327,7 +330,7 @@ const AboutPage: React.FC = () => {
                             ))}
                         </div>
                     </div>
-                )}
+            
               </div>
             ))}
           </div>
