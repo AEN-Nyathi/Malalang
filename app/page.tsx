@@ -8,6 +8,12 @@ import Guarantee from '@/app/home/components/Guarantee';
 import Testimonials from '@/app/home/components/Testimonials';
 import RecentPosts from '@/app/home/components/RecentPosts';
 import Faq from '@/app/home/components/Faq';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Malalang - Web Development Solutions',
+  description: 'Malalang offers professional web development services, specializing in creating fast, responsive, and SEO-friendly websites for businesses of all sizes.',
+};
 
 const HomePage: React.FC = () => {
   return (

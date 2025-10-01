@@ -9,6 +9,13 @@ import Testimonials from './components/Testimonials';
 import RecentPosts from './components/RecentPosts';
 import Faq from './components/Faq';
 
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Malalang - Software Development in Phalaborwa',
+  description: 'Custom software solutions for businesses in Phalaborwa and beyond. We build websites, and mobile apps that help local businesses grow.',
+};
+
 const HomePage: React.FC = () => {
   return (
     <main>

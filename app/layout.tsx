@@ -4,11 +4,33 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Cta from '@/components/Cta';
 import { WHATSAPP_LINK } from '@/lib/constants/site';
+import { Metadata } from 'next';
+import metadata from '@/lib/metadata';
+
+export { metadata };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Malalang',
+    url: 'https://malalang.vercel.app',
+    logo: 'https://malalang.vercel.app/images/logo.png',
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: '+27 12 345 6789',
+      contactType: 'customer service',
+    },
+  };
+
   return (
     <html lang="en">
-      <body className="bg-brand-dark text-brand-light font-sans antialiased">
+          <body className="bg-brand-dark text-brand-light font-sans antialiased">
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <Header />
         <main>{children}</main>
         <Cta />

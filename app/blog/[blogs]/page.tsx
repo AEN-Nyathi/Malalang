@@ -1,12 +1,39 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { BLOG_POSTS, AUTHORS } from '@/lib/constants/blog';
 import SocialShareButtons from './components/SocialShareButtons';
 import CommentsSection from './components/CommentsSection';
 import type { BlogPost } from '@/lib/types';
+import { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: { blogs: string } }): Promise<Metadata> {
+  const post = BLOG_POSTS.find(p => p.slug === params.blogs);
+
+  if (!post) {
+    return {
+      title: 'Post Not Found',
+      description: 'This post could not be found.',
+    };
+  }
+
+  return {
+    title: post.metaTitle,
+    description: post.metaDescription,
+    openGraph: {
+      title: post.metaTitle,
+      description: post.metaDescription,
+      images: [post.imageUrl],
+    },
+    twitter: {
+      title: post.metaTitle,
+      description: post.metaDescription,
+      images: [post.imageUrl],
+    },
+  };
+}
 
 const BlogPostPage: React.FC = () => {
   const params = useParams();
@@ -14,30 +41,6 @@ const BlogPostPage: React.FC = () => {
 
   const post = BLOG_POSTS.find(p => p.slug === slug);
   const author = post ? AUTHORS.find(a => a.id === post.authorId) : null;
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-
-    if (post) {
-      const originalTitle = document.title;
-      document.title = post.metaTitle;
-      
-      const metaDescription = document.querySelector('meta[name="description"]');
-      const originalDescription = metaDescription ? metaDescription.getAttribute('content') : '';
-
-      if (metaDescription) {
-        metaDescription.setAttribute('content', post.metaDescription);
-      }
-
-      // Cleanup function to restore original meta tags
-      return () => {
-        document.title = originalTitle;
-        if (metaDescription && originalDescription) {
-          metaDescription.setAttribute('content', originalDescription);
-        }
-      };
-    }
-  }, [post]);
 
   if (!post || !author) {
     return (
@@ -84,10 +87,39 @@ const BlogPostPage: React.FC = () => {
   };
 
   const relatedPosts = getRelatedPosts();
-  const postUrl = typeof window !== 'undefined' ? window.location.href : '';
+  const postUrl = typeof window !== 'undefined' ? `https://malalang.vercel.app/blog/${slug}` : '';
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': postUrl,
+    },
+    headline: post.title,
+    description: post.metaDescription,
+    image: post.imageUrl,
+    author: {
+      '@type': 'Person',
+      name: author.name,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Malalang',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://malalang.vercel.app/images/logo.png',
+      },
+    },
+    datePublished: post.date,
+  };
 
   return (
     <main className="bg-slate-900 py-12 md:py-20">
+       <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <article className="container mx-auto px-6 max-w-4xl">
         <header className="mb-8">
           <h1 className="text-4xl md:text-5xl font-extrabold text-white leading-tight mb-4">{post.title}</h1>
