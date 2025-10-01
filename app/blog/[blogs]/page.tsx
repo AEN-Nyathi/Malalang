@@ -60,7 +60,7 @@ const BlogPostPage: React.FC = () => {
     // 1. By Tags
     if (post.tags && post.tags.length > 0) {
       allOtherPosts.forEach(p => {
-        if (p.tags && p.tags.some(tag => post.tags.includes(tag))) {
+        if (p.tags && p.tags.some((tag: string) => post.tags!.includes(tag))) {
           candidates.add(p);
         }
       });
