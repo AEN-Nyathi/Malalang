@@ -1,6 +1,6 @@
 import React from 'react';
-import { TESTIMONIALS } from '/lib/constants/testimonials.ts';
-import type { Testimonial } from '/lib/types.ts';
+import { TESTIMONIALS } from '@/lib/constants/testimonials';
+import type { Testimonial } from '@/lib/types';
 
 const TestimonialCard: React.FC<{ testimonial: Testimonial }> = ({ testimonial }) => (
     <div className="bg-brand-dark p-8 rounded-lg border border-slate-800 flex flex-col h-full">
@@ -26,7 +26,7 @@ const Testimonials: React.FC = () => {
           </p>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {TESTIMONIALS.map((testimonial, index) => (
+            {TESTIMONIALS.map((testimonial: Testimonial, index: number) => (
                 <TestimonialCard key={index} testimonial={testimonial} />
             ))}
         </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { BlogPost, Author } from '/lib/types.ts';
+import type { BlogPost, Author } from '@/lib/types.ts';
 
 export const AUTHORS: Author[] = [
   {
@@ -7,6 +7,7 @@ export const AUTHORS: Author[] = [
     name: 'Abram Ntsako',
     imageUrl: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTAwNXwwfDF8c2VhcmNofDEyfHxwcm9mZXNzaW9uYWwlMjBtYW58ZW58MHx8fHwxNzI0NTU2ODUwfDA&ixlib=rb-4.0.3&q=80&w=200',
     bio: 'Abram Ntsako is the founder of Malalang Pty Ltd, a web development studio dedicated to empowering local businesses in Phalaborwa. With a passion for clean code and user-centric design, he helps SMEs build a strong online presence without breaking the bank.',
+    avatarUrl: '/assets/profile.jpg',
   }
 ];
 
@@ -24,7 +25,7 @@ export const BLOG_POSTS: BlogPost[] = [
     metaDescription: 'A guide to help your business make an informed decision on the right web development package based on goals and budget.',
     content: (
       <>
-        <p>Choosing the right web development package is a critical decision for any small business. It's not just about cost; it's about finding the right fit for your current needs and future ambitions. Let's break down the options we offer to help you decide.</p>
+        <p>Choosing the right web development package is a critical decision for any small business. It\'s not just about cost; it\'s about finding the right fit for your current needs and future ambitions. Let\'s break down the options we offer to help you decide.</p>
         
         <h3>1. The Economic Package</h3>
         <p>This package is perfect for new businesses, sole proprietors, or anyone needing a simple, professional online brochure. If your primary goal is to establish a legitimate online presence where customers can find your contact information and learn about your core services, this is the most cost-effective entry point.</p>
@@ -42,7 +43,7 @@ export const BLOG_POSTS: BlogPost[] = [
 
         <h3>3. The E-commerce Package</h3>
         <p>Ready to sell products online? This package is your all-in-one solution. We handle the entire setup, from product listings to secure payment gateway integration. The complexity and price can scale, but the foundation is a robust online store ready to generate revenue.</p>
-        <p>We often use a simple HTML structure for initial mockups. Here's an example of what a product card's basic structure might look like in code:</p>
+        <p>We often use a simple HTML structure for initial mockups. Here\'s an example of what a product card\'s basic structure might look like in code:</p>
         <pre>
           <code>
 {`<div class="product-card">
@@ -53,7 +54,7 @@ export const BLOG_POSTS: BlogPost[] = [
 </div>`}
           </code>
         </pre>
-        <p>Making the right choice sets your business up for success. If you're still unsure, don't hesitate to reach out. We're happy to discuss your specific needs in a free, no-obligation consultation.</p>
+        <p>Making the right choice sets your business up for success. If you\'re still unsure, don\'t hesitate to reach out. We\'re happy to discuss your specific needs in a free, no-obligation consultation.</p>
       </>
     ),
   },
@@ -69,11 +70,11 @@ export const BLOG_POSTS: BlogPost[] = [
     metaDescription: 'Discover the top 5 reasons why a professional website is a necessity for Phalaborwa small businesses in 2024 to stay visible to customers.',
     content: (
       <>
-        <p>In the bustling local economy of Phalaborwa, standing out is more crucial than ever. While word-of-mouth is powerful, the digital landscape offers unparalleled opportunities for growth. If you're still on the fence about investing in a website for your small business, here are five compelling reasons to make the leap.</p>
+        <p>In the bustling local economy of Phalaborwa, standing out is more crucial than ever. While word-of-mouth is powerful, the digital landscape offers unparalleled opportunities for growth. If you\'re still on the fence about investing in a website for your small business, here are five compelling reasons to make the leap.</p>
         <h3>1. 24/7 Accessibility</h3>
         <p>Your website acts as your digital storefront, open 24 hours a day, 7 days a week. It allows potential customers to find information about your products or services, check your hours, and contact you at their convenience, even when your physical doors are closed.</p>
         <h3>2. Build Credibility and Trust</h3>
-        <p>A professional, well-designed website instantly boosts your business's credibility. It shows that you are a legitimate and serious operation. Our "no deposit" model at Malalang Pty Ltd is built on this very principle of trust—we build your credible online presence before you pay a cent.</p>
+        <p>A professional, well-designed website instantly boosts your business\'s credibility. It shows that you are a legitimate and serious operation. Our "no deposit" model at Malalang Pty Ltd is built on this very principle of trust—we build your credible online presence before you pay a cent.</p>
         <h3>3. Reach a Wider Audience</h3>
         <p>A website breaks down geographical barriers. While your business is based in Phalaborwa, your website can be accessed by tourists planning a trip, potential clients in nearby towns, or even national customers, depending on your business model.</p>
         <h3>4. Cost-Effective Marketing</h3>
@@ -161,13 +162,13 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     slug: 'beginners-guide-to-domains-and-hosting',
-    title: "A Beginner's Guide to Domain Names and Hosting",
+    title: "A Beginner\'s Guide to Domain Names and Hosting",
     authorId: 'abram-ntsako',
     date: 'August 22, 2024',
     imageUrl: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTAwNXwwfDF8c2VhcmNofDF8fGhvc3RpbmclMjBzZXJ2ZXJ8ZW58MHx8fHwxNzI0NTU3MDAxfDA&ixlib=rb-4.0.3&q=80&w=1200',
     excerpt: 'Every website needs an address and a place to live online. This guide demystifies domain names and web hosting for beginners.',
     tags: ['Web Development', 'Technical'],
-    metaTitle: "A Beginner's Guide to Domain Names & Hosting | Malalang Pty Ltd",
+    metaTitle: "A Beginner\'s Guide to Domain Names & Hosting | Malalang Pty Ltd",
     metaDescription: 'A simple guide for beginners that demystifies the concepts of domain names and web hosting, the two essential components of any website.',
     content: (
       <>
@@ -199,7 +200,7 @@ export const BLOG_POSTS: BlogPost[] = [
         <h3>1. Know Your Audience</h3>
         <p>Write for your ideal customer. Use language they understand and address the problems they need to solve. What are their biggest questions? Answer them.</p>
         <h3>2. Keep it Simple and Scannable</h3>
-        <p>People don't read websites; they scan them. Use short sentences, small paragraphs, headings, and bullet points to break up your text and make it easy to digest.</p>
+        <p>People don\'t read websites; they scan them. Use short sentences, small paragraphs, headings, and bullet points to break up your text and make it easy to digest.</p>
         <h3>3. Focus on Benefits, Not Just Features</h3>
         <p>Don\'t just list what your product or service does (features). Explain how it helps your customer (benefits). For example, instead of "Mobile-Responsive Design," say "Reach More Customers on Their Phones."</p>
         <h3>4. Include a Clear Call to Action (CTA)</h3>
@@ -337,7 +338,8 @@ export const BLOG_POSTS: BlogPost[] = [
         <p>Run a special offer? Post about it on social media and link directly to the service or product page on your website. Make it easy for people to buy.</p>
         <h3>4. Use a Clear Call to Action</h3>
         <p>Don\'t be afraid to tell people what to do. Use phrases like "Learn more on our website," "Shop the new collection here," or "Book your consultation now" with a direct link.</p>
-        <p>By consistently directing your followers to your website, you turn your social media presence into a powerful lead-generation tool.</p>
+        <h3>5. Be Authentic</h3>
+        <p>Let your brand\'s personality shine through. Being genuine builds trust. If you need help, our Professional Content Creation add-on can handle the writing for you.</p>
       </>
     ),
   },

@@ -1,6 +1,6 @@
 import React from 'react';
-import { SERVICE_PACKAGES, ADDON_CATEGORIES, LAUNCH_PACK_SERVICES, RECURRING_SERVICE } from '/lib/constants/services.tsx';
-import type { ServicePackage } from '/lib/types.ts';
+import { SERVICE_PACKAGES, ADDON_CATEGORIES, LAUNCH_PACK_SERVICES, RECURRING_SERVICE } from '@/lib/constants/services';
+import type { ServicePackage, AddonCategory, AddonService } from '@/lib/types';
 
 const CheckIcon = () => (
     <svg className="w-5 h-5 text-brand-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -22,7 +22,7 @@ const ServiceCard: React.FC<{ packageInfo: ServicePackage }> = ({ packageInfo })
             <p className="text-4xl font-extrabold text-white text-center my-4">{packageInfo.price}</p>
             <p className="text-slate-400 text-center mb-6 min-h-[4.5rem]">{packageInfo.description}</p>
             <ul className="space-y-3 text-slate-300 flex-grow">
-                {packageInfo.features.map(feature => (
+                {packageInfo.features.map((feature: string) => (
                     <li key={feature} className="flex items-center">
                         <CheckIcon />
                         <span className="ml-3">{feature}</span>
@@ -43,7 +43,7 @@ const Services: React.FC = () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
-          {SERVICE_PACKAGES.map(pkg => (
+          {SERVICE_PACKAGES.map((pkg: ServicePackage) => (
             <ServiceCard key={pkg.title} packageInfo={pkg} />
           ))}
         </div>
@@ -52,11 +52,11 @@ const Services: React.FC = () => {
             <div>
               <h3 className="text-2xl font-bold text-white mb-6 text-center md:text-left">À La Carte Add-ons</h3>
               <div className="space-y-6">
-                {ADDON_CATEGORIES.map(category => (
+                {ADDON_CATEGORIES.map((category: AddonCategory) => (
                   <div key={category.name} className="bg-brand-dark p-6 rounded-lg border border-slate-700">
                     <h4 className="text-xl font-semibold text-brand-primary mb-4">{category.name}</h4>
                     <ul className="space-y-3">
-                      {category.addons.map(addon => (
+                      {category.addons.map((addon: AddonService) => (
                         <li key={addon.title} className="flex justify-between items-start text-slate-300 border-t border-slate-800 pt-3 first:border-t-0 first:pt-0">
                           <span className="flex-1 pr-2">{addon.title}</span>
                           <span className="font-bold text-white text-right">{addon.price}</span>
@@ -75,7 +75,7 @@ const Services: React.FC = () => {
                         <p className="font-bold text-white text-2xl">R900 <span className="text-sm font-normal text-slate-400">(Save R200)</span></p>
                     </div>
                     <ul className="space-y-4">
-                        {LAUNCH_PACK_SERVICES.map(service => (
+                        {LAUNCH_PACK_SERVICES.map((service: AddonService) => (
                              <li key={service.title} className="flex justify-between items-center text-slate-300">
                                 <span>{service.title}</span>
                                 <span className="font-bold text-white">{service.price}</span>

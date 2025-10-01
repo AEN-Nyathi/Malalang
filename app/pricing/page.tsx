@@ -1,104 +1,143 @@
 import React from 'react';
-import { SERVICE_PACKAGES, ADDON_CATEGORIES, LAUNCH_PACK_SERVICES, RECURRING_SERVICE } from '/lib/constants/services.tsx';
-import type { ServicePackage } from '/lib/types.ts';
+import Link from 'next/link';
+import { SERVICE_PACKAGES, ADDON_CATEGORIES, LAUNCH_PACK_SERVICES, RECURRING_SERVICE } from '@/lib/constants/services';
+import { WHATSAPP_LINK } from '@/lib/constants/site';
+import { FAQ_ITEMS } from '@/lib/constants/faqs';
+import type { ServicePackage, AddonCategory, AddonService, FaqItem } from '@/lib/types';
 
 const CheckIcon = () => (
-    <svg className="w-5 h-5 text-brand-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <svg className="w-6 h-6 text-brand-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
     </svg>
 );
 
-const ServiceCard: React.FC<{ packageInfo: ServicePackage }> = ({ packageInfo }) => {
-    const cardClasses = packageInfo.isFeatured 
-        ? 'bg-slate-800 border-2 border-brand-primary transform md:scale-105'
-        : 'bg-brand-dark border border-slate-700';
-
-    return (
-        <div className={`p-8 rounded-lg ${cardClasses} flex flex-col transition-all duration-300 relative`}>
-            {packageInfo.isFeatured && (
-                <div className="absolute top-0 right-0 -mt-3 mr-3 bg-brand-primary text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Most Popular</div>
-            )}
-            <h3 className="text-2xl font-bold text-white text-center">{packageInfo.title}</h3>
-            <p className="text-4xl font-extrabold text-white text-center my-4">{packageInfo.price}</p>
-            <p className="text-slate-400 text-center mb-6 min-h-[4.5rem]">{packageInfo.description}</p>
-            <ul className="space-y-3 text-slate-300 flex-grow">
-                {packageInfo.features.map(feature => (
-                    <li key={feature} className="flex items-center">
-                        <CheckIcon />
-                        <span className="ml-3">{feature}</span>
-                    </li>
-                ))}
-            </ul>
+const ServiceDetail: React.FC<{ pkg: ServicePackage }> = ({ pkg }) => (
+    <div id={pkg.slug} className="bg-brand-dark p-8 rounded-lg border border-slate-700/50 mb-12 scroll-mt-20">
+        <div className="grid md:grid-cols-2 gap-8">
+            <div>
+                <h3 className="text-3xl font-bold text-white">{pkg.title}</h3>
+                <p className="text-5xl font-extrabold text-brand-primary my-4">{pkg.price}</p>
+                <p className="text-slate-300 mb-4">{pkg.longDescription}</p>
+                <a 
+                    href={WHATSAPP_LINK}
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-block bg-brand-primary hover:bg-brand-primary/80 text-white font-bold py-3 px-6 rounded-lg text-lg transition-transform transform hover:scale-105 duration-300 mt-4"
+                >
+                    Choose This Plan
+                </a>
+            </div>
+            <div>
+                <h4 className="text-xl font-semibold text-white mb-2">What's Included:</h4>
+                <ul className="space-y-3 text-slate-300">
+                    {pkg.features.map(feature => (
+                        <li key={feature} className="flex items-start">
+                            <CheckIcon />
+                            <span className="ml-3">{feature}</span>
+                        </li>
+                    ))}
+                </ul>
+                 <div className="mt-6 bg-slate-800/50 p-4 rounded-lg">
+                    <p className="font-semibold text-slate-200">Ideal for: <span className="font-normal text-slate-400">{pkg.idealFor}</span></p>
+                </div>
+            </div>
         </div>
-    );
-};
+    </div>
+);
 
 const PricingPage: React.FC = () => {
   return (
     <main>
-      <section id="pricing" className="py-20 bg-slate-900">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4">Simple, Transparent Pricing</h1>
-            <p className="mt-4 text-xl text-brand-primary font-semibold">Fixed-price packages designed for local businesses. No hidden fees.</p>
-          </div>
+        <section className="py-20 md:py-28 bg-slate-900">
+            <div className="container mx-auto px-6 text-center">
+                <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4">Pricing & Packages</h1>
+                <p className="text-xl text-brand-primary font-semibold max-w-3xl mx-auto">
+                    Clear, upfront pricing for every stage of your business. Let's build something great together.
+                </p>
+            </div>
+        </section>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
-            {SERVICE_PACKAGES.map(pkg => (
-              <ServiceCard key={pkg.title} packageInfo={pkg} />
-            ))}
-          </div>
-          
-          <div className="mt-16 grid md:grid-cols-2 gap-12">
-              <div>
-                <h3 className="text-2xl font-bold text-white mb-6 text-center md:text-left">À La Carte Add-ons</h3>
-                <div className="space-y-6">
-                  {ADDON_CATEGORIES.map(category => (
-                    <div key={category.name} className="bg-brand-dark p-6 rounded-lg border border-slate-700">
-                      <h4 className="text-xl font-semibold text-brand-primary mb-4">{category.name}</h4>
-                      <ul className="space-y-3">
-                        {category.addons.map(addon => (
-                          <li key={addon.title} className="flex justify-between items-start text-slate-300 border-t border-slate-800 pt-3 first:border-t-0 first:pt-0">
-                            <span className="flex-1 pr-2">{addon.title}</span>
-                            <span className="font-bold text-white text-right">{addon.price}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
+        <section className="py-20 bg-slate-900">
+            <div className="container mx-auto px-6">
+                {SERVICE_PACKAGES.map(pkg => (
+                    <ServiceDetail key={pkg.title} pkg={pkg} />
+                ))}
+            </div>
+        </section>
+
+        <section className="py-20 bg-brand-dark">
+            <div className="container mx-auto px-6">
+                 <div className="text-center mb-16">
+                    <h2 className="text-3xl md:text-4xl font-bold text-white">Enhance Your Website</h2>
+                    <p className="mt-4 text-lg text-slate-400 max-w-2xl mx-auto">Add extra functionality to any package with our à la carte services.</p>
                 </div>
-              </div>
-              <div>
-                  <h3 className="text-2xl font-bold text-white mb-6 text-center md:text-left">Post-Launch & Growth</h3>
-                  <div className="bg-brand-dark p-6 rounded-lg border border-brand-secondary/50">
-                      <div className="text-center border-b border-slate-700 pb-4 mb-4">
-                          <h4 className="text-xl font-semibold text-brand-secondary">The Complete Launch Pack</h4>
-                          <p className="font-bold text-white text-2xl">R900 <span className="text-sm font-normal text-slate-400">(Save R200)</span></p>
-                      </div>
-                      <ul className="space-y-4">
-                          {LAUNCH_PACK_SERVICES.map(service => (
-                              <li key={service.title} className="flex justify-between items-center text-slate-300">
-                                  <span>{service.title}</span>
-                                  <span className="font-bold text-white">{service.price}</span>
-                              </li>
-                          ))}
-                      </ul>
-                  </div>
-              </div>
-          </div>
-          
-          <div className="mt-16 text-center bg-brand-primary/10 border border-brand-primary/20 p-8 rounded-lg">
-              <h3 className="text-2xl font-bold text-white mb-2">Ongoing Support & Maintenance</h3>
-              <p className="text-slate-300 mb-4">Focus on your business, we'll handle the website.</p>
-              <div className="inline-block bg-brand-dark px-6 py-3 rounded-lg">
-                  <span className="text-lg text-slate-200">{RECURRING_SERVICE.title}: </span>
-                  <span className="text-xl font-bold text-white">{RECURRING_SERVICE.price}</span>
-              </div>
-              <p className="text-sm text-slate-400 mt-3">Includes hosting, backups, security monitoring, and 30 minutes of minor monthly changes.</p>
-          </div>
+                
+                <div className="grid lg:grid-cols-12 gap-12 items-start">
+                    <div className="lg:col-span-8">
+                        <h3 className="text-2xl font-bold text-white mb-6">Service Add-ons</h3>
+                         <div className="space-y-8">
+                            {ADDON_CATEGORIES.map(category => (
+                            <div key={category.name} className="bg-slate-900 p-6 rounded-lg border border-slate-700/50">
+                                <h4 className="text-xl font-semibold text-brand-primary mb-4">{category.name}</h4>
+                                <ul className="space-y-4">
+                                {category.addons.map(addon => (
+                                    <li key={addon.title} className="flex justify-between items-start text-slate-300 border-t border-slate-800 pt-4 first:pt-0 first:border-t-0">
+                                    <span className="flex-1 pr-4">{addon.title}</span>
+                                    <span className="font-bold text-white text-right whitespace-nowrap">{addon.price}</span>
+                                    </li>
+                                ))}
+                                </ul>
+                            </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="lg:col-span-4 sticky top-24">
+                        <div className="bg-slate-900 p-6 rounded-lg border border-brand-secondary/50">
+                             <div className="text-center border-b border-slate-700 pb-4 mb-4">
+                                <h3 className="text-2xl font-bold text-brand-secondary">The Complete Launch Pack</h3>
+                                <p className="font-bold text-white text-4xl">R900 <span className="text-lg font-normal text-slate-400">(Save R200)</span></p>
+                            </div>
+                            <p className="text-slate-400 text-center text-sm mb-4">Bundle our most essential launch services for the best value.</p>
+                            <ul className="space-y-3">
+                                {LAUNCH_PACK_SERVICES.map(service => (
+                                    <li key={service.title} className="flex justify-between items-center text-slate-300">
+                                        <span>{service.title}</span>
+                                        <span className="font-bold text-white text-sm bg-slate-800 px-2 py-1 rounded">{service.price}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                         <div className="mt-8 bg-brand-primary/10 p-6 rounded-lg border border-brand-primary/30 text-center">
+                            <h3 className="text-2xl font-bold text-white">Web Care Plan</h3>
+                             <p className="text-3xl font-bold text-white my-2">{RECURRING_SERVICE.price}</p>
+                             <p className="text-slate-400">Includes hosting, security, backups, and 30 mins of monthly updates. Total peace of mind.</p>
+                             <Link href="/web-care" className="text-brand-primary hover:underline mt-3 inline-block font-semibold">Learn more &rarr;</Link>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        </div>
-      </section>
+         <section id="faq" className="py-20 bg-slate-900">
+            <div className="container mx-auto px-6 max-w-4xl">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-4xl font-bold text-white">Frequently Asked Questions</h2>
+                </div>
+                <div className="space-y-4">
+                    {FAQ_ITEMS.map((faq: FaqItem, index: number) => (
+                        <details key={index} className="bg-brand-dark p-4 rounded-lg cursor-pointer open:bg-slate-800 transition-colors">
+                            <summary className="font-semibold text-lg text-white list-none flex justify-between items-center">
+                                {faq.question}
+                                <svg className="w-5 h-5 transition-transform transform rotate-0 open:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
+                            </summary>
+                            <div className="mt-3 text-slate-300">
+                                <p>{faq.answer}</p>
+                            </div>
+                        </details>
+                    ))}
+                </div>
+            </div>
+        </section>
     </main>
   );
 };

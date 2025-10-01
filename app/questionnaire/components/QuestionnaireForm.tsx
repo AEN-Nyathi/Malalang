@@ -1,8 +1,8 @@
 'use client';
 import React, { useState } from 'react';
-import ImageColorPicker from '/components/ImageColorPicker.tsx';
+import ImageColorPicker from '../../../components/ImageColorPicker';
 import { collection, addDoc } from 'firebase/firestore';
-import { db } from '/lib/firebase.ts';
+import { db } from '../../../lib/firebase';
 
 interface FileUploadState {
   status: 'idle' | 'uploading' | 'success' | 'error';

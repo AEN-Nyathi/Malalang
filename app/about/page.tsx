@@ -16,7 +16,7 @@ const values: Value[] = [
     description: "Our 'no deposit' policy is the cornerstone of our business. We build your website first, ensuring you are 100% happy before any payment is made. Your success is our success.",
   },
   {
-    icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.653-.125-1.274-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.653.125-1.274.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>,
+    icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.653-.125-1.274-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>,
     title: 'Local Partnership',
     description: "We're not just a service provider; we're your local partner in Phalaborwa. We believe in face-to-face meetings and a collaborative process to truly understand your business.",
   },
@@ -52,7 +52,13 @@ const malalangDifference: Difference[] = [
 
 const teamMembers: TeamMember[] = [
   {
-    ...AUTHORS.find(a => a.id === 'abram-ntsako'),
+    ...(AUTHORS.find(a => a.id === 'abram-ntsako') || {
+      id: 'abram-ntsako',
+      name: 'Abram Ntsako',
+      imageUrl: '/assets/profile.jpg',
+      bio: 'A Phalaborwa native and a student of Industrial Engineering at Vaal University of Technology, Abram Elton Ntsako Nyathi is a passionate entrepreneur with a diverse skillset. He founded Malalang Pty Ltd to empower local businesses with the digital tools they need to succeed. With expertise in a wide range of technologies, from web development (HTML, CSS, JavaScript, React, Next.js) to design (Photoshop, Illustrator, After Effects), Abram is a hands-on leader who is committed to delivering high-quality, affordable websites. His passion for problem-solving, honed through his engineering studies and love for chess, is evident in his meticulous approach to every project. Abram’s vision is to bridge the gap between local businesses and the digital world, one website at a time.',
+      avatarUrl: '/assets/profile.jpg',
+    }),
     title: 'Founder & Managing Director',
     imageUrl: '/assets/profile.jpg',
     bio: 'A Phalaborwa native and a student of Industrial Engineering at Vaal University of Technology, Abram Elton Ntsako Nyathi is a passionate entrepreneur with a diverse skillset. He founded Malalang Pty Ltd to empower local businesses with the digital tools they need to succeed. With expertise in a wide range of technologies, from web development (HTML, CSS, JavaScript, React, Next.js) to design (Photoshop, Illustrator, After Effects), Abram is a hands-on leader who is committed to delivering high-quality, affordable websites. His passion for problem-solving, honed through his engineering studies and love for chess, is evident in his meticulous approach to every project. Abram’s vision is to bridge the gap between local businesses and the digital world, one website at a time.',
@@ -86,10 +92,12 @@ const teamMembers: TeamMember[] = [
     ]
   },
   {
+    id: 'agreement-mongwe',
     name: 'Agreement Mongwe Assistant',
     title: 'Operations',
     imageUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&auto=format&fit=crop',
     bio: 'Will handle administrative tasks, scheduling, and lead follow-up to streamline our operations.',
+    avatarUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&auto=format&fit=crop',
     skills: [
       { name: 'Word', icon: <PiMicrosoftWordLogo /> },
       { name: 'Excel', icon: <PiMicrosoftExcelLogo /> },

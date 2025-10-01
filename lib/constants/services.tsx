@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ServicePackage, AddonService, AddonCategory } from '/lib/types.ts';
+import type { ServicePackage, AddonService, AddonCategory } from '@/lib/types.ts';
 
 export const SERVICE_PACKAGES: ServicePackage[] = [
   {

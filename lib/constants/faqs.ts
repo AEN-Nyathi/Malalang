@@ -1,4 +1,4 @@
-import type { FaqItem } from '/lib/types.ts';
+import type { FaqItem } from '../types';
 
 export const FAQ_ITEMS: FaqItem[] = [
     {
