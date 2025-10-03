@@ -7,33 +7,6 @@ import { BLOG_POSTS, AUTHORS } from '@/lib/constants/blog';
 import SocialShareButtons from './components/SocialShareButtons';
 import CommentsSection from './components/CommentsSection';
 import type { BlogPost } from '@/lib/types';
-import { Metadata } from 'next';
-
-export async function generateMetadata({ params }: { params: { blogs: string } }): Promise<Metadata> {
-  const post = BLOG_POSTS.find(p => p.slug === params.blogs);
-
-  if (!post) {
-    return {
-      title: 'Post Not Found',
-      description: 'This post could not be found.',
-    };
-  }
-
-  return {
-    title: post.metaTitle,
-    description: post.metaDescription,
-    openGraph: {
-      title: post.metaTitle,
-      description: post.metaDescription,
-      images: [post.imageUrl],
-    },
-    twitter: {
-      title: post.metaTitle,
-      description: post.metaDescription,
-      images: [post.imageUrl],
-    },
-  };
-}
 
 const BlogPostPage: React.FC = () => {
   const params = useParams();

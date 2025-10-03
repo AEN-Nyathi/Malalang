@@ -4,19 +4,33 @@ import { WHATSAPP_LINK } from '@/lib/constants/site';
 
 const Hero: React.FC = () => {
   return (
-    <section id="home" className="relative text-white py-24 md:py-32 bg-cover bg-center" style={{backgroundImage: "linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1920&auto=format&fit=crop')"}}>
+    <section
+      id="home"
+      className="relative text-white py-24 md:py-32 bg-cover bg-center"
+      style={{backgroundImage: "linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1920&auto=format&fit=crop')"}}
+      aria-labelledby="hero-heading"
+    >
       <div className="container mx-auto px-6 text-center">
-        <h1 className="text-4xl md:text-6xl font-extrabold leading-tight mb-4">
+        <h1 id="hero-heading" className="text-4xl md:text-6xl font-extrabold leading-tight mb-4">
           Professional Websites for Local Businesses.
         </h1>
         <p className="text-xl md:text-2xl text-brand-primary font-semibold mb-8">
           No Deposit Required. You Only Pay When You're 100% Satisfied.
         </p>
-        <div className="flex justify-center space-x-4">
-          <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="bg-brand-primary hover:bg-brand-primary/80 text-white font-bold py-4 px-8 rounded-lg text-lg transition-transform transform hover:scale-105 duration-300">
+        <div className="flex flex-col sm:flex-row justify-center gap-4" role="group" aria-label="Call to action buttons">
+          <a
+            href={WHATSAPP_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-brand-primary hover:bg-brand-primary/80 text-white font-bold py-4 px-8 rounded-lg text-lg transition-transform transform hover:scale-105 duration-300 focus:outline-none focus:ring-2 focus:ring-brand-secondary min-h-[56px] flex items-center justify-center"
+            aria-label="Start your project today via WhatsApp - Opens in a new window"
+          >
             Start Your Project Today
           </a>
-          <Link href="/pricing" className="bg-slate-700 hover:bg-slate-600 text-white font-bold py-4 px-8 rounded-lg text-lg transition-colors duration-300">
+          <Link
+            href="/pricing"
+            className="bg-slate-700 hover:bg-slate-600 text-white font-bold py-4 px-8 rounded-lg text-lg transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-brand-secondary min-h-[56px] flex items-center justify-center"
+          >
             View Our Packages
           </Link>
         </div>

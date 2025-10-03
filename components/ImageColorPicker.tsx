@@ -1,14 +1,12 @@
 'use client';
 import React, { useState, useRef, useCallback } from 'react';
 
-// A simple color object
 interface Color {
   r: number;
   g: number;
   b: number;
 }
 
-// Convert RGB to HEX
 const rgbToHex = (r: number, g: number, b: number): string => {
   const toHex = (c: number) => `0${c.toString(16)}`.slice(-2);
   return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
@@ -81,7 +79,7 @@ const ImageColorPicker: React.FC<ImageColorPickerProps> = ({ onPaletteChange }) 
       try {
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
         const colorCounts: { [key: string]: { color: Color, count: number } } = {};
-        const step = 4 * 5; 
+        const step = 4 * 5;
 
         for (let i = 0; i < imageData.length; i += step) {
             const r = imageData[i];
@@ -97,10 +95,10 @@ const ImageColorPicker: React.FC<ImageColorPickerProps> = ({ onPaletteChange }) 
             colorCounts[key] = colorCounts[key] || { color: { r, g, b }, count: 0 };
             colorCounts[key].count++;
         }
-        
+
         const sortedColors = Object.values(colorCounts).sort((a, b) => b.count - a.count);
         const topColors = sortedColors.slice(0, 5).map(c => rgbToHex(c.color.r, c.color.g, c.color.b));
-        
+
         setPalette(topColors);
         onPaletteChange(topColors);
 
@@ -124,50 +122,83 @@ const ImageColorPicker: React.FC<ImageColorPickerProps> = ({ onPaletteChange }) 
     setTimeout(() => setCopiedColor(null), 2000);
   };
 
+  const handleDropZoneKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      fileInputRef.current?.click();
+    }
+  };
+
   return (
     <div className="bg-slate-900/50 p-4 rounded-lg">
-      <div 
-        className="bg-brand-dark border-2 border-dashed border-slate-700 rounded-lg p-8 text-center cursor-pointer hover:border-brand-primary transition-colors"
+      <div
+        className="bg-brand-dark border-2 border-dashed border-slate-700 rounded-lg p-8 text-center cursor-pointer hover:border-brand-primary transition-colors focus-within:border-brand-primary focus-within:ring-2 focus-within:ring-brand-secondary"
         onDrop={onDrop}
         onDragOver={(e) => e.preventDefault()}
         onClick={() => fileInputRef.current?.click()}
+        onKeyDown={handleDropZoneKeyDown}
+        tabIndex={0}
+        role="button"
+        aria-label="Upload an image to generate color palette. Click or press Enter to browse files, or drag and drop an image here"
       >
-        <input ref={fileInputRef} type="file" className="hidden" accept="image/*" onChange={onFileChange} />
+        <input
+          ref={fileInputRef}
+          type="file"
+          className="sr-only"
+          accept="image/*"
+          onChange={onFileChange}
+          id="image-upload"
+          aria-label="Upload image file"
+        />
         <div className="flex flex-col items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-slate-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-slate-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
             <p className="text-slate-300 font-semibold">Drop an image here</p>
             <p className="text-slate-500">or click to browse</p>
         </div>
       </div>
-      
-      {error && <p className="text-red-400 text-center mt-4">{error}</p>}
+
+      {error && (
+        <div className="text-red-400 text-center mt-4 p-3 bg-red-400/10 rounded-lg" role="alert" aria-live="assertive">
+          {error}
+        </div>
+      )}
 
       <div className="mt-8">
           {isLoading && (
-              <div className="text-center">
+              <div className="text-center" role="status" aria-live="polite">
                   <p className="text-slate-300 text-lg">Generating palette...</p>
               </div>
           )}
           {imageSrc && !isLoading && (
               <div className="bg-brand-dark p-6 rounded-lg border border-slate-800">
-                  <img src={imageSrc} alt="Uploaded preview" className="rounded-lg max-w-full max-h-80 mx-auto shadow-lg" />
+                  <img src={imageSrc} alt="Uploaded image for color palette extraction" className="rounded-lg max-w-full max-h-80 mx-auto shadow-lg" />
               </div>
           )}
           {palette.length > 0 && (
               <div className="mt-8">
-                  <div className="grid grid-cols-2 md:grid-cols-5 gap-0 overflow-hidden rounded-lg">
+                  <h3 className="text-white text-xl font-bold mb-4 text-center">Generated Color Palette</h3>
+                  <div className="grid grid-cols-2 md:grid-cols-5 gap-0 overflow-hidden rounded-lg" role="list" aria-label="Color palette">
                       {palette.map((color, index) => (
-                          <div key={index} style={{ backgroundColor: color }} className="h-40 flex flex-col justify-end p-3 text-white font-mono text-sm shadow-inner">
-                              <span className="bg-black/40 px-2 py-1 rounded">{color}</span>
+                          <div
+                            key={index}
+                            style={{ backgroundColor: color }}
+                            className="h-40 flex flex-col justify-end p-3 text-white font-mono text-sm shadow-inner"
+                            role="listitem"
+                            aria-label={`Color ${index + 1}: ${color}`}
+                          >
+                              <span className="bg-black/40 px-2 py-1 rounded" aria-hidden="true">{color}</span>
                           </div>
                       ))}
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mt-4">
                       {palette.map((color, index) => (
-                          <button 
+                          <button
                             key={`${index}-btn`}
                             onClick={() => copyToClipboard(color)}
-                            className="w-full bg-slate-700 text-white font-semibold py-2 px-3 rounded-lg hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-brand-primary transition-colors"
+                            className="w-full bg-slate-700 text-white font-semibold py-3 px-3 rounded-lg hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-brand-primary transition-colors min-h-[44px]"
+                            aria-label={copiedColor === color ? `Color ${color} copied to clipboard` : `Copy color ${color} to clipboard`}
                           >
                               {copiedColor === color ? 'Copied!' : color}
                           </button>
@@ -176,7 +207,7 @@ const ImageColorPicker: React.FC<ImageColorPickerProps> = ({ onPaletteChange }) 
               </div>
           )}
       </div>
-      <canvas ref={canvasRef} className="hidden"></canvas>
+      <canvas ref={canvasRef} className="sr-only" aria-hidden="true"></canvas>
     </div>
   );
 };

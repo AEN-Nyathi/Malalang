@@ -3,7 +3,7 @@ import { SERVICE_PACKAGES, ADDON_CATEGORIES, LAUNCH_PACK_SERVICES, RECURRING_SER
 import type { ServicePackage, AddonCategory, AddonService } from '@/lib/types';
 
 const CheckIcon = () => (
-    <svg className="w-5 h-5 text-brand-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <svg className="w-5 h-5 text-brand-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
     </svg>
 );
@@ -14,14 +14,14 @@ const ServiceCard: React.FC<{ packageInfo: ServicePackage }> = ({ packageInfo })
         : 'bg-brand-dark border border-slate-700';
 
     return (
-        <div className={`p-8 rounded-lg ${cardClasses} flex flex-col transition-all duration-300`}>
+        <article className={`p-8 rounded-lg ${cardClasses} flex flex-col transition-all duration-300 relative`}>
             {packageInfo.isFeatured && (
-                <div className="absolute top-0 right-0 -mt-3 mr-3 bg-brand-primary text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Most Popular</div>
+                <span className="absolute top-0 right-0 -mt-3 mr-3 bg-brand-primary text-white text-xs font-bold px-3 py-1 rounded-full uppercase" role="status">Most Popular</span>
             )}
             <h3 className="text-2xl font-bold text-white text-center">{packageInfo.title}</h3>
-            <p className="text-4xl font-extrabold text-white text-center my-4">{packageInfo.price}</p>
-            <p className="text-slate-400 text-center mb-6 min-h-[4.5rem]">{packageInfo.description}</p>
-            <ul className="space-y-3 text-slate-300 flex-grow">
+            <p className="text-4xl font-extrabold text-white text-center my-4" aria-label={`Price: ${packageInfo.price}`}>{packageInfo.price}</p>
+            <p className="text-slate-300 text-center mb-6 min-h-[4.5rem]">{packageInfo.description}</p>
+            <ul className="space-y-3 text-slate-300 flex-grow" role="list" aria-label="Package features">
                 {packageInfo.features.map((feature: string) => (
                     <li key={feature} className="flex items-center">
                         <CheckIcon />
@@ -29,17 +29,17 @@ const ServiceCard: React.FC<{ packageInfo: ServicePackage }> = ({ packageInfo })
                     </li>
                 ))}
             </ul>
-        </div>
+        </article>
     );
 };
 
 const Services: React.FC = () => {
   return (
-    <section id="services" className="py-20 bg-slate-900">
+    <section id="services" className="py-20 bg-slate-900" aria-labelledby="services-heading">
       <div className="container mx-auto px-6">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white">Simple, Transparent Pricing</h2>
-          <p className="mt-4 text-lg text-slate-400">Fixed-price packages designed for local businesses. No hidden fees.</p>
+          <h2 id="services-heading" className="text-3xl md:text-4xl font-bold text-white">Simple, Transparent Pricing</h2>
+          <p className="mt-4 text-lg text-slate-300">Fixed-price packages designed for local businesses. No hidden fees.</p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
