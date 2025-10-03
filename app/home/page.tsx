@@ -12,8 +12,8 @@ import Faq from './components/Faq';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Malalang - Software Development in Phalaborwa',
-  description: 'Custom software solutions for businesses in Phalaborwa and beyond. We build websites, and mobile apps that help local businesses grow.',
+  title: 'Web Design in Phalaborwa | Malalang - Local Website Development',
+  description: 'Looking for a web designer in Phalaborwa? Malalang builds affordable, professional websites for local businesses. We help you get online, attract more customers, and grow your business with a stunning, mobile-friendly site. Contact us for a free quote!',
 };
 
 const HomePage: React.FC = () => {
@@ -21,11 +21,11 @@ const HomePage: React.FC = () => {
     <main>
       <Hero />
       <About />
+      <Guarantee />
+      <Testimonials />
       <Services />
       <Process />
       <Portfolio />
-      <Guarantee />
-      <Testimonials />
       <RecentPosts />
       <Faq />
     </main>

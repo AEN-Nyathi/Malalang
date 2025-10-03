@@ -3,8 +3,8 @@
 @theme {
   --color-brand-primary: #10B981; /* Emerald-500 */
   --color-brand-secondary: #F59E0B; /* Amber-500 */
-  --color-brand-dark: #111827; /* Gray-900 */
-  --color-brand-light: #F9FAFB; /* Gray-50 */
+  --color-brand-dark: #0F172A; /* Slate-900 */
+  --color-brand-light: #F8FAFC; /* Slate-50 */
 }
 
 .sr-only {

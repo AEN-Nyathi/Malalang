@@ -12,8 +12,9 @@ const Header: React.FC = () => {
     <header className="sticky top-0 z-50 bg-brand-dark/80 backdrop-blur-lg border-b border-slate-300/10" role="banner">
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <Link href="/" aria-label="Malalang Pty Ltd - Return to homepage">
+          <Link href="/" aria-label="Malalang Pty Ltd - Return to homepage" className="flex items-center gap-2">
             <img src="/logo.jpg" alt="Malalang Pty Ltd - Professional Web Development" className="h-12 w-auto" />
+            <span className="text-2xl font-bold text-white">Malalang</span>
           </Link>
           
           <nav className="hidden md:flex items-center space-x-6" aria-label="Main navigation">
@@ -26,7 +27,7 @@ const Header: React.FC = () => {
                 {link.name}
               </Link>
             ))}
-            <Link href="/contact"
+            <Link href={WHATSAPP_LINK}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-brand-primary hover:bg-brand-primary/80 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-brand-secondary"
@@ -64,7 +65,7 @@ const Header: React.FC = () => {
                   {link.name}
                 </Link>
               ))}
-              <Link href="/contact"
+              <Link href={WHATSAPP_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-brand-primary hover:bg-brand-primary/80 text-white font-bold py-3 px-4 rounded-lg transition-colors duration-300 text-center focus:outline-none focus:ring-2 focus:ring-brand-secondary min-h-[44px] flex items-center justify-center"

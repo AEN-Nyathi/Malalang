@@ -2,7 +2,13 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+// import { Metadata } from 'next';
 import { BLOG_POSTS, AUTHORS } from '@/lib/constants/blog';
+
+// export const metadata: Metadata = {
+//   title: 'Malalang Blog - Web Design Insights for Phalaborwa Businesses',
+//   description: 'Explore the Malalang blog for articles on web design, SEO, and digital marketing, tailored for businesses in Phalaborwa. Get tips to improve your online presence.',
+// };
 
 const BlogPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');

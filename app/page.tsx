@@ -1,32 +1,29 @@
-import React from 'react';
-import Hero from '@/app/home/components/Hero';
-import About from '@/app/home/components/About';
-import Services from '@/app/home/components/Services';
-import Process from '@/app/home/components/Process';
-import Portfolio from '@/app/home/components/Portfolio';
-import Guarantee from '@/app/home/components/Guarantee';
-import Testimonials from '@/app/home/components/Testimonials';
-import RecentPosts from '@/app/home/components/RecentPosts';
-import Faq from '@/app/home/components/Faq';
 import { Metadata } from 'next';
+import Faq from "./home/components/Faq";
+import Guarantee from "./home/components/Guarantee";
+import Hero from "./home/components/Hero";
+import Portfolio from "./home/components/Portfolio";
+import Process from "./home/components/Process";
+import RecentPosts from "./home/components/RecentPosts";
+import Services from "./home/components/Services";
+import Testimonials from "./home/components/Testimonials";
 
 export const metadata: Metadata = {
-  title: 'Malalang - Web Development Solutions',
-  description: 'Malalang offers professional web development services, specializing in creating fast, responsive, and SEO-friendly websites for businesses of all sizes.',
+  title: 'Web Design in Phalaborwa | Malalang - Local Website Development',
+  description: 'Looking for a web designer in Phalaborwa? Malalang builds affordable, professional websites for local businesses. We help you get online, attract more customers, and grow your business with a stunning, mobile-friendly site. Contact us for a free quote!',
 };
 
 const HomePage: React.FC = () => {
   return (
     <main>
       <Hero />
-      <About />
+      <Testimonials />
+      <Guarantee />
       <Services />
       <Process />
       <Portfolio />
-      <Guarantee />
-      <Testimonials />
-      <RecentPosts />
       <Faq />
+      <RecentPosts />
     </main>
   );
 };

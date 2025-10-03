@@ -12,7 +12,7 @@ const Hero: React.FC = () => {
     >
       <div className="container mx-auto px-6 text-center">
         <h1 id="hero-heading" className="text-4xl md:text-6xl font-extrabold leading-tight mb-4">
-          Professional Websites for Local Businesses.
+          Grow Your Local Business with a Professional Website
         </h1>
         <p className="text-xl md:text-2xl text-brand-primary font-semibold mb-8">
           No Deposit Required. You Only Pay When You're 100% Satisfied.
@@ -28,10 +28,10 @@ const Hero: React.FC = () => {
             Start Your Project Today
           </a>
           <Link
-            href="/pricing"
+            href="/about"
             className="bg-slate-700 hover:bg-slate-600 text-white font-bold py-4 px-8 rounded-lg text-lg transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-brand-secondary min-h-[56px] flex items-center justify-center"
           >
-            View Our Packages
+            Learn More About Us
           </Link>
         </div>
       </div>

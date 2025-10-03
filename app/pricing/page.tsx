@@ -1,9 +1,15 @@
 import React from 'react';
 import Link from 'next/link';
+import { Metadata } from 'next';
 import { SERVICE_PACKAGES, ADDON_CATEGORIES, LAUNCH_PACK_SERVICES, RECURRING_SERVICE } from '@/lib/constants/services';
 import { WHATSAPP_LINK } from '@/lib/constants/site';
 import { FAQ_ITEMS } from '@/lib/constants/faqs';
 import type { ServicePackage, AddonCategory, AddonService, FaqItem } from '@/lib/types';
+
+export const metadata: Metadata = {
+  title: 'Website Pricing in Phalaborwa | Malalang Packages',
+  description: 'Transparent pricing for web design in Phalaborwa. Explore our packages, from the Starter Site to the Advanced Business Solution. Find the perfect fit for your budget and business goals.',
+};
 
 const CheckIcon = () => (
     <svg className="w-6 h-6 text-brand-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

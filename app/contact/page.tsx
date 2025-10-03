@@ -1,6 +1,12 @@
 import React from 'react';
+import { Metadata } from 'next';
 import ContactForm from '@/app/contact/components/ContactForm';
 import { WHATSAPP_LINK, WHATSAPP_NUMBER } from '@/lib/constants/site';
+
+export const metadata: Metadata = {
+  title: 'Contact Malalang - Web Design in Phalaborwa',
+  description: 'Contact Malalang for a free consultation on your web design project. We are a local web design company in Phalaborwa, ready to help your business succeed online. Reach out via our contact form, email, or WhatsApp.',
+};
 
 const ContactPage: React.FC = () => {
   return (

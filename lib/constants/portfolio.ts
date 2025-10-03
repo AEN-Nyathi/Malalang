@@ -1,8 +1,28 @@
 import type { PortfolioItem } from '@/lib/types.ts';
 
 export const PORTFOLIO_ITEMS: PortfolioItem[] = [
-  { title: 'Kruger View Safaris', category: 'Travel & Tourism', imageUrl: 'https://images.unsplash.com/photo-1521935684292-3a83a4286121?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTAwNXwwfDF8c2VhcmNofDI3fHxzYWZhcml8ZW58MHx8fHwxNzI0NTU2NzYyfDA&ixlib=rb-4.0.3&q=80&w=800', description: 'A visually stunning website with an integrated booking system for a local tour operator.' },
-  { title: 'Phalaborwa Security Training', category: 'Professional Services', imageUrl: 'https://images.unsplash.com/photo-1559101428-d6036986a4c3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTAwNXwwfDF8c2VhcmNofDEwfHxzZWN1cml0eSUyMHRyYWluaW5nfGVufDB8fHx8MTcyNDU1Njc4NHww&ixlib=rb-4.0.3&q=80&w=800', description: 'A clean, professional site outlining courses and certification for a security training company.' },
-  { title: 'The Corner Cafe', category: 'Retail & Eateries', imageUrl: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTAwNXwwfDF8c2VhcmNofDV8fGNhZmV8ZW58MHx8fHwxNzI0NTU2ODA1fDA&ixlib=rb-4.0.3&q=80&w=800', description: 'A charming website featuring the menu, gallery, and contact information for a local cafe.' },
-  { title: 'Lulekani Auto Repairs', category: 'Local Services', imageUrl: 'https://images.unsplash.com/photo-1553792560-27c62f216f49?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTAwNXwwfDF8c2VhcmNofDIyfHxhdXRvJTIwcmVwYWlyfGVufDB8fHx8MTcyNDU1NjgyNnww&ixlib=rb-4.0.3&q=80&w=800', description: 'A straightforward and reliable website for a local mechanic, focused on services and trust.' },
+  {
+    title: "Let’s Hunt Crypto",
+    description: "Let’s Hunt Crypto offers a comprehensive analysis of the cryptocurrency market. Besides monitoring price, volume, and market capitalization, it also tracks community growth, learning development, events, and family engagement.",
+    imageUrl: "/assets/letshuntcrypto_Logo.png",
+    category: "Crypto Analysis"
+  },
+  {
+    title: "World Club",
+    description: "The World Club is an innovative savings scheme that leverages a hierarchical structure to maximize savings and earnings. Members join by paying a small fee and can recruit up to four new members, earning interest as their network grows.",
+    imageUrl: "/assets/worldclub_Logo.png",
+    category: "Savings Scheme"
+  },
+  {
+    title: "Sally Sigma",
+    description: "Discover unforgettable destinations and seamless bookings with Sally M Travels & Tours. Specializing in group travel experiences across Southern Africa.",
+    imageUrl: "/assets/Sally_Logo.jpg",
+    category: "Travel & Tours"
+  },
+  {
+    title: "Vuxaka",
+    description: "Vuxaka is a compassionate catering service that provides dignified and respectful culinary experiences for funerals and memorial services.",
+    imageUrl: "/assets/vuxaka_Logo.png",
+    category: "Catering Services"
+  }
 ];
