@@ -6,11 +6,12 @@ const Hero: React.FC = () => {
   return (
     <section
       id="home"
-      className="relative text-white py-24 md:py-32 bg-cover bg-center"
-      style={{backgroundImage: "linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1920&auto=format&fit=crop')"}}
+      className="relative py-32 md:py-48 bg-cover bg-center"
+      style={{ backgroundImage: "url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1920&auto=format&fit=crop')" }}
       aria-labelledby="hero-heading"
     >
-      <div className="container mx-auto px-6 text-center">
+       <div className="absolute inset-0 bg-black opacity-50"></div>
+      <div className="container mx-auto px-6 text-center relative">
         <h1 id="hero-heading" className="text-4xl md:text-6xl font-extrabold leading-tight mb-4">
           Grow Your Local Business with a Professional Website
         </h1>
