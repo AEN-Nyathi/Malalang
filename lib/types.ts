@@ -4,6 +4,8 @@ export interface ServicePackage {
   description: string;
   features: string[];
   isFeatured?: boolean;
+  isCombo?: boolean;
+  savingsNote?:string,
   slug: string;
   longDescription: string;
   idealFor: string;
@@ -13,6 +15,11 @@ export interface ServicePackage {
 export interface AddonService {
   title: string;
   price: string;
+}
+export interface RecurringService{
+  title: string;
+  price: string;
+  description: string;
 }
 
 export interface AddonCategory {

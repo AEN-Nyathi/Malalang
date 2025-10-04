@@ -14,7 +14,7 @@ const Header: React.FC = () => {
         <div className="flex items-center justify-between">
           <Link href="/" aria-label="Malalang Pty Ltd - Return to homepage" className="flex items-center gap-2">
             <img src="/logo.jpg" alt="Malalang Pty Ltd - Professional Web Development" className="h-12 w-auto" />
-            <span className="text-2xl font-bold text-white">Malalang</span>
+            <span className="text-3xl  font-bold text-white">Malalang</span>
           </Link>
           
           <nav className="hidden md:flex items-center space-x-6" aria-label="Main navigation">

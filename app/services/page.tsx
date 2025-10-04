@@ -3,13 +3,14 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import { SERVICE_PACKAGES } from '@/lib/constants/services';
 import { WHATSAPP_LINK } from '@/lib/constants/site';
+import type { ServicePackage } from '@/lib/types';
 
 export const metadata: Metadata = {
   title: 'Web Development Services in Phalaborwa | Malalang',
   description: 'Explore our web development services. We offer tailored solutions to meet the unique needs of local businesses in Phalaborwa, from starter websites to advanced e-commerce platforms.',
 };
 
-const ServiceDetailCard: React.FC<{ service: typeof SERVICE_PACKAGES[0] }> = ({ service }) => (
+const ServiceDetailCard: React.FC<{ service: ServicePackage }> = ({ service }) => (
   <div className="bg-brand-dark p-8 rounded-lg border border-slate-800 flex flex-col group hover:border-brand-primary/50 transition-colors duration-300">
     <h3 className="text-3xl font-bold text-brand-primary mb-4">{service.title}</h3>
     <p className="text-slate-400 text-lg mb-6 flex-grow">{service.description}</p>

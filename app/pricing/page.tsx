@@ -24,6 +24,9 @@ const ServiceDetail: React.FC<{ pkg: ServicePackage }> = ({ pkg }) => (
                 <h3 className="text-3xl font-bold text-white">{pkg.title}</h3>
                 <p className="text-5xl font-extrabold text-brand-primary my-4">{pkg.price}</p>
                 <p className="text-slate-300 mb-4">{pkg.longDescription}</p>
+                {pkg.isCombo && pkg.savingsNote && (
+                    <p className="text-green-400 font-bold mb-4">{pkg.savingsNote}</p>
+                )}
                 <a 
                     href={WHATSAPP_LINK}
                     target="_blank" 
@@ -65,13 +68,24 @@ const PricingPage: React.FC = () => {
 
         <section className="py-20 bg-slate-900">
             <div className="container mx-auto px-6">
-                {SERVICE_PACKAGES.map(pkg => (
+                {SERVICE_PACKAGES.filter(p => !p.isCombo).map(pkg => (
                     <ServiceDetail key={pkg.title} pkg={pkg} />
                 ))}
             </div>
         </section>
 
         <section className="py-20 bg-brand-dark">
+            <div className="container mx-auto px-6">
+                 <div className="text-center mb-16">
+                    <h2 className="text-3xl md:text-4xl font-bold text-white">Special Combo Package</h2>
+                </div>
+                {SERVICE_PACKAGES.filter(p => p.isCombo).map(pkg => (
+                    <ServiceDetail key={pkg.title} pkg={pkg} />
+                ))}
+            </div>
+        </section>
+
+        <section className="py-20 bg-slate-900">
             <div className="container mx-auto px-6">
                  <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold text-white">Enhance Your Website</h2>
@@ -83,7 +97,7 @@ const PricingPage: React.FC = () => {
                         <h3 className="text-2xl font-bold text-white mb-6">Service Add-ons</h3>
                          <div className="space-y-8">
                             {ADDON_CATEGORIES.map(category => (
-                            <div key={category.name} className="bg-slate-900 p-6 rounded-lg border border-slate-700/50">
+                            <div key={category.name} className="bg-brand-dark p-6 rounded-lg border border-slate-700/50">
                                 <h4 className="text-xl font-semibold text-brand-primary mb-4">{category.name}</h4>
                                 <ul className="space-y-4">
                                 {category.addons.map(addon => (
@@ -98,7 +112,7 @@ const PricingPage: React.FC = () => {
                         </div>
                     </div>
                     <div className="lg:col-span-4 sticky top-24">
-                        <div className="bg-slate-900 p-6 rounded-lg border border-brand-secondary/50">
+                        <div className="bg-slate-800 p-6 rounded-lg border border-brand-secondary/50">
                              <div className="text-center border-b border-slate-700 pb-4 mb-4">
                                 <h3 className="text-2xl font-bold text-brand-secondary">The Complete Launch Pack</h3>
                                 <p className="font-bold text-white text-4xl">R900 <span className="text-lg font-normal text-slate-400">(Save R200)</span></p>
@@ -108,7 +122,7 @@ const PricingPage: React.FC = () => {
                                 {LAUNCH_PACK_SERVICES.map(service => (
                                     <li key={service.title} className="flex justify-between items-center text-slate-300">
                                         <span>{service.title}</span>
-                                        <span className="font-bold text-white text-sm bg-slate-800 px-2 py-1 rounded">{service.price}</span>
+                                        <span className="font-bold text-white text-sm bg-slate-700 px-2 py-1 rounded">{service.price}</span>
                                     </li>
                                 ))}
                             </ul>
@@ -124,14 +138,14 @@ const PricingPage: React.FC = () => {
             </div>
         </section>
 
-         <section id="faq" className="py-20 bg-slate-900">
+         <section id="faq" className="py-20 bg-brand-dark">
             <div className="container mx-auto px-6 max-w-4xl">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-bold text-white">Frequently Asked Questions</h2>
                 </div>
                 <div className="space-y-4">
                     {FAQ_ITEMS.map((faq: FaqItem, index: number) => (
-                        <details key={index} className="bg-brand-dark p-4 rounded-lg cursor-pointer open:bg-slate-800 transition-colors">
+                        <details key={index} className="bg-slate-900 p-4 rounded-lg cursor-pointer open:bg-slate-800 transition-colors">
                             <summary className="font-semibold text-lg text-white list-none flex justify-between items-center">
                                 {faq.question}
                                 <svg className="w-5 h-5 transition-transform transform rotate-0 open:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>

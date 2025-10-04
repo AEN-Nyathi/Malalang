@@ -4,7 +4,6 @@ import React, { useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { SERVICE_PACKAGES } from '@/lib/constants/services';
-import { WHATSAPP_LINK } from '@/lib/constants/site';
 
 const ServiceDetailPage: React.FC = () => {
   const params = useParams();
@@ -68,15 +67,13 @@ const ServiceDetailPage: React.FC = () => {
               </div>
               <div className="bg-brand-primary/10 p-8 rounded-lg border border-brand-primary/30 text-center">
                  <h3 className="text-2xl font-bold text-white mb-4">Ready to Start?</h3>
-                 <p className="text-slate-300 mb-6">Let's discuss how the {service.title} can help your business.</p>
-                 <a 
-                    href={WHATSAPP_LINK} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
+                 <p className="text-slate-300 mb-6">Let's get some details about your project.</p>
+                 <Link
+                    href={`/questionnaire/${service.slug}`}
                     className="w-full block bg-brand-primary hover:bg-brand-primary/80 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300"
                  >
-                    Get a Free Quote
-                 </a>
+                    Get Started
+                 </Link>
               </div>
               <div className="text-center">
                 <Link href="/services" className="font-semibold text-brand-primary hover:text-brand-secondary transition-colors duration-300">

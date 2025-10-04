@@ -2,16 +2,22 @@
 
 import React from 'react';
 
-// This is a placeholder component for a comments section.
-// In a real application, this would involve a service like Disqus, Commento, or a custom backend.
 const CommentsSection: React.FC = () => {
   return (
-    <div className="mt-16">
-      <h2 className="text-3xl font-bold text-white mb-8 border-b border-slate-700 pb-4">Comments</h2>
-      <div className="bg-brand-dark p-8 rounded-lg text-center border border-slate-800">
-        <p className="text-slate-400">Comments are not yet enabled on this blog.</p>
-        <p className="text-slate-500 text-sm mt-2">Check back later!</p>
-      </div>
+    <div className="mt-12">
+      <h2 className="text-3xl font-bold text-white mb-6">Leave a Comment</h2>
+      <form className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <input type="text" placeholder="Your Name" className="w-full px-4 py-3 rounded-lg bg-slate-800 text-white border-2 border-slate-700 focus:border-brand-primary focus:ring-0 transition-colors duration-300" />
+          <input type="email" placeholder="Your Email" className="w-full px-4 py-3 rounded-lg bg-slate-800 text-white border-2 border-slate-700 focus:border-brand-primary focus:ring-0 transition-colors duration-300" />
+        </div>
+        <textarea placeholder="Your Comment" rows={5} className="w-full px-4 py-3 rounded-lg bg-slate-800 text-white border-2 border-slate-700 focus:border-brand-primary focus:ring-0 transition-colors duration-300"></textarea>
+        <div className="text-right">
+          <button type="submit" className="bg-brand-primary hover:bg-brand-primary/80 text-white font-bold py-3 px-6 rounded-lg text-lg transition-colors duration-300">
+            Post Comment
+          </button>
+        </div>
+      </form>
     </div>
   );
 };
