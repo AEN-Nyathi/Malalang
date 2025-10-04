@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, doc, setDoc, getDoc, arrayUnion } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { ServicePackage } from '@/lib/types';
 import { SERVICE_PACKAGES } from '@/lib/constants/services';
@@ -15,6 +15,10 @@ const ServiceQuestionnaireForm: React.FC<Props> = ({ service }) => {
         meetingType: 'Face-to-Face', // Default value
         servicePackage: service.slug, // Pre-select the service
         isWhatsApp: false,
+        fullName: '',
+        businessName: '',
+        email: '',
+        phone: '',
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -32,15 +36,52 @@ const ServiceQuestionnaireForm: React.FC<Props> = ({ service }) => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!formData.phone) {
+            setError('Phone number is required to create a client record.');
+            return;
+        }
+
         setIsSubmitting(true);
         setError(null);
 
         try {
-            await addDoc(collection(db, 'strategic-sessions'), {
+            const submittedAt = new Date();
+            const serviceTitle = SERVICE_PACKAGES.find(p => p.slug === formData.servicePackage)?.title;
+
+            // 1. Add to the specific service collection
+            await addDoc(collection(db, service.slug), {
                 ...formData,
-                serviceTitle: SERVICE_PACKAGES.find(p => p.slug === formData.servicePackage)?.title,
-                submittedAt: new Date(),
+                serviceTitle,
+                submittedAt,
             });
+
+            // 2. Create or update the central client record
+            const clientRef = doc(db, 'clients', formData.phone);
+            const clientSnap = await getDoc(clientRef);
+
+            const newBooking = {
+                servicePackage: formData.servicePackage,
+                serviceTitle,
+                submittedAt,
+                bookingId: (await addDoc(collection(db, 'clientBookings'), {})).id // Create a unique ID for the booking
+            };
+
+            if (clientSnap.exists()) {
+                // Update existing client
+                await setDoc(clientRef, {
+                    ...formData,
+                    updatedAt: submittedAt,
+                    bookings: arrayUnion(newBooking)
+                }, { merge: true });
+            } else {
+                // Create new client
+                await setDoc(clientRef, {
+                    ...formData,
+                    createdAt: submittedAt,
+                    bookings: [newBooking]
+                });
+            }
+
             setIsSubmitted(true);
         } catch (e) {
             console.error('Error adding document: ', e);
@@ -49,6 +90,7 @@ const ServiceQuestionnaireForm: React.FC<Props> = ({ service }) => {
             setIsSubmitting(false);
         }
     };
+
 
     if (isSubmitted) {
         return (
