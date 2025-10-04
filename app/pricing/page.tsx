@@ -2,7 +2,6 @@ import React from 'react';
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { SERVICE_PACKAGES, ADDON_CATEGORIES, LAUNCH_PACK_SERVICES, RECURRING_SERVICE } from '@/lib/constants/services';
-import { WHATSAPP_LINK } from '@/lib/constants/site';
 import { FAQ_ITEMS } from '@/lib/constants/faqs';
 import type { ServicePackage, AddonCategory, AddonService, FaqItem } from '@/lib/types';
 
@@ -27,14 +26,12 @@ const ServiceDetail: React.FC<{ pkg: ServicePackage }> = ({ pkg }) => (
                 {pkg.isCombo && pkg.savingsNote && (
                     <p className="text-green-400 font-bold mb-4">{pkg.savingsNote}</p>
                 )}
-                <a 
-                    href={WHATSAPP_LINK}
-                    target="_blank" 
-                    rel="noopener noreferrer"
+                <Link 
+                    href={`/questionnaire/${pkg.slug}`}
                     className="inline-block bg-brand-primary hover:bg-brand-primary/80 text-white font-bold py-3 px-6 rounded-lg text-lg transition-transform transform hover:scale-105 duration-300 mt-4"
                 >
-                    Choose This Plan
-                </a>
+                    Get Started
+                </Link>
             </div>
             <div>
                 <h4 className="text-xl font-semibold text-white mb-2">What's Included:</h4>
