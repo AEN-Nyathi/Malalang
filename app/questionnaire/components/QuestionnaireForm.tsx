@@ -24,6 +24,9 @@ export default function QuestionnaireForm({ clientData }: QuestionnaireFormProps
     businessName: clientData?.businessName || '',
   });
   const [aiLoading, setAiLoading] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -86,6 +89,7 @@ export default function QuestionnaireForm({ clientData }: QuestionnaireFormProps
         }),
       });
       const data = await response.json();
+      // This simplistic alert will be replaced by a proper UI element in a subsequent step.
       alert(`Suggestions:\n- ${data.result.join('\n- ')}`);
     } catch (error) {
       console.error('Error suggesting answers:', error);
@@ -94,14 +98,26 @@ export default function QuestionnaireForm({ clientData }: QuestionnaireFormProps
   };
 
   const handleSubmit = async () => {
+    setIsSubmitting(true);
+    setError(null);
     try {
       await addDoc(collection(db, 'questionnaires'), formData);
-      alert('Questionnaire submitted successfully!');
+      setIsSubmitted(true);
     } catch (error) {
       console.error('Error submitting questionnaire:', error);
-      alert('Failed to submit questionnaire.');
+      setError('Failed to submit questionnaire. Please try again later.');
     }
+    setIsSubmitting(false);
   };
+
+  if (isSubmitted) {
+    return (
+        <div className="text-center bg-brand-dark p-8 rounded-lg max-w-3xl mx-auto border border-slate-700">
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Thank you for your submission!</h2>
+            <p className="text-slate-300 text-lg mb-6">We have received your project details and will be in touch shortly to discuss the next steps.</p>
+        </div>
+    );
+  }
 
   const renderStep = () => {
     const step = steps[currentStep];
@@ -123,15 +139,17 @@ export default function QuestionnaireForm({ clientData }: QuestionnaireFormProps
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-8 bg-white shadow-lg rounded-lg">
+    <div className="max-w-3xl mx-auto bg-brand-dark p-8 rounded-lg border border-slate-800 space-y-8">
       <ProgressBar currentStep={currentStep} totalSteps={steps.length} />
       {renderStep()}
+      {error && <p className="text-red-500 text-center bg-red-900/20 p-3 rounded-md">{error}</p>}
       <NavigationButtons
         currentStep={currentStep}
         totalSteps={steps.length}
         onPrev={handlePrev}
         onNext={handleNext}
         onSubmit={handleSubmit}
+        isSubmitting={isSubmitting}
       />
     </div>
   );

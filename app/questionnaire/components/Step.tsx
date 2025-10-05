@@ -13,20 +13,22 @@ interface StepProps {
 
 const Step: React.FC<StepProps> = ({ step, formData, aiLoading, onChange, onEnhance, onSuggest }) => {
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-4">{step.title}</h2>
-      {step.questions?.map((q) => (
-        <Question
-          key={q.id}
-          question={q}
-          formData={formData}
-          aiLoading={aiLoading}
-          onChange={onChange}
-          onEnhance={onEnhance}
-          onSuggest={onSuggest}
-        />
-      ))}
-    </div>
+    <fieldset>
+      <legend className="text-xl font-semibold text-white mb-4">{step.title}</legend>
+        <div className="space-y-6">
+        {step.questions?.map((q) => (
+            <Question
+            key={q.id}
+            question={q}
+            formData={formData}
+            aiLoading={aiLoading}
+            onChange={onChange}
+            onEnhance={onEnhance}
+            onSuggest={onSuggest}
+            />
+        ))}
+        </div>
+    </fieldset>
   );
 };
 
