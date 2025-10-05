@@ -10,10 +10,12 @@
     "genkit": "genkit"
   },
   "dependencies": {
+    "@genkit-ai/googleai": "^1.20.0",
     "@heroicons/react": "^2.1.4",
     "@tailwindcss/postcss": "^4.1.13",
     "cloudinary": "^2.7.0",
     "firebase": "^12.2.1",
+    "genkit": "^1.20.0",
     "lucide-react": "^0.544.0",
     "next": "15.5.4",
     "react": "19.2.0",
