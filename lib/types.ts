@@ -3,7 +3,7 @@ export interface ClientData {
     businessName?: string;
     email?: string;
     phone: string;
-    bookings: {
+    bookings : {
         servicePackage: string;
         serviceTitle: string;
         submittedAt: any; // Firestore timestamp
@@ -12,7 +12,7 @@ export interface ClientData {
 
 export interface ServicePackage {
     title: string;
-    slug: string;
+    serviceUrl: string;
     price: string;
     description: string;
     longDescription: string;
@@ -74,8 +74,8 @@ export interface Author {
     avatarUrl: string;
 }
 
-export interface BlogPost {
-    slug: string;
+export interface blogs {
+    blogs : string;
     title:string;
     authorId: string;
     date: string;

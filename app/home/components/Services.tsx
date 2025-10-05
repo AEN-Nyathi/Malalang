@@ -30,8 +30,8 @@ const Services: React.FC = () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
-          {SERVICE_PACKAGES.slice(0, 3).map((pkg: ServicePackage) => (
-            <ServiceCard key={pkg.title} packageInfo={pkg} />
+          {SERVICE_PACKAGES.slice(0, 3).map((servicePackage: ServicePackage) => (
+            <ServiceCard key={servicePackage.title} packageInfo={servicePackage} />
           ))}
         </div>
         

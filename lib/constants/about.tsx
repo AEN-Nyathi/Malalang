@@ -121,7 +121,7 @@ export const projects: Project[] = [
     },
     {
         name: "Sally Sigma",
-        description: "Discover unforgettable destinations and seamless bookings with Sally M Travels & Tours. Specializing in group travel experiences across Southern Africa.",
+        description: "Discover unforgettable destinations and seamless Service with Sally M Travels & Tours. Specializing in group travel experiences across Southern Africa.",
         image: "/assets/Sally_Logo.jpg",
         link: "https://sally-omega.vercel.app/"
     },

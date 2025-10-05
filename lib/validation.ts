@@ -1,25 +1,21 @@
-
 import { z } from 'zod';
 
-export const questionnaireSchema = z.object({
-  fullName: z.string().min(1, 'Full name is required'),
-  businessName: z.string().optional(),
-  email: z.string().email('Invalid email address').optional(),
-  phone: z.string().regex(/^\+27\d{9}$/, 'Phone number must be a valid 9-digit South African number.'),
-  meetingType: z.enum(['Face-to-Face', 'Virtual']),
-  meetingLocation: z.string().optional(),
-  officeLocation: z.string().optional(),
-  preferredDate: z.string().min(1, 'Preferred date is required'),
-  preferredTime: z.string().min(1, 'Preferred time is required'),
-  servicePackage: z.string().min(1, 'Service package is required'),
-  additionalNotes: z.string().optional(),
-  isWhatsApp: z.boolean().optional(),
-}).refine(data => {
-    if (data.meetingType === 'Face-to-Face' && data.meetingLocation === 'My Office' && !data.officeLocation) {
-        return false;
-    }
-    return true;
-}, {
-    message: 'Office location is required when you select "My Office"',
-    path: ['officeLocation'],
+export const bookingFormSchema = z.object({
+    fullName: z.string().min(1, { message: 'Full name is required' }),
+    email: z.string().email({ message: 'Invalid email address' }),
+    phone: z.string().min(9, { message: 'Phone number must be a valid 9-digit South African number' }),
+    businessName: z.string().optional(),
+    meetingType: z.string(),
+    meetingLocation: z.string().optional(),
+    officeLocation: z.string().optional(),
+    preferredDate: z.string().optional(),
+    preferredTime: z.string().optional(),
+    servicePackage: z.string(),
+    additionalNotes: z.string().optional(),
+});
+
+export const websiteBlueprintSchema = z.object({
+    business_name: z.string().min(1, { message: 'Business name is required' }),
+    business_summary: z.string().min(1, { message: 'Business summary is required' }),
+    target_audience: z.string().min(1, { message: 'Target audience is required' }),
 });

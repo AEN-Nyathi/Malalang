@@ -1,5 +1,5 @@
 import React from 'react';
-import type { BlogPost, Author } from '@/lib/types.ts';
+import type {blogs , Author } from '@/lib/types.ts';
 
 export const AUTHORS: Author[] = [
   {
@@ -12,9 +12,9 @@ export const AUTHORS: Author[] = [
 ];
 
 
-export const BLOG_POSTS: BlogPost[] = [
+export const BLOG_POSTS: blogs[] = [
   {
-    slug: 'choosing-the-right-web-package',
+    blogs : 'choosing-the-right-web-package',
     title: 'How to Choose the Right Web Development Package for Your Business',
     authorId: 'abram-ntsako',
     date: 'August 02, 2024',
@@ -59,7 +59,7 @@ export const BLOG_POSTS: BlogPost[] = [
     ),
   },
   {
-    slug: 'why-your-small-business-needs-a-website',
+    blogs : 'why-your-small-business-needs-a-website',
     title: '5 Reasons Why Every Phalaborwa Small Business Needs a Website in 2024',
     authorId: 'abram-ntsako',
     date: 'July 26, 2024',
@@ -85,7 +85,7 @@ export const BLOG_POSTS: BlogPost[] = [
     ),
   },
   {
-    slug: 'understanding-our-no-deposit-model',
+    blogs : 'understanding-our-no-deposit-model',
     title: 'The Malalang Difference: How Our "Pay on Completion" Model Benefits You',
     authorId: 'abram-ntsako',
     date: 'July 20, 2024',
@@ -109,7 +109,7 @@ export const BLOG_POSTS: BlogPost[] = [
     ),
   },
   {
-    slug: 'seo-101-for-phalaborwa-businesses',
+    blogs : 'seo-101-for-phalaborwa-businesses',
     title: 'SEO 101 for Phalaborwa Businesses',
     authorId: 'abram-ntsako',
     date: 'August 10, 2024',
@@ -134,7 +134,7 @@ export const BLOG_POSTS: BlogPost[] = [
     ),
   },
   {
-    slug: 'why-your-website-must-be-mobile-friendly',
+    blogs : 'why-your-website-must-be-mobile-friendly',
     title: 'Why Your Website Must Be Mobile-Friendly in 2024',
     authorId: 'abram-ntsako',
     date: 'August 15, 2024',
@@ -161,7 +161,7 @@ export const BLOG_POSTS: BlogPost[] = [
     ),
   },
   {
-    slug: 'beginners-guide-to-domains-and-hosting',
+    blogs : 'beginners-guide-to-domains-and-hosting',
     title: "A Beginner\'s Guide to Domain Names and Hosting",
     authorId: 'abram-ntsako',
     date: 'August 22, 2024',
@@ -185,7 +185,7 @@ export const BLOG_POSTS: BlogPost[] = [
     ),
   },
   {
-    slug: '5-tips-for-writing-website-content',
+    blogs : '5-tips-for-writing-website-content',
     title: '5 Tips for Writing Website Content That Converts',
     authorId: 'abram-ntsako',
     date: 'September 01, 2024',
@@ -211,7 +211,7 @@ export const BLOG_POSTS: BlogPost[] = [
     ),
   },
   {
-    slug: 'website-expense-or-investment',
+    blogs : 'website-expense-or-investment',
     title: 'Is a Website an Expense or an Investment?',
     authorId: 'abram-ntsako',
     date: 'September 08, 2024',
@@ -238,7 +238,7 @@ export const BLOG_POSTS: BlogPost[] = [
     ),
   },
   {
-    slug: '7-essential-website-security-practices',
+    blogs : '7-essential-website-security-practices',
     title: '7 Essential Security Practices for Your Small Business Website',
     authorId: 'abram-ntsako',
     date: 'September 15, 2024',
@@ -265,7 +265,7 @@ export const BLOG_POSTS: BlogPost[] = [
     ),
   },
   {
-    slug: 'google-business-profile-guide',
+    blogs : 'google-business-profile-guide',
     title: 'Your Google Business Profile: The Most Important Local Listing',
     authorId: 'abram-ntsako',
     date: 'September 23, 2024',
@@ -293,7 +293,7 @@ export const BLOG_POSTS: BlogPost[] = [
     ),
   },
   {
-    slug: 'red-flags-when-hiring-web-developer',
+    blogs : 'red-flags-when-hiring-web-developer',
     title: 'Red Flags to Watch for When Hiring a Web Developer',
     authorId: 'abram-ntsako',
     date: 'October 02, 2024',
@@ -318,7 +318,7 @@ export const BLOG_POSTS: BlogPost[] = [
     ),
   },
   {
-    slug: 'social-media-for-website-traffic',
+    blogs : 'social-media-for-website-traffic',
     title: 'How to Use Social Media to Drive Traffic to Your Website',
     authorId: 'abram-ntsako',
     date: 'October 11, 2024',
@@ -344,7 +344,7 @@ export const BLOG_POSTS: BlogPost[] = [
     ),
   },
   {
-    slug: 'understanding-website-maintenance',
+    blogs : 'understanding-website-maintenance',
     title: 'Understanding Website Maintenance: Our Web Care Plan Explained',
     authorId: 'abram-ntsako',
     date: 'October 18, 2024',

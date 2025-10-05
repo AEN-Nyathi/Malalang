@@ -16,18 +16,18 @@ const CheckIcon = () => (
     </svg>
 );
 
-const ServiceDetail: React.FC<{ pkg: ServicePackage }> = ({ pkg }) => (
-    <div id={pkg.slug} className="bg-brand-dark p-8 rounded-lg border border-slate-700/50 mb-12 scroll-mt-20">
+const ServiceDetail: React.FC<{ servicePackage: ServicePackage }> = ({ servicePackage }) => (
+    <div id={servicePackage.serviceUrl} className="bg-brand-dark p-8 rounded-lg border border-slate-700/50 mb-12 scroll-mt-20">
         <div className="grid md:grid-cols-2 gap-8">
             <div>
-                <h3 className="text-3xl font-bold text-white">{pkg.title}</h3>
-                <p className="text-5xl font-extrabold text-brand-primary my-4">{pkg.price}</p>
-                <p className="text-slate-300 mb-4">{pkg.longDescription}</p>
-                {pkg.isCombo && pkg.savingsNote && (
-                    <p className="text-green-400 font-bold mb-4">{pkg.savingsNote}</p>
+                <h3 className="text-3xl font-bold text-white">{servicePackage.title}</h3>
+                <p className="text-5xl font-extrabold text-brand-primary my-4">{servicePackage.price}</p>
+                <p className="text-slate-300 mb-4">{servicePackage.longDescription}</p>
+                {servicePackage.isCombo && servicePackage.savingsNote && (
+                    <p className="text-green-400 font-bold mb-4">{servicePackage.savingsNote}</p>
                 )}
                 <Link 
-                    href={`/questionnaire/${pkg.slug}`}
+                    href={`/services/${servicePackage.serviceUrl}/${servicePackage.serviceUrl}`}
                     className="inline-block bg-brand-primary hover:bg-brand-primary/80 text-white font-bold py-3 px-6 rounded-lg text-lg transition-transform transform hover:scale-105 duration-300 mt-4"
                 >
                     Get Started
@@ -36,7 +36,7 @@ const ServiceDetail: React.FC<{ pkg: ServicePackage }> = ({ pkg }) => (
             <div>
                 <h4 className="text-xl font-semibold text-white mb-2">What's Included:</h4>
                 <ul className="space-y-3 text-slate-300">
-                    {pkg.features.map(feature => (
+                    {servicePackage.features.map(feature => (
                         <li key={feature} className="flex items-start">
                             <CheckIcon />
                             <span className="ml-3">{feature}</span>
@@ -44,7 +44,7 @@ const ServiceDetail: React.FC<{ pkg: ServicePackage }> = ({ pkg }) => (
                     ))}
                 </ul>
                  <div className="mt-6 bg-slate-800/50 p-4 rounded-lg">
-                    <p className="font-semibold text-slate-200">Ideal for: <span className="font-normal text-slate-400">{pkg.idealFor}</span></p>
+                    <p className="font-semibold text-slate-200">Ideal for: <span className="font-normal text-slate-400">{servicePackage.idealFor}</span></p>
                 </div>
             </div>
         </div>
@@ -65,8 +65,8 @@ const PricingPage: React.FC = () => {
 
         <section className="py-20 bg-slate-900">
             <div className="container mx-auto px-6">
-                {SERVICE_PACKAGES.filter(p => !p.isCombo).map(pkg => (
-                    <ServiceDetail key={pkg.title} pkg={pkg} />
+                {SERVICE_PACKAGES.filter(p => !p.isCombo).map(servicePackage => (
+                    <ServiceDetail key={servicePackage.title} servicePackage={servicePackage} />
                 ))}
             </div>
         </section>
@@ -76,8 +76,8 @@ const PricingPage: React.FC = () => {
                  <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold text-white">Special Combo Package</h2>
                 </div>
-                {SERVICE_PACKAGES.filter(p => p.isCombo).map(pkg => (
-                    <ServiceDetail key={pkg.title} pkg={pkg} />
+                {SERVICE_PACKAGES.filter(p => p.isCombo).map(servicePackage => (
+                    <ServiceDetail key={servicePackage.title} servicePackage={servicePackage} />
                 ))}
             </div>
         </section>

@@ -6,13 +6,13 @@ import Link from 'next/link';
 import { BLOG_POSTS, AUTHORS } from '@/lib/constants/blog';
 import SocialShareButtons from './components/SocialShareButtons';
 import CommentsSection from './components/CommentsSection';
-import type { BlogPost } from '@/lib/types';
+import type { blogs } from '@/lib/types';
 
 const BlogPostPage: React.FC = () => {
   const params = useParams();
-  const slug = params.blogs as string;
+  const blogs  = params.blogs as string;
 
-  const post = BLOG_POSTS.find(p => p.slug === slug);
+  const post = BLOG_POSTS.find(p => p.blogs  === blogs );
   const author = post ? AUTHORS.find(a => a.id === post.authorId) : null;
 
   if (!post || !author) {
@@ -30,8 +30,8 @@ const BlogPostPage: React.FC = () => {
   }
 
   const getRelatedPosts = () => {
-    const allOtherPosts = BLOG_POSTS.filter(p => p.slug !== slug);
-    let candidates = new Set<BlogPost>();
+    const allOtherPosts = BLOG_POSTS.filter(p => p.blogs  !== blogs );
+    let candidates = new Set<blogs>();
 
     // 1. By Tags
     if (post.tags && post.tags.length > 0) {
@@ -60,7 +60,7 @@ const BlogPostPage: React.FC = () => {
   };
 
   const relatedPosts = getRelatedPosts();
-  const postUrl = typeof window !== 'undefined' ? `https://malalang.vercel.app/blog/${slug}` : '';
+  const postUrl = typeof window !== 'undefined' ? `https://malalang.vercel.app/blog/${blogs }` : '';
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -141,7 +141,7 @@ const BlogPostPage: React.FC = () => {
               <h2 className="text-3xl font-bold text-white mb-8 border-b border-slate-700 pb-4">You Might Also Like</h2>
               <div className="grid md:grid-cols-2 gap-8">
                   {relatedPosts.map(relatedPost => (
-                      <Link key={relatedPost.slug} href={`/blog/${relatedPost.slug}`} className="block bg-brand-dark rounded-lg overflow-hidden shadow-lg group">
+                      <Link key={relatedPost.blogs } href={`/blog/${relatedPost.blogs }`} className="block bg-brand-dark rounded-lg overflow-hidden shadow-lg group">
                           <img src={relatedPost.imageUrl} alt={relatedPost.title} className="w-full h-48 object-cover group-hover:opacity-80 transition-opacity duration-300" />
                           <div className="p-6">
                               <h3 className="text-xl font-bold text-white group-hover:text-brand-primary transition-colors duration-300">{relatedPost.title}</h3>

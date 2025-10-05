@@ -21,18 +21,18 @@ const RecentPosts: React.FC = () => {
           {recentPosts.map((post) => {
             const author = authorsById[post.authorId];
             return (
-              <div key={post.slug} className="bg-slate-900 rounded-lg overflow-hidden shadow-lg flex flex-col group">
-                <Link href={`/blog/${post.slug}`} className="block">
+              <div key={post.blogs } className="bg-slate-900 rounded-lg overflow-hidden shadow-lg flex flex-col group">
+                <Link href={`/blog/${post.blogs }`} className="block">
                   <img src={post.imageUrl} alt={post.title} className="w-full h-56 object-cover group-hover:opacity-80 transition-opacity duration-300" />
                 </Link>
                 <div className="p-6 flex flex-col flex-grow">
                   <p className="text-sm text-slate-400">{post.date} &bull; {author?.name || 'Unknown Author'}</p>
                   <h3 className="text-xl font-bold text-white mt-2 mb-3 group-hover:text-brand-primary transition-colors duration-300">
-                    <Link href={`/blog/${post.slug}`}>{post.title}</Link>
+                    <Link href={`/blog/${post.blogs }`}>{post.title}</Link>
                   </h3>
                   <p className="text-slate-300 flex-grow text-base">{post.excerpt}</p>
                   <div className="mt-4">
-                    <Link href={`/blog/${post.slug}`} className="font-semibold text-brand-primary hover:text-brand-secondary transition-colors duration-300">
+                    <Link href={`/blog/${post.blogs }`} className="font-semibold text-brand-primary hover:text-brand-secondary transition-colors duration-300">
                       Read More &rarr;
                     </Link>
                   </div>

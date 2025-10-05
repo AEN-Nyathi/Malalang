@@ -15,7 +15,7 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
   },
   {
     title: "Sally Sigma",
-    description: "Discover unforgettable destinations and seamless bookings with Sally M Travels & Tours. Specializing in group travel experiences across Southern Africa.",
+    description: "Discover unforgettable destinations and seamless Service with Sally M Travels & Tours. Specializing in group travel experiences across Southern Africa.",
     imageUrl: "/assets/Sally_Logo.jpg",
     category: "Travel & Tours"
   },

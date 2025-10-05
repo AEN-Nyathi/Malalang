@@ -5,6 +5,7 @@ import QuestionnaireForm from './components/QuestionnaireForm';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { ClientData } from '@/lib/types';
+import PhoneNumberInput from '@/components/PhoneNumberInput';
 
 const QuestionnairePage: React.FC = () => {
     type FlowState = 'initial' | 'prompt-phone' | 'loading' | 'form-loaded';
@@ -21,28 +22,16 @@ const QuestionnairePage: React.FC = () => {
         setFlowState('loading');
         setError(null);
 
-        // Normalize and generate phone number variations
-        const cleanedPhone = phone.replace(/\s/g, ''); // Remove spaces
-        const phoneVariations = new Set([cleanedPhone]);
-
-        if (cleanedPhone.startsWith('+27')) {
-            phoneVariations.add('0' + cleanedPhone.substring(3));
-        } else if (cleanedPhone.startsWith('27')) {
-            phoneVariations.add('0' + cleanedPhone.substring(2));
-        } else if (cleanedPhone.startsWith('0')) {
-            phoneVariations.add('+27' + cleanedPhone.substring(1));
-        }
+        const fullPhoneNumber = `+27${phone}`;
 
         let foundData: ClientData | null = null;
 
         try {
-            for (const p of phoneVariations) {
-                const clientRef = doc(db, 'clients', p);
-                const docSnap = await getDoc(clientRef);
-                if (docSnap.exists()) {
-                    foundData = docSnap.data() as ClientData;
-                    break; // Exit loop once found
-                }
+            const clientRef = doc(db, 'clients', fullPhoneNumber);
+            const docSnap = await getDoc(clientRef);
+
+            if (docSnap.exists()) {
+                foundData = docSnap.data() as ClientData;
             }
 
             if (foundData) {
@@ -85,17 +74,17 @@ const QuestionnairePage: React.FC = () => {
         <div className="text-center bg-brand-dark p-8 rounded-lg max-w-2xl mx-auto border border-slate-700">
             <h2 className="text-2xl font-bold text-white mb-2">Find Your Booking</h2>
             <p className="text-slate-400 mb-6">Please enter the phone number you used during your booking.</p>
-            <div className="flex flex-col items-center gap-4">
-                <input
-                    type="tel"
+            <div className="flex flex-col items-center gap-4 w-full max-w-sm mx-auto">
+                <PhoneNumberInput
+                    id="phone-lookup"
+                    name="phone-lookup"
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    placeholder="e.g., 0821234567"
-                    className="w-full max-w-sm px-4 py-2 bg-slate-800 border border-slate-600 rounded-md text-white focus:outline-none focus:ring-brand-primary focus:border-brand-primary"
+                    onChange={setPhone}
+                    placeholder="e.g., 712345678"
                 />
                 <button
                     onClick={handleFetchClientData}
-                    className="bg-brand-primary hover:bg-brand-primary/80 text-white font-bold py-2 px-8 rounded-lg transition-colors w-full max-w-sm"
+                    className="bg-brand-primary hover:bg-brand-primary/80 text-white font-bold py-2 px-8 rounded-lg transition-colors w-full"
                 >
                     Find My Booking
                 </button>

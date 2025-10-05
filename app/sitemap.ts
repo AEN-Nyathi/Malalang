@@ -23,14 +23,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   const blogPostRoutes = BLOG_POSTS.map(post => ({
-    url: `${BASE_URL}/blog/${post.slug}`,
+    url: `${BASE_URL}/blog/${post.blogs }`,
     lastModified: new Date(post.date),
     changeFrequency: 'weekly' as const,
     priority: 0.7,
   }));
 
   const serviceRoutes = SERVICE_PACKAGES.map(service => ({
-    url: `${BASE_URL}/services/${service.slug}`,
+    url: `${BASE_URL}/services/${service.serviceUrl}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.9,

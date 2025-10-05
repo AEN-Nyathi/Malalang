@@ -10,19 +10,19 @@ export const metadata: Metadata = {
   description: 'Explore our web development services. We offer tailored solutions to meet the unique needs of local businesses in Phalaborwa, from starter websites to advanced e-commerce platforms.',
 };
 
-const ServiceDetailCard: React.FC<{ service: ServicePackage }> = ({ service }) => (
+const ServiceDetailCard: React.FC<{ ServicePackage: ServicePackage }> = ({ ServicePackage }) => (
   <div className="bg-brand-dark p-8 rounded-lg border border-slate-800 flex flex-col group hover:border-brand-primary/50 transition-colors duration-300">
-    <h3 className="text-3xl font-bold text-brand-primary mb-4">{service.title}</h3>
-    <p className="text-slate-400 text-lg mb-6 flex-grow">{service.description}</p>
+    <h3 className="text-3xl font-bold text-brand-primary mb-4">{ServicePackage.title}</h3>
+    <p className="text-slate-400 text-lg mb-6 flex-grow">{ServicePackage.description}</p>
     
     <div className="mb-6">
         <p className="text-slate-300">
-            <span className="font-semibold text-white">Best for:</span> {service.bestFor}
+            <span className="font-semibold text-white">Best for:</span> {ServicePackage.bestFor}
         </p>
     </div>
 
     <div>
-        <Link href={`/services/${service.slug}`} className="font-semibold text-brand-primary hover:text-brand-secondary transition-colors duration-300">
+        <Link href={`/services/${ServicePackage.serviceUrl}`} className="font-semibold text-brand-primary hover:text-brand-secondary transition-colors duration-300">
           Learn More &rarr;
         </Link>
     </div>
@@ -42,8 +42,8 @@ const ServicesPage: React.FC = () => {
           </div>
 
           <div className="grid lg:grid-cols-1 gap-8 max-w-4xl mx-auto">
-            {SERVICE_PACKAGES.map(pkg => (
-              <ServiceDetailCard key={pkg.title} service={pkg} />
+            {SERVICE_PACKAGES.map(servicePackage => (
+              <ServiceDetailCard key={servicePackage.title} ServicePackage={servicePackage} />
             ))}
           </div>
 

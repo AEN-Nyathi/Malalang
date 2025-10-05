@@ -5,7 +5,7 @@ import type { ServicePackage, AddonService, AddonCategory, RecurringService } fr
 export const SERVICE_PACKAGES: ServicePackage[] = [
   {
     title: 'Landing Page',
-    slug: 'landing-page',
+    serviceUrl: 'landing-page',
     price: 'R1,000',
     description: 'A focused single-page website to convert visitors for a specific campaign or goal.',
     longDescription: "Perfect for marketing campaigns, product launches, or events, a landing page is a highly focused, single-page website designed for one purpose: to convert visitors into leads or customers. We craft a compelling narrative with a clear call-to-action to maximize your campaign's effectiveness.",
@@ -23,7 +23,7 @@ export const SERVICE_PACKAGES: ServicePackage[] = [
   },
   {
     title: 'Base Package',
-    slug: 'economic-package',
+    serviceUrl: 'economic-package',
     price: 'R1,500',
     description: 'A professional 5-page website, perfect for building a strong and comprehensive online presence.',
     longDescription: "Our Base Package is the perfect choice for businesses needing a complete and professional online footprint. With up to 5 pages, you have the space to detail your services, introduce your team, and provide essential information to your customers. This package focuses on creating a clean, functional, and mobile-friendly website that establishes your credibility and serves as a digital hub for your business.",
@@ -45,7 +45,7 @@ export const SERVICE_PACKAGES: ServicePackage[] = [
   },
   {
     title: 'Standard Package',
-    slug: 'standard-package',
+    serviceUrl: 'standard-package',
     price: 'R2,500',
     description: 'Our most popular option for a complete, custom-designed online presence with advanced features.',
     longDescription: "This is our flagship offering and the ideal choice for most small to medium-sized businesses looking to make a serious impact. The Standard Package moves beyond templates to provide a fully custom-designed website that reflects your unique brand identity and business goals. With up to 8 pages, we can build a comprehensive site that details your services, showcases your work, and is optimized from the ground up to attract and convert visitors.",
@@ -69,7 +69,7 @@ export const SERVICE_PACKAGES: ServicePackage[] = [
   },
   {
     title: 'E-commerce Package',
-    slug: 'e-commerce-package',
+    serviceUrl: 'e-commerce-package',
     price: 'From R5,000',
     description: 'A fully functional online store to sell your products. Price scales with complexity.',
     longDescription: "Ready to sell your products online? The E-commerce Package is your all-in-one solution for launching a powerful and secure online store. We handle everything from the initial setup and design to product management systems and secure payment gateway integration (like Paystack or Yoco). The design is fully customized to create an enjoyable shopping experience for your customers, encouraging sales and repeat business.",
@@ -94,7 +94,7 @@ export const SERVICE_PACKAGES: ServicePackage[] = [
     ],
   },{
     title: 'Local Visibility Starter',
-    slug: 'local-startup',
+    serviceUrl: 'local-startup',
     price: 'R2,000', // Clear, fixed price
     description: 'The **Economic Package** plus all the tools needed to rank locally and track performance.',longDescription: "This special package combines the full features of our **Economic Package** with the top add-ons needed to get your business found on Google Maps and track customer behavior. It's the most cost-effective way to get a comprehensive site that is ready to attract local customers.",
     idealFor: "Restaurants, service providers, or any local business that needs a comprehensive site plus a clear path to ranking on Google Maps and local search results.",

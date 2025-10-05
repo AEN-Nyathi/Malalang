@@ -6,17 +6,17 @@ import { db } from '@/lib/firebase';
 import { ServicePackage } from '@/lib/types';
 import { SERVICE_PACKAGES } from '@/lib/constants/services';
 import { z, ZodError } from 'zod';
-import { questionnaireSchema } from '@/lib/validation';
+import { bookingFormSchema } from '@/lib/validation';
 import PhoneNumberInput from '@/components/PhoneNumberInput';
 
 interface Props {
     service: ServicePackage;
 }
 
-const ServiceQuestionnaireForm: React.FC<Props> = ({ service }) => {
+const BookingForm: React.FC<Props> = ({ service }) => {
     const [formData, setFormData] = useState<any>({
         meetingType: 'Face-to-Face',
-        servicePackage: service.slug,
+        servicePackage: service.serviceUrl,
         isWhatsApp: false,
         fullName: '',
         businessName: '',
@@ -56,7 +56,7 @@ const ServiceQuestionnaireForm: React.FC<Props> = ({ service }) => {
         };
 
         try {
-            questionnaireSchema.parse(dataToValidate);
+            bookingFormSchema.parse(dataToValidate);
         } catch (error) {
             if (error instanceof ZodError) {
                 const errors: any = {};
@@ -72,7 +72,7 @@ const ServiceQuestionnaireForm: React.FC<Props> = ({ service }) => {
 
         try {
             const submittedAt = new Date();
-            const serviceTitle = SERVICE_PACKAGES.find(p => p.slug === formData.servicePackage)?.title;
+            const serviceTitle = SERVICE_PACKAGES.find(p => p.serviceUrl === formData.servicePackage)?.title;
 
             const finalData = {
                 ...dataToValidate,
@@ -80,7 +80,7 @@ const ServiceQuestionnaireForm: React.FC<Props> = ({ service }) => {
                 submittedAt,
             };
 
-            await addDoc(collection(db, service.slug), finalData);
+            await addDoc(collection(db, service.serviceUrl), finalData);
 
             const clientRef = doc(db, 'clients', fullPhoneNumber);
             const clientSnap = await getDoc(clientRef);
@@ -214,8 +214,8 @@ const ServiceQuestionnaireForm: React.FC<Props> = ({ service }) => {
                     <div className="space-y-2">
                         <label htmlFor="servicePackage" className={labelClass}>Selected Service Package</label>
                         <select name="servicePackage" id="servicePackage" value={formData.servicePackage} onChange={handleChange} className={inputClass}>
-                            {SERVICE_PACKAGES.map(pkg => (
-                                <option key={pkg.slug} value={pkg.slug}>{pkg.title} – {pkg.price}</option>
+                            {SERVICE_PACKAGES.map(servicePackage => (
+                                <option key={servicePackage.serviceUrl} value={servicePackage.serviceUrl}>{servicePackage.title} – {servicePackage.price}</option>
                             ))}
                         </select>
                     </div>
@@ -236,4 +236,4 @@ const ServiceQuestionnaireForm: React.FC<Props> = ({ service }) => {
     );
 };
 
-export default ServiceQuestionnaireForm;
+export default BookingForm;
