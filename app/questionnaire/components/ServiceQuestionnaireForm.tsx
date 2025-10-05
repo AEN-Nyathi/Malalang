@@ -7,7 +7,7 @@ import { ServicePackage } from '@/lib/types';
 import { SERVICE_PACKAGES } from '@/lib/constants/services';
 import { z, ZodError } from 'zod';
 import { questionnaireSchema } from '@/lib/validation';
-import PhoneNumberInput from '@/app/components/PhoneNumberInput';
+import PhoneNumberInput from '@/components/PhoneNumberInput';
 
 interface Props {
     service: ServicePackage;
