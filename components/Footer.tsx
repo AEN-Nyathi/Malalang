@@ -1,10 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
-import { NAV_LINKS_FOOTER } from '@/lib/constants/navigation';
+import { FOOTER_LINKS } from '@/lib/constants/navigation';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
-  const footerLinks = NAV_LINKS_FOOTER.filter(link => link.name !== 'Home');
+  const footerLinks = FOOTER_LINKS.filter(link => link.name !== 'Home');
 
   return (
     <footer className="bg-slate-900 border-t border-slate-300/10" role="contentinfo">

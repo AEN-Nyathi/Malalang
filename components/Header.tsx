@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { NAV_LINKS } from '@/lib/constants/navigation';
+import { HEADER_LINKS } from '@/lib/constants/navigation';
 import { WHATSAPP_LINK } from '@/lib/constants/site';
 
 const Header: React.FC = () => {
@@ -18,7 +18,7 @@ const Header: React.FC = () => {
           </Link>
           
           <nav className="hidden md:flex items-center space-x-6" aria-label="Main navigation">
-            {NAV_LINKS.map(link => (
+            {HEADER_LINKS.map(link => (
               <Link
                 key={link.name}
                 href={link.href}
@@ -55,7 +55,7 @@ const Header: React.FC = () => {
         {isOpen && (
           <nav id="mobile-menu" className="md:hidden mt-4" aria-label="Mobile navigation">
             <div className="flex flex-col space-y-4">
-              {NAV_LINKS.map(link => (
+              {HEADER_LINKS.map(link => (
                 <Link
                   key={link.name}
                   href={link.href}

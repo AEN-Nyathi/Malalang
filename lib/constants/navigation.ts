@@ -1,4 +1,8 @@
-export const NAV_LINKS = [
+interface linkType{
+  name: string;
+  href: '/'|'/about'|'/services'|'/pricing'|'/blog'|'/contact'|'/color-palette-generator'|'/questionnaire';
+};
+export const HEADER_LINKS:linkType[] = [
   { name: 'Home', href: '/' },
   { name: 'About Us', href: '/about' },
   { name: 'Services', href: '/services' },
@@ -7,7 +11,7 @@ export const NAV_LINKS = [
   { name: 'Contact', href: '/contact' },
 ];
 
-export const NAV_LINKS_FOOTER = [
+export const FOOTER_LINKS:linkType[] = [
   { name: 'Home', href: '/' },
   { name: 'About Us', href: '/about' },
   { name: 'Services', href: '/services' },

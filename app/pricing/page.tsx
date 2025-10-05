@@ -128,7 +128,7 @@ const PricingPage: React.FC = () => {
                             <h3 className="text-2xl font-bold text-white">Web Care Plan</h3>
                              <p className="text-3xl font-bold text-white my-2">{RECURRING_SERVICE.price}</p>
                              <p className="text-slate-400">Includes hosting, security, backups, and 30 mins of monthly updates. Total peace of mind.</p>
-                             <Link href="/web-care" className="text-brand-primary hover:underline mt-3 inline-block font-semibold">Learn more &rarr;</Link>
+                             <Link href="#" className="text-brand-primary hover:underline mt-3 inline-block font-semibold">Learn more &rarr;</Link>
                         </div>
                     </div>
                 </div>
