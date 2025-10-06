@@ -17,7 +17,7 @@ interface QuestionProps {
 const Question: React.FC<QuestionProps> = ({ question, formData, aiLoading, onChange, onCheckboxChange, onFileUpload, onEnhance, onSuggest }) => {
   const questionText = question.text
     .replace('{businessName}', formData.businessName || 'your business')
-    .replace('{userName}', formData.userName || 'User');
+    .replace('{fullName}', formData.fullName || 'User');
 
   const inputClass = "block w-full px-3 py-2 bg-slate-800 border border-slate-600 rounded-md text-white focus:outline-none focus:ring-brand-primary focus:border-brand-primary";
   const labelClass = "block text-sm font-medium text-slate-300";

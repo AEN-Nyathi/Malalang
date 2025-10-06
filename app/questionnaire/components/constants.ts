@@ -6,7 +6,7 @@ export const steps: Step[] = [
     title: 'Business & Brand Identity',
     description: 'Tell us about your business.',
     questions: [
-      { id: 'contactPerson', text: 'Contact Person', type: 'text', required: true },
+      { id: 'fullName', text: 'Contact Person', type: 'text', required: true },
       { id: 'email', text: 'Email Address', type: 'email', required: true },
       { id: 'phone', text: 'Phone Number', type: 'tel' },
       { id: 'businessName', text: 'Business Name', type: 'text', required: true },

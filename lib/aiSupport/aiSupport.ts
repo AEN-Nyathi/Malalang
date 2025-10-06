@@ -12,13 +12,13 @@ export const enhanceAnswerFlow = ai.defineFlow(
       question: z.string(),
       answer: z.string(),
       businessName: z.string(),
-      userName: z.string(),
+      fullName: z.string(),
     }),
     outputSchema: z.string(),
   },
-  async ({ question, answer, businessName, userName }) => {
+  async ({ question, answer, businessName, fullName }) => {
     const prompt = `As an expert copywriter, enhance the following answer for a questionnaire.
-      The user's name is ${userName} and their business is called ${businessName}.
+      The user's name is ${fullName} and their business is called ${businessName}.
       Question: "${question}"
       User's Answer: "${answer}"
       Enhanced Answer:`;
@@ -41,13 +41,13 @@ export const suggestAnswerFlow = ai.defineFlow(
     inputSchema: z.object({
       question: z.string(),
       businessName: z.string(),
-      userName: z.string(),
+      fullName: z.string(),
     }),
     outputSchema: z.array(z.string()),
   },
-  async ({ question, businessName, userName }) => {
+  async ({ question, businessName, fullName }) => {
     const prompt = `As an expert business consultant, suggest 3-5 concise and creative answers for the following questionnaire question.
-    The user's name is ${userName} and their business is called ${businessName}.
+    The user's name is ${fullName} and their business is called ${businessName}.
     Question: "${question}"
     Suggestions (comma-separated):`;
 

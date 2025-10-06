@@ -12,7 +12,7 @@ import { FormData } from './types';
 
 interface QuestionnaireFormProps {
   clientData?: {
-    userName?: string;
+    fullName?: string;
     businessName?: string;
     email?: string;
     phone?: string;
@@ -36,7 +36,7 @@ export default function QuestionnaireForm({ clientData }: QuestionnaireFormProps
     });
 
     if (clientData) {
-      base.contactPerson = clientData.userName ?? base.contactPerson;
+      base.fullName = clientData.fullName ?? base.fullName;
       base.email = clientData.email ?? base.email;
       base.phone = clientData.phone ?? base.phone;
       base.businessName = clientData.businessName ?? base.businessName;
@@ -102,7 +102,7 @@ export default function QuestionnaireForm({ clientData }: QuestionnaireFormProps
             question: questionText,
             answer: formData[questionId] || '',
             businessName: formData.businessName || '',
-            userName: formData.userName || 'there',
+            fullName: formData.fullName || 'there',
           },
         }),
       });
@@ -127,7 +127,7 @@ export default function QuestionnaireForm({ clientData }: QuestionnaireFormProps
           payload: {
             question: questionText,
             businessName: formData.businessName || '',
-            userName: formData.userName || 'there',
+            fullName: formData.fullName || 'there',
           },
         }),
       });
