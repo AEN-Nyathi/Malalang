@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { db } from '@/lib/firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import ProgressBar from './ProgressBar';
@@ -14,24 +14,67 @@ interface QuestionnaireFormProps {
   clientData?: {
     userName?: string;
     businessName?: string;
+    email?: string;
+    phone?: string;
+    bookings?: { servicePackage: string }[];
   } | null;
 }
 
 export default function QuestionnaireForm({ clientData }: QuestionnaireFormProps) {
+  const initialFormData = useMemo(() => {
+    const base: Record<string, any> = {};
+    steps.forEach((step) => {
+        step.questions.forEach((q) => {
+            if (q.type === 'checkbox') base[q.id] = q.default ?? [];
+            else base[q.id] = q.default ?? '';
+            if (q.subQuestions) {
+                q.subQuestions.forEach((sq) => {
+                    base[sq.id] = sq.default ?? '';
+                });
+            }
+        });
+    });
+
+    if (clientData) {
+      base.contactPerson = clientData.userName ?? base.contactPerson;
+      base.email = clientData.email ?? base.email;
+      base.phone = clientData.phone ?? base.phone;
+      base.businessName = clientData.businessName ?? base.businessName;
+      base.servicePackage = clientData.bookings?.[0]?.servicePackage ?? base.servicePackage;
+    }
+
+    return base;
+  }, [clientData]);
+
   const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState<FormData>({
-    userName: clientData?.userName || 'there',
-    businessName: clientData?.businessName || '',
-  });
+  const [formData, setFormData] = useState<FormData>(initialFormData);
   const [aiLoading, setAiLoading] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  }, []);
+
+  const handleCheckboxChange = useCallback((id: string, option: string, checked: boolean) => {
+    setFormData((prev) => {
+      const current = Array.isArray(prev[id]) ? [...prev[id]] : [];
+      if (checked) {
+        if (!current.includes(option)) current.push(option);
+      } else {
+        const idx = current.indexOf(option);
+        if (idx >= 0) current.splice(idx, 1);
+      }
+      return { ...prev, [id]: current };
+    });
+  }, []);
+
+  const handleFileUpload = useCallback((id: string, url: string) => {
+    setFormData((prev) => ({ ...prev, [id]: url }));
+  }, []);
+
 
   const handleNext = () => {
     setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
@@ -89,7 +132,6 @@ export default function QuestionnaireForm({ clientData }: QuestionnaireFormProps
         }),
       });
       const data = await response.json();
-      // This simplistic alert will be replaced by a proper UI element in a subsequent step.
       alert(`Suggestions:\n- ${data.result.join('\n- ')}`);
     } catch (error) {
       console.error('Error suggesting answers:', error);
@@ -132,6 +174,8 @@ export default function QuestionnaireForm({ clientData }: QuestionnaireFormProps
         formData={formData}
         aiLoading={aiLoading}
         onChange={handleChange}
+        onCheckboxChange={handleCheckboxChange}
+        onFileUpload={handleFileUpload}
         onEnhance={handleEnhance}
         onSuggest={handleSuggest}
       />
