@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const bookingFormSchema = z.object({
-    fullName: z.string().min(1, { message: 'Full name is required' }),
+    userName: z.string().min(1, { message: 'Full name is required' }),
     email: z.string().email({ message: 'Invalid email address' }),
     phone: z.string().min(9, { message: 'Phone number must be a valid 9-digit South African number' }),
     businessName: z.string().optional(),

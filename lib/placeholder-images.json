@@ -1,0 +1,130 @@
+{
+  "placeholderImages": [
+    {
+      "id": "stock1",
+      "description": "Abstract blue waves",
+      "imageUrl": "https://picsum.photos/seed/stock1/400/300",
+      "imageHint": "abstract blue"
+    },
+    {
+      "id": "stock2",
+      "description": "Neon cityscape at night",
+      "imageUrl": "https://picsum.photos/seed/stock2/400/300",
+      "imageHint": "city night"
+    },
+    {
+      "id": "stock3",
+      "description": "Sunlit mountain range",
+      "imageUrl": "https://picsum.photos/seed/stock3/400/300",
+      "imageHint": "mountain sunrise"
+    },
+    {
+      "id": "stock4",
+      "description": "Developer coding on a laptop",
+      "imageUrl": "https://picsum.photos/seed/stock4/400/300",
+      "imageHint": "developer code"
+    },
+    {
+      "id": "stock5",
+      "description": "Futuristic robot arm",
+      "imageUrl": "https://picsum.photos/seed/stock5/400/300",
+      "imageHint": "robot technology"
+    },
+    {
+      "id": "stock6",
+      "description": "Complex data visualization",
+      "imageUrl": "https://picsum.photos/seed/stock6/400/300",
+      "imageHint": "data graph"
+    },
+    {
+      "id": "stock7",
+      "description": "Lush green forest",
+      "imageUrl": "https://picsum.photos/seed/stock7/400/300",
+      "imageHint": "nature forest"
+    },
+    {
+      "id": "stock8",
+      "description": "Close-up of a circuit board",
+      "imageUrl": "https://picsum.photos/seed/stock8/400/300",
+      "imageHint": "tech circuit"
+    },
+    {
+      "id": "stock9",
+      "description": "Ocean waves crashing on a beach",
+      "imageUrl": "https://picsum.photos/seed/stock9/400/300",
+      "imageHint": "nature beach"
+    },
+    {
+      "id": "stock10",
+      "description": "Modern office interior",
+      "imageUrl": "https://picsum.photos/seed/stock10/400/300",
+      "imageHint": "business office"
+    },
+    {
+      "id": "stock11",
+      "description": "Person working out",
+      "imageUrl": "https://picsum.photos/seed/stock11/400/300",
+      "imageHint": "fitness health"
+    },
+    {
+      "id": "stock12",
+      "description": "Delicious plate of food",
+      "imageUrl": "https://picsum.photos/seed/stock12/400/300",
+      "imageHint": "food cooking"
+    },
+    {
+      "id": "stock13",
+      "description": "Vibrant abstract painting",
+      "imageUrl": "https://picsum.photos/seed/stock13/400/300",
+      "imageHint": "art abstract"
+    },
+    {
+      "id": "stock14",
+      "description": "Historic European street",
+      "imageUrl": "https://picsum.photos/seed/stock14/400/300",
+      "imageHint": "travel city"
+    },
+    {
+      "id": "stock15",
+      "description": "AI brain network",
+      "imageUrl": "https://picsum.photos/seed/stock15/400/300",
+      "imageHint": "ai technology"
+    },
+    {
+      "id": "media1",
+      "description": "User uploaded abstract background",
+      "imageUrl": "https://picsum.photos/seed/media1/400/300",
+      "imageHint": "abstract background"
+    },
+    {
+      "id": "media2",
+      "description": "User uploaded photo of a person on a laptop",
+      "imageUrl": "https://picsum.photos/seed/media2/400/300",
+      "imageHint": "person laptop"
+    },
+    {
+      "id": "media3",
+      "description": "AI illustration",
+      "imageUrl": "https://picsum.photos/seed/media3/400/300",
+      "imageHint": "ai illustration"
+    },
+    {
+      "id": "media4",
+      "description": "Timeline UI screenshot",
+      "imageUrl": "https://picsum.photos/seed/media4/400/300",
+      "imageHint": "ui timeline"
+    },
+    {
+      "id": "media5",
+      "description": "Play button icon",
+      "imageUrl": "https://picsum.photos/seed/media5/400/300",
+      "imageHint": "play icon"
+    },
+    {
+      "id": "media6",
+      "description": "Video export thumbnail",
+      "imageUrl": "https://picsum.photos/seed/media6/400/300",
+      "imageHint": "video thumbnail"
+    }
+  ]
+}

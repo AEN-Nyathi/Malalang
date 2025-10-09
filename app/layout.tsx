@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 import Cta from '@/components/Cta';
 import SkipToContent from '@/components/SkipToContent';
 import { WHATSAPP_LINK } from '@/lib/constants/site';
+import { Toaster } from '@/components/ui/toaster';
 
 import { Metadata } from 'next';
 
@@ -79,7 +80,8 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <html lang="en">
-      <body className="bg-brand-dark text-brand-light font-sans antialiased">
+      <body className="bg-background text-brand-light font-sans antialiased">
+        <Toaster />
         <SkipToContent />
         <script
           type="application/ld+json"

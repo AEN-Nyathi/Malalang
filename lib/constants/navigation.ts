@@ -1,6 +1,6 @@
 interface linkType{
   name: string;
-  href: '/'|'/about'|'/services'|'/pricing'|'/blog'|'/contact'|'/color-palette-generator'|'/questionnaire';
+  href: '/'|'/about'|'/services'|'/pricing'|'/blog'|'/contact'|'/color-palette-generator'|'/questionnaire'|'/create-script' ;
 };
 export const HEADER_LINKS:linkType[] = [
   { name: 'Home', href: '/' },
@@ -20,4 +20,6 @@ export const FOOTER_LINKS:linkType[] = [
   { name: 'Palette Generator', href: '/color-palette-generator' },
   { name: 'Questionnaire', href: '/questionnaire' },
   { name: 'Contact', href: '/contact' },
+  { name: 'Video script', href: '/create-script' },
+
 ];

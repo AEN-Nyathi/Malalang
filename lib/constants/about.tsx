@@ -3,7 +3,7 @@ import { AUTHORS } from './blog';
 import { FaPhone, FaWhatsapp, FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaGithub, FaEnvelope, FaMapMarkerAlt, FaHtml5, FaCss3, FaJs, FaReact, FaFigma, FaUser } from 'react-icons/fa';
 import { SiNextdotjs, SiFirebase, SiAdobephotoshop, SiAdobeillustrator, SiAdobeaftereffects, SiAdobepremierepro } from 'react-icons/si';
 import { PiMicrosoftExcelLogo, PiMicrosoftPowerpointLogo, PiMicrosoftWordLogo } from 'react-icons/pi';
-import type { Value, Difference, TeamMember, Project } from '../types';
+import type { Value, Difference, TeamMember, MalalangProject } from '../types';
 
 export const values: Value[] = [
   {
@@ -106,56 +106,65 @@ export const teamMembers: TeamMember[] = [
  
 ];
 
-export const projects: Project[] = [
+export const projects: MalalangProject[] = [
     {
+        id: 'letshuntcrypto',
         name: "Let’s Hunt Crypto",
         description: "Let’s Hunt Crypto offers a comprehensive analysis of the cryptocurrency market. Besides monitoring price, volume, and market capitalization, it also tracks community growth, learning development, events, and family engagement.",
         image: "/assets/letshuntcrypto_Logo.png",
         link: "https://letshuntcrypto.web.app/"
     },
     {
+        id: 'worldclub',
         name: "World Club",
         description: "The World Club is an innovative savings scheme that leverages a hierarchical structure to maximize savings and earnings. Members join by paying a small fee and can recruit up to four new members, earning interest as their network grows.",
         image: "/assets/worldclub_Logo.png",
         link: "https://world-club.web.app/About"
     },
     {
+        id: 'sallysigma',
         name: "Sally Sigma",
         description: "Discover unforgettable destinations and seamless Service with Sally M Travels & Tours. Specializing in group travel experiences across Southern Africa.",
         image: "/assets/Sally_Logo.jpg",
         link: "https://sally-omega.vercel.app/"
     },
     {
+        id: 'vuxaka',
         name: "Vuxaka",
         description: "Vuxaka is a compassionate catering service that provides dignified and respectful culinary experiences for funerals and memorial services.",
         image: "/assets/vuxaka_Logo.png",
         link: "https://vuxaka.vercel.app/"
     },
     {
+        id: 'centraleatery',
         name: "Central Eatery",
         description: "Experience the unique convenience of delicious food and a state-of-the-art car wash, all in one place in Lulekani.",
         image: "/assets/central_eatery_Logo.png",
         link: "https://central-eatery.vercel.app/about"
     },
     {
+        id: 'lethokuhle',
         name: "Lethokuhle",
         description: "Nurturing Minds, Elevating Grades: Affordable After-School Care with a Heart.",
         image: "/assets/lethokuhle_Logo.png",
         link: "https://lethokuhle.vercel.app/"
     },
     {
+        id: 'bilacert',
         name: "Bilacert",
         description: "Bilacert is a platform for creating and managing digital certificates.",
         image: "/assets/bilacert_Logo.jpg",
         link: "https://bilacert.co.za/"
     },
     {
+        id: 'bilacore',
         name: "Bila Core Petroleums",
         description: "Your trusted diesel & lubricants partner in Limpopo, delivering excellence through innovation.",
         image: "/assets/BILACORE_LOGO.jpg",
         link: "https://www.bilacorepetroleums.co.za/"
     },
     {
+        id: 'daybyday',
         name: "Day by Day with God",
         description: "Day by Day with God Care Center is a nurturing and faith-based environment for children's growth and development.",
         image: "/assets/daybyday_Logo.png",

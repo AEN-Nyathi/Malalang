@@ -9,11 +9,11 @@ const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-brand-dark/80 backdrop-blur-lg border-b border-slate-300/10" role="banner">
+    <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-lg border-b border-slate-300/10" role="banner">
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <Link href="/" aria-label="Malalang Pty Ltd - Return to homepage" className="flex items-center gap-2">
-            <img src="/logo.jpg" alt="Malalang Pty Ltd - Professional Web Development" className="h-12 w-auto" />
+            <img src="/logo.jpg" alt="Malalang Pty Ltd - Professional Web Development" className="h-12 w-12 rounded-lg bg-white p-0.5" />
             <span className="text-3xl  font-bold text-white">Malalang</span>
           </Link>
           

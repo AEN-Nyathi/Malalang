@@ -1,125 +1,153 @@
+import type { ReactNode } from 'react';
+
+export interface ScriptSegment {
+  id: string;
+  text: string;
+  audioSrc: string | null;
+  visualSrc: string | null;
+  duration: number; // in seconds
+  videoSearchQuery: string;
+}
+
+export interface MediaAsset {
+  id: string;
+  name: string;
+  type: 'image' | 'video';
+  src: string;
+  thumbnail: string;
+  hint: string;
+}
+
 export interface ClientData {
-    fullName: string;
-    businessName?: string;
-    email?: string;
-    phone: string;
-    bookings : {
-        servicePackage: string;
-        serviceTitle: string;
-        submittedAt: any; // Firestore timestamp
-    }[];
+  fullName: string;
+  businessName?: string;
+  email?: string;
+  phone: string;
+  bookings : {
+      servicePackage: string;
+      serviceTitle: string;
+      submittedAt: any; // Firestore timestamp
+  }[];
 }
 
 export interface ServicePackage {
-    title: string;
-    serviceUrl: string;
-    price: string;
-    description: string;
-    longDescription: string;
-    idealFor: string;
-    bestFor: string;
-    features: string[];
-    isFeatured?: boolean;
-    isCombo?: boolean;
-    savingsNote?: string;
-    type?: 'static' | 'dynamic';
+  title: string;
+  serviceUrl: string;
+  price: string;
+  description: string;
+  longDescription: string;
+  idealFor: string;
+  bestFor: string;
+  features: string[];
+  isFeatured?: boolean;
+  isCombo?: boolean;
+  savingsNote?: string;
+  type?: 'static' | 'dynamic';
 }
 
 export interface AddonService {
-    title: string;
-    price: string;
+  title: string;
+  price: string;
 }
 
 export interface RecurringService {
-    title: string;
-    price: string;
-    description: string;
+  title: string;
+  price: string;
+  description: string;
 }
 
 export interface AddonCategory {
-    name: string;
-    addons: AddonService[];
+  name: string;
+  addons: AddonService[];
 }
 
 export interface ProcessStep {
-    step: number;
-    title: string;
-    description: string;
-    icon: React.ReactNode;
+  step: number;
+  title: string;
+  description: string;
+  icon: ReactNode;
 }
 
 export interface PortfolioItem {
-    title: string;
-    category: string;
-    imageUrl: string;
-    description: string;
+  title: string;
+  category: string;
+  imageUrl: string;
+  description: string;
 }
 
 export interface Testimonial {
-    quote: string;
-    author: string;
-    company: string;
+  quote: string;
+  author: string;
+  company: string;
 }
 
 export interface FaqItem {
-    question: string;
-    answer: string;
+  question: string;
+  answer: string;
 }
 
 export interface Author {
-    id: string;
-    name: string;
-    imageUrl: string;
-    bio: string;
-    avatarUrl: string;
+  id: string;
+  name: string;
+  imageUrl: string;
+  bio: string;
+  avatarUrl: string;
 }
 
 export interface blogs {
-    blogs : string;
-    title:string;
-    authorId: string;
-    date: string;
-    imageUrl: string;
-    excerpt: string;
-    content: React.ReactNode;
-    tags?: string[];
-    metaTitle: string;
-    metaDescription: string;
+  blogs : string;
+  title:string;
+  authorId: string;
+  date: string;
+  imageUrl: string;
+  excerpt: string;
+  content: ReactNode;
+  tags?: string[];
+  metaTitle: string;
+  metaDescription: string;
 }
 
 export interface Value {
-    icon: React.ReactNode;
-    title: string;
-    description: string;
+  icon: ReactNode;
+  title: string;
+  description: string;
 }
 
 export interface Difference {
-    icon: React.ReactNode;
-    title: string;
-    description: string;
+  icon: ReactNode;
+  title: string;
+  description: string;
 }
 
 export interface Skill {
-    name: string;
-    icon: React.ReactNode;
+  name: string;
+  icon: ReactNode;
 }
 
 export interface Contact {
-    name: string;
-    value: string;
-    icon: React.ReactNode;
-    link?: string;
+  name: string;
+  value: string;
+  icon: ReactNode;
+  link?: string;
 }
 
 export interface TeamMember extends Author {
-    title: string;
-    skills: Skill[];
-    contacts: Contact[];
+  title: string;
+  skills: Skill[];
+  contacts: Contact[];
 }
 
-export interface Project {
-    name: string;
-    description: string;
-    image: string;
-    link: string;
+export interface MalalangProject {
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+  link: string;
+}
+
+export interface VideoScriptProject {
+  id: string;
+  name: string;
+  scriptSegments: ScriptSegment[];
+  mediaAssets: MediaAsset[];
 }

@@ -36,7 +36,7 @@ export default function QuestionnaireForm({ clientData }: QuestionnaireFormProps
     });
 
     if (clientData) {
-      base.contactPerson = clientData.userName ?? base.contactPerson;
+      base.userName = clientData.userName ?? base.userName;
       base.email = clientData.email ?? base.email;
       base.phone = clientData.phone ?? base.phone;
       base.businessName = clientData.businessName ?? base.businessName;
@@ -132,7 +132,9 @@ export default function QuestionnaireForm({ clientData }: QuestionnaireFormProps
         }),
       });
       const data = await response.json();
-      alert(`Suggestions:\n- ${data.result.join('\n- ')}`);
+      if (data.result) {
+        alert(`Suggestions:\n- ${data.result.join('\n- ')}`);
+      }
     } catch (error) {
       console.error('Error suggesting answers:', error);
     }
@@ -154,7 +156,7 @@ export default function QuestionnaireForm({ clientData }: QuestionnaireFormProps
 
   if (isSubmitted) {
     return (
-        <div className="text-center bg-brand-dark p-8 rounded-lg max-w-3xl mx-auto border border-slate-700">
+        <div className="text-center bg-background p-8 rounded-lg max-w-3xl mx-auto border border-slate-700">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Thank you for your submission!</h2>
             <p className="text-slate-300 text-lg mb-6">We have received your project details and will be in touch shortly to discuss the next steps.</p>
         </div>
@@ -183,7 +185,7 @@ export default function QuestionnaireForm({ clientData }: QuestionnaireFormProps
   };
 
   return (
-    <div className="max-w-3xl mx-auto bg-brand-dark p-8 rounded-lg border border-slate-800 space-y-8">
+    <div className="max-w-3xl mx-auto bg-background p-8 rounded-lg border border-slate-800 space-y-8">
       <ProgressBar currentStep={currentStep} totalSteps={steps.length} />
       {renderStep()}
       {error && <p className="text-red-500 text-center bg-red-900/20 p-3 rounded-md">{error}</p>}

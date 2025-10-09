@@ -37,7 +37,7 @@ const About: React.FC = () => {
         
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {values.map((value) => (
-            <div key={value.title} className="bg-brand-dark p-6 rounded-lg text-center">
+            <div key={value.title} className="bg-background p-6 rounded-lg text-center">
               <div className="text-brand-primary inline-block p-4 bg-brand-primary/10 rounded-full mb-4">
                 {value.icon}
               </div>

@@ -17,7 +17,7 @@ const BlogPostPage: React.FC = () => {
 
   if (!post || !author) {
     return (
-      <div className="py-20 bg-brand-dark min-h-[60vh] flex items-center justify-center">
+      <div className="py-20 bg-background min-h-[60vh] flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-white mb-4">Post Not Found</h1>
           <p className="text-slate-400 mb-8">Sorry, we couldn't find the blog post you're looking for.</p>
@@ -116,7 +116,7 @@ const BlogPostPage: React.FC = () => {
           {post.content}
         </div>
 
-        <div className="mt-12 p-6 bg-brand-dark rounded-lg flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 border border-slate-800">
+        <div className="mt-12 p-6 bg-background rounded-lg flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 border border-slate-800">
           <img src={author.avatarUrl} alt={author.name} className="w-24 h-24 rounded-full object-cover flex-shrink-0" />
           <div>
             <p className="text-slate-400 text-sm uppercase tracking-wider">Written by</p>
@@ -141,7 +141,7 @@ const BlogPostPage: React.FC = () => {
               <h2 className="text-3xl font-bold text-white mb-8 border-b border-slate-700 pb-4">You Might Also Like</h2>
               <div className="grid md:grid-cols-2 gap-8">
                   {relatedPosts.map(relatedPost => (
-                      <Link key={relatedPost.blogs } href={`/blog/${relatedPost.blogs }`} className="block bg-brand-dark rounded-lg overflow-hidden shadow-lg group">
+                      <Link key={relatedPost.blogs } href={`/blog/${relatedPost.blogs }`} className="block bg-background rounded-lg overflow-hidden shadow-lg group">
                           <img src={relatedPost.imageUrl} alt={relatedPost.title} className="w-full h-48 object-cover group-hover:opacity-80 transition-opacity duration-300" />
                           <div className="p-6">
                               <h3 className="text-xl font-bold text-white group-hover:text-brand-primary transition-colors duration-300">{relatedPost.title}</h3>

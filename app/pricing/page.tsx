@@ -17,7 +17,7 @@ const CheckIcon = () => (
 );
 
 const ServiceDetail: React.FC<{ servicePackage: ServicePackage }> = ({ servicePackage }) => (
-    <div id={servicePackage.serviceUrl} className="bg-brand-dark p-8 rounded-lg border border-slate-700/50 mb-12 scroll-mt-20">
+    <div id={servicePackage.serviceUrl} className="bg-background p-8 rounded-lg border border-slate-700/50 mb-12 scroll-mt-20">
         <div className="grid md:grid-cols-2 gap-8">
             <div>
                 <h3 className="text-3xl font-bold text-white">{servicePackage.title}</h3>
@@ -71,7 +71,7 @@ const PricingPage: React.FC = () => {
             </div>
         </section>
 
-        <section className="py-20 bg-brand-dark">
+        <section className="py-20 bg-background">
             <div className="container mx-auto px-6">
                  <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold text-white">Special Combo Package</h2>
@@ -94,7 +94,7 @@ const PricingPage: React.FC = () => {
                         <h3 className="text-2xl font-bold text-white mb-6">Service Add-ons</h3>
                          <div className="space-y-8">
                             {ADDON_CATEGORIES.map(category => (
-                            <div key={category.name} className="bg-brand-dark p-6 rounded-lg border border-slate-700/50">
+                            <div key={category.name} className="bg-background p-6 rounded-lg border border-slate-700/50">
                                 <h4 className="text-xl font-semibold text-brand-primary mb-4">{category.name}</h4>
                                 <ul className="space-y-4">
                                 {category.addons.map(addon => (
@@ -135,7 +135,7 @@ const PricingPage: React.FC = () => {
             </div>
         </section>
 
-         <section id="faq" className="py-20 bg-brand-dark">
+         <section id="faq" className="py-20 bg-background">
             <div className="container mx-auto px-6 max-w-4xl">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-bold text-white">Frequently Asked Questions</h2>

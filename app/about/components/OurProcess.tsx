@@ -3,7 +3,7 @@ import { PROCESS_STEPS } from '@/lib/constants/process';
 
 const OurProcess: React.FC = () => {
   return (
-    <section id="process" className="py-20 md:py-28 bg-brand-dark">
+    <section id="process" className="py-20 md:py-28 bg-background">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-white">Our Client-Friendly Process</h2>
