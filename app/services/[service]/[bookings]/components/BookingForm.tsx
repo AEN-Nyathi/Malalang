@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { collection, addDoc, doc, setDoc, getDoc, arrayUnion } from 'firebase/firestore';
+import { collection, addDoc, doc, setDoc, getDoc, arrayUnion, writeBatch } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { ServicePackage } from '@/lib/types';
 import { SERVICE_PACKAGES } from '@/lib/constants/services';
@@ -18,7 +18,7 @@ const BookingForm: React.FC<Props> = ({ service }) => {
         meetingType: 'Face-to-Face',
         servicePackage: service.serviceUrl,
         isWhatsApp: false,
-        fullName: '',
+        userName: '',
         businessName: '',
         email: '',
         phone: '',
@@ -80,31 +80,39 @@ const BookingForm: React.FC<Props> = ({ service }) => {
                 submittedAt,
             };
 
-            await addDoc(collection(db, service.serviceUrl), finalData);
+            // Use a batch for atomic writes
+            const batch = writeBatch(db);
 
+            // 1. Create a ref for the new booking in the service collection
+            const serviceBookingRef = doc(collection(db, service.serviceUrl));
+            batch.set(serviceBookingRef, finalData);
+
+            // 2. Create/Update the client document
             const clientRef = doc(db, 'clients', fullPhoneNumber);
-            const clientSnap = await getDoc(clientRef);
+            const clientSnap = await getDoc(clientRef); // Read must happen before the batch
 
             const newBooking = {
                 servicePackage: formData.servicePackage,
                 serviceTitle,
                 submittedAt,
-                bookingId: (await addDoc(collection(db, 'clientBookings'), {})).id
+                bookingId: serviceBookingRef.id // Use the new booking ID
             };
 
             if (clientSnap.exists()) {
-                await setDoc(clientRef, {
+                batch.set(clientRef, {
                     ...finalData,
                     updatedAt: submittedAt,
                     bookings: arrayUnion(newBooking)
                 }, { merge: true });
             } else {
-                await setDoc(clientRef, {
+                batch.set(clientRef, {
                     ...finalData,
                     createdAt: submittedAt,
                     bookings: [newBooking]
                 });
             }
+
+            await batch.commit();
 
             setIsSubmitted(true);
         } catch (e) {
@@ -115,9 +123,10 @@ const BookingForm: React.FC<Props> = ({ service }) => {
         }
     };
 
+
     if (isSubmitted) {
         return (
-            <div className="text-center bg-brand-dark p-8 rounded-lg max-w-3xl mx-auto border border-slate-700">
+            <div className="text-center bg-background p-8 rounded-lg max-w-3xl mx-auto border border-slate-700">
                 <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Thank you for booking your first meeting with AEN Nyath.</h2>
                 <p className="text-slate-300 text-lg mb-6">We’re excited to learn more about your business and goals. You’ll receive a confirmation email shortly with the meeting details.</p>
             </div>
@@ -128,7 +137,7 @@ const BookingForm: React.FC<Props> = ({ service }) => {
     const labelClass = "block text-sm font-medium text-slate-300";
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-8 max-w-3xl mx-auto bg-brand-dark p-8 rounded-lg border border-slate-800">
+        <form onSubmit={handleSubmit} className="space-y-8 max-w-3xl mx-auto bg-background p-8 rounded-lg border border-slate-800">
             <div className="text-center">
                 <h2 className="text-3xl font-bold text-white">Schedule Your First Meeting</h2>
                 <p className="text-slate-400 mt-2">This is the first step. Let's discuss your vision and goals for the <span className="text-brand-primary font-semibold">{service.title}</span>.</p>
@@ -138,9 +147,9 @@ const BookingForm: React.FC<Props> = ({ service }) => {
                 <legend className="text-xl font-semibold text-white mb-4">1. Your Information</legend>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                        <label htmlFor="fullName" className={labelClass}>Full Name</label>
-                        <input type="text" name="fullName" id="fullName" onChange={handleChange} className={inputClass} />
-                        {formErrors.fullName && <p className="text-red-500 text-sm">{formErrors.fullName}</p>}
+                        <label htmlFor="userName" className={labelClass}>Full Name</label>
+                        <input type="text" name="userName" id="userName" onChange={handleChange} className={inputClass} />
+                        {formErrors.userName && <p className="text-red-500 text-sm">{formErrors.userName}</p>}
                     </div>
                     <div className="space-y-2">
                         <label htmlFor="businessName" className={labelClass}>Business Name (Optional)</label>

@@ -13,7 +13,7 @@ const OurTeam: React.FC = () => {
         </div>
         <div className="grid md:grid-cols-1 gap-8 max-w-5xl mx-auto">
           {teamMembers.map((member) => (
-            <div key={member.name} className="bg-brand-dark rounded-lg p-6 text-center border border-slate-800 transform transition duration-500 hover:-translate-y-2 hover:border-brand-primary/50">
+            <div key={member.name} className="bg-background rounded-lg p-6 text-center border border-slate-800 transform transition duration-500 hover:-translate-y-2 hover:border-brand-primary/50">
               <img 
                 src={member.imageUrl} 
                 alt={`Photo of ${member.name}`} 

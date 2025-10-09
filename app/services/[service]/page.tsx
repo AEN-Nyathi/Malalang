@@ -16,7 +16,7 @@ const ServiceDetailPage: React.FC = () => {
 
   if (!servicePackage) {
     return (
-      <div className="py-20 bg-brand-dark min-h-[60vh] flex items-center justify-center">
+      <div className="py-20 bg-background min-h-[60vh] flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-white mb-4">Service Not Found</h1>
           <p className="text-slate-400 mb-8">Sorry, we couldn't find the service package you're looking for.</p>
@@ -45,7 +45,7 @@ const ServiceDetailPage: React.FC = () => {
           </header>
 
           <div className="grid lg:grid-cols-3 gap-12 max-w-6xl mx-auto">
-            <div className="lg:col-span-2 bg-brand-dark p-8 rounded-lg border border-slate-800">
+            <div className="lg:col-span-2 bg-background p-8 rounded-lg border border-slate-800">
               <h2 className="text-3xl font-bold text-white mb-6">Package Details</h2>
               <p className="text-slate-300 leading-relaxed mb-8">{servicePackage.longDescription}</p>
 
@@ -61,7 +61,7 @@ const ServiceDetailPage: React.FC = () => {
             </div>
 
             <aside className="lg:col-span-1 space-y-8">
-              <div className="bg-brand-dark p-8 rounded-lg border border-slate-800">
+              <div className="bg-background p-8 rounded-lg border border-slate-800">
                 <h3 className="text-2xl font-bold text-white mb-4">Who is this for?</h3>
                 <p className="text-slate-300 leading-relaxed">{servicePackage.idealFor}</p>
               </div>
