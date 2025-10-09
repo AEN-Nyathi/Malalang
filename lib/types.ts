@@ -1,5 +1,5 @@
 export interface ClientData {
-    fullName: string;
+    userName: string;
     businessName?: string;
     email?: string;
     phone: string;

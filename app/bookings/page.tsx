@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { collection, addDoc, doc, setDoc, getDoc, arrayUnion, writeBatch } from 'firebase/firestore';
+import { collection, addDoc, doc, setDoc, getDoc, arrayUnion } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { ServicePackage } from '@/lib/types';
 import { SERVICE_PACKAGES } from '@/lib/constants/services';
@@ -80,39 +80,31 @@ const BookingForm: React.FC<Props> = ({ service }) => {
                 submittedAt,
             };
 
-            // Use a batch for atomic writes
-            const batch = writeBatch(db);
+            await addDoc(collection(db, service.serviceUrl), finalData);
 
-            // 1. Create a ref for the new booking in the service collection
-            const serviceBookingRef = doc(collection(db, service.serviceUrl));
-            batch.set(serviceBookingRef, finalData);
-
-            // 2. Create/Update the client document
             const clientRef = doc(db, 'clients', fullPhoneNumber);
-            const clientSnap = await getDoc(clientRef); // Read must happen before the batch
+            const clientSnap = await getDoc(clientRef);
 
             const newBooking = {
                 servicePackage: formData.servicePackage,
                 serviceTitle,
                 submittedAt,
-                bookingId: serviceBookingRef.id // Use the new booking ID
+                bookingId: (await addDoc(collection(db, 'clientBookings'), {})).id
             };
 
             if (clientSnap.exists()) {
-                batch.set(clientRef, {
+                await setDoc(clientRef, {
                     ...finalData,
                     updatedAt: submittedAt,
                     bookings: arrayUnion(newBooking)
                 }, { merge: true });
             } else {
-                batch.set(clientRef, {
+                await setDoc(clientRef, {
                     ...finalData,
                     createdAt: submittedAt,
                     bookings: [newBooking]
                 });
             }
-
-            await batch.commit();
 
             setIsSubmitted(true);
         } catch (e) {
@@ -122,7 +114,6 @@ const BookingForm: React.FC<Props> = ({ service }) => {
             setIsSubmitting(false);
         }
     };
-
 
     if (isSubmitted) {
         return (

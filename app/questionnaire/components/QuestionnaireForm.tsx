@@ -12,7 +12,7 @@ import { FormData } from './types';
 
 interface QuestionnaireFormProps {
   clientData?: {
-    fullName?: string;
+    userName?: string;
     businessName?: string;
     email?: string;
     phone?: string;
@@ -36,7 +36,7 @@ export default function QuestionnaireForm({ clientData }: QuestionnaireFormProps
     });
 
     if (clientData) {
-      base.fullName = clientData.fullName ?? base.fullName;
+      base.userName = clientData.userName ?? base.userName;
       base.email = clientData.email ?? base.email;
       base.phone = clientData.phone ?? base.phone;
       base.businessName = clientData.businessName ?? base.businessName;
@@ -102,7 +102,7 @@ export default function QuestionnaireForm({ clientData }: QuestionnaireFormProps
             question: questionText,
             answer: formData[questionId] || '',
             businessName: formData.businessName || '',
-            fullName: formData.fullName || 'there',
+            userName: formData.userName || 'there',
           },
         }),
       });
@@ -127,12 +127,14 @@ export default function QuestionnaireForm({ clientData }: QuestionnaireFormProps
           payload: {
             question: questionText,
             businessName: formData.businessName || '',
-            fullName: formData.fullName || 'there',
+            userName: formData.userName || 'there',
           },
         }),
       });
       const data = await response.json();
-      alert(`Suggestions:\n- ${data.result.join('\n- ')}`);
+      if (data.result) {
+        alert(`Suggestions:\n- ${data.result.join('\n- ')}`);
+      }
     } catch (error) {
       console.error('Error suggesting answers:', error);
     }
