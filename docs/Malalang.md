@@ -225,7 +225,7 @@ import { ArrowRight } from 'lucide-react';
 
 const FeaturedProjects: React.FC = () => {
   return (
-    <section className="py-20 md:py-28 bg-brand-dark">
+    <section className="py-20 md:py-28 bg-background">
       <div className="container mx-auto px-6">
           <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold text-white">Our Work in Action</h2>
@@ -303,10 +303,10 @@ import React from 'react';
 
 const OurGuarantee: React.FC = () => {
   return (
-    <section id="guarantee" className="py-20 md:py-28 bg-brand-dark">
+    <section id="guarantee" className="py-20 md:py-28 bg-background">
       <div className="container mx-auto px-6">
         <div className="relative text-center bg-slate-900 rounded-2xl p-8 md:p-12 border-t-4 border-brand-primary shadow-2xl">
-            <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-brand-primary h-16 w-16 rounded-full flex items-center justify-center border-4 border-brand-dark">
+            <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-brand-primary h-16 w-16 rounded-full flex items-center justify-center border-4 border-background">
                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 20.944A12.02 12.02 0 0012 21a12.02 12.02 0 009-8.056c.32-1.178.524-2.41.524-3.676 0-3.322-1.34-6.32-3.524-8.516z" />
                 </svg>
@@ -334,7 +334,7 @@ import Image from 'next/image';
 
 const OurMission: React.FC = () => {
   return (
-    <section className="py-20 md:py-28 bg-brand-dark">
+    <section className="py-20 md:py-28 bg-background">
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row items-center justify-between">
           
@@ -373,7 +373,7 @@ import { PROCESS_STEPS } from '@/lib/constants/process';
 
 const OurProcess: React.FC = () => {
   return (
-    <section id="process" className="py-20 md:py-28 bg-brand-dark">
+    <section id="process" className="py-20 md:py-28 bg-background">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-white">Our Client-Friendly Process</h2>
@@ -411,7 +411,7 @@ import Image from 'next/image';
 
 const OurStory: React.FC = () => {
   return (
-    <section className="py-20 md:py-28 bg-brand-dark">
+    <section className="py-20 md:py-28 bg-background">
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row-reverse items-center justify-between gap-12">
           
@@ -474,7 +474,7 @@ const OurTeam: React.FC = () => {
         </div>
         <div className="grid md:grid-cols-1 gap-8 max-w-5xl mx-auto">
           {teamMembers.map((member) => (
-            <div key={member.name} className="bg-brand-dark rounded-lg p-6 text-center border border-slate-800 transform transition duration-500 hover:-translate-y-2 hover:border-brand-primary/50">
+            <div key={member.name} className="bg-background rounded-lg p-6 text-center border border-slate-800 transform transition duration-500 hover:-translate-y-2 hover:border-brand-primary/50">
               <img 
                 src={member.imageUrl} 
                 alt={`Photo of ${member.name}`} 
@@ -525,7 +525,7 @@ import { malalangDifference } from '@/lib/constants/about';
 
 const TheMalalangDifference: React.FC = () => {
   return (
-    <section className="py-20 md:py-28 bg-brand-dark">
+    <section className="py-20 md:py-28 bg-background">
       <div className="container mx-auto px-6">
           <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold text-white">The Malalang Difference</h2>
@@ -759,7 +759,7 @@ const BlogPostPage: React.FC = () => {
 
   if (!post || !author) {
     return (
-      <div className="py-20 bg-brand-dark min-h-[60vh] flex items-center justify-center">
+      <div className="py-20 bg-background min-h-[60vh] flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-white mb-4">Post Not Found</h1>
           <p className="text-slate-400 mb-8">Sorry, we couldn't find the blog post you're looking for.</p>
@@ -858,7 +858,7 @@ const BlogPostPage: React.FC = () => {
           {post.content}
         </div>
 
-        <div className="mt-12 p-6 bg-brand-dark rounded-lg flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 border border-slate-800">
+        <div className="mt-12 p-6 bg-background rounded-lg flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 border border-slate-800">
           <img src={author.avatarUrl} alt={author.name} className="w-24 h-24 rounded-full object-cover flex-shrink-0" />
           <div>
             <p className="text-slate-400 text-sm uppercase tracking-wider">Written by</p>
@@ -883,7 +883,7 @@ const BlogPostPage: React.FC = () => {
               <h2 className="text-3xl font-bold text-white mb-8 border-b border-slate-700 pb-4">You Might Also Like</h2>
               <div className="grid md:grid-cols-2 gap-8">
                   {relatedPosts.map(relatedPost => (
-                      <Link key={relatedPost.blogs } href={`/blog/${relatedPost.blogs }`} className="block bg-brand-dark rounded-lg overflow-hidden shadow-lg group">
+                      <Link key={relatedPost.blogs } href={`/blog/${relatedPost.blogs }`} className="block bg-background rounded-lg overflow-hidden shadow-lg group">
                           <img src={relatedPost.imageUrl} alt={relatedPost.title} className="w-full h-48 object-cover group-hover:opacity-80 transition-opacity duration-300" />
                           <div className="p-6">
                               <h3 className="text-xl font-bold text-white group-hover:text-brand-primary transition-colors duration-300">{relatedPost.title}</h3>
@@ -978,7 +978,7 @@ const BlogPage: React.FC = () => {
           {filteredPosts.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredPosts.map(post => (
-                <Link key={post.blogs } href={`/blog/${post.blogs }`} className="block bg-brand-dark rounded-lg overflow-hidden shadow-lg group">
+                <Link key={post.blogs } href={`/blog/${post.blogs }`} className="block bg-background rounded-lg overflow-hidden shadow-lg group">
                   <img src={post.imageUrl} alt={post.title} className="w-full h-48 object-cover group-hover:opacity-80 transition-opacity duration-300" />
                   <div className="p-6">
                     <p className="text-sm text-slate-400 mb-2">{post.date} &bull; {authorsById[post.authorId]?.name || 'Unknown Author'}</p>
@@ -1115,7 +1115,7 @@ const ContactForm: React.FC = () => {
   if (isSubmitted) {
     return (
       <div
-        className="bg-brand-dark p-8 rounded-lg border border-brand-secondary/50 h-full flex flex-col justify-center items-center text-center"
+        className="bg-background p-8 rounded-lg border border-brand-secondary/50 h-full flex flex-col justify-center items-center text-center"
         role="status"
         aria-live="polite"
       >
@@ -1131,7 +1131,7 @@ const ContactForm: React.FC = () => {
   }
 
   return (
-    <div className="bg-brand-dark p-8 rounded-lg border border-slate-800">
+    <div className="bg-background p-8 rounded-lg border border-slate-800">
       <h2 className="text-2xl font-bold text-white mb-6">Send Us a Message</h2>
       <form onSubmit={handleSubmit} noValidate aria-label="Contact form">
         <div className="mb-4">
@@ -1256,7 +1256,7 @@ const ContactPage: React.FC = () => {
           </div>
 
           <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
-            <div className="bg-brand-dark p-8 rounded-lg border border-slate-800">
+            <div className="bg-background p-8 rounded-lg border border-slate-800">
               <h2 className="text-2xl font-bold text-white mb-6">Contact Information</h2>
               <div className="space-y-4 text-slate-300">
                 <div className="flex items-start">
@@ -1350,7 +1350,7 @@ const About: React.FC = () => {
         
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {values.map((value) => (
-            <div key={value.title} className="bg-brand-dark p-6 rounded-lg text-center">
+            <div key={value.title} className="bg-background p-6 rounded-lg text-center">
               <div className="text-brand-primary inline-block p-4 bg-brand-primary/10 rounded-full mb-4">
                 {value.icon}
               </div>
@@ -1464,7 +1464,7 @@ const Guarantee: React.FC = () => {
   return (
     <section id="guarantee" className="py-20 bg-slate-900">
       <div className="container mx-auto px-6">
-        <div className="bg-brand-dark rounded-lg p-8 md:p-12 border border-brand-primary/30 text-center">
+        <div className="bg-background rounded-lg p-8 md:p-12 border border-brand-primary/30 text-center">
             <div className="inline-block bg-brand-primary/10 text-brand-primary p-4 rounded-full mb-4">
                  <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 20.944A12.02 12.02 0 0012 21a12.02 12.02 0 009-8.056c.32-1.178.524-2.41.524-3.676 0-3.322-1.34-6.32-3.524-8.516z" />
@@ -1595,7 +1595,7 @@ import { PROCESS_STEPS } from '@/lib/constants/process';
 
 const Process: React.FC = () => {
   return (
-    <section id="process" className="py-20 bg-brand-dark">
+    <section id="process" className="py-20 bg-background">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-white">Our Client-Friendly Process</h2>
@@ -1656,7 +1656,7 @@ const RecentPosts: React.FC = () => {
   const authorsById = Object.fromEntries(AUTHORS.map(a => [a.id, a]));
 
   return (
-    <section id="recent-posts" className="py-20 bg-brand-dark">
+    <section id="recent-posts" className="py-20 bg-background">
       <div className="container mx-auto px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-white">Latest Insights</h2>
@@ -1713,7 +1713,7 @@ import type { ServicePackage } from '@/lib/types';
 const ServiceCard: React.FC<{ packageInfo: ServicePackage }> = ({ packageInfo }) => {
     const cardClasses = packageInfo.isFeatured
         ? 'bg-slate-800 border-2 border-brand-primary'
-        : 'bg-brand-dark border border-slate-700';
+        : 'bg-background border border-slate-700';
 
     return (
         <article className={`p-8 rounded-lg ${cardClasses} flex flex-col transition-all duration-300`}>
@@ -1763,7 +1763,7 @@ import { TESTIMONIALS } from '@/lib/constants/testimonials';
 import type { Testimonial } from '@/lib/types';
 
 const TestimonialCard: React.FC<{ testimonial: Testimonial }> = ({ testimonial }) => (
-    <div className="bg-brand-dark p-8 rounded-lg border border-slate-800 flex flex-col h-full">
+    <div className="bg-background p-8 rounded-lg border border-slate-800 flex flex-col h-full">
         <div className="text-brand-primary mb-4">
              <svg className="w-10 h-10" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" /></svg>
         </div>
@@ -1777,7 +1777,7 @@ const TestimonialCard: React.FC<{ testimonial: Testimonial }> = ({ testimonial }
 
 const Testimonials: React.FC = () => {
   return (
-    <section id="testimonials" className="py-20 bg-brand-dark">
+    <section id="testimonials" className="py-20 bg-background">
       <div className="container mx-auto px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-white">What Our Clients Say</h2>
@@ -1858,7 +1858,7 @@ const CheckIcon = () => (
 );
 
 const ServiceDetail: React.FC<{ servicePackage: ServicePackage }> = ({ servicePackage }) => (
-    <div id={servicePackage.serviceUrl} className="bg-brand-dark p-8 rounded-lg border border-slate-700/50 mb-12 scroll-mt-20">
+    <div id={servicePackage.serviceUrl} className="bg-background p-8 rounded-lg border border-slate-700/50 mb-12 scroll-mt-20">
         <div className="grid md:grid-cols-2 gap-8">
             <div>
                 <h3 className="text-3xl font-bold text-white">{servicePackage.title}</h3>
@@ -1912,7 +1912,7 @@ const PricingPage: React.FC = () => {
             </div>
         </section>
 
-        <section className="py-20 bg-brand-dark">
+        <section className="py-20 bg-background">
             <div className="container mx-auto px-6">
                  <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold text-white">Special Combo Package</h2>
@@ -1935,7 +1935,7 @@ const PricingPage: React.FC = () => {
                         <h3 className="text-2xl font-bold text-white mb-6">Service Add-ons</h3>
                          <div className="space-y-8">
                             {ADDON_CATEGORIES.map(category => (
-                            <div key={category.name} className="bg-brand-dark p-6 rounded-lg border border-slate-700/50">
+                            <div key={category.name} className="bg-background p-6 rounded-lg border border-slate-700/50">
                                 <h4 className="text-xl font-semibold text-brand-primary mb-4">{category.name}</h4>
                                 <ul className="space-y-4">
                                 {category.addons.map(addon => (
@@ -1976,7 +1976,7 @@ const PricingPage: React.FC = () => {
             </div>
         </section>
 
-         <section id="faq" className="py-20 bg-brand-dark">
+         <section id="faq" className="py-20 bg-background">
             <div className="container mx-auto px-6 max-w-4xl">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-bold text-white">Frequently Asked Questions</h2>
@@ -2656,7 +2656,7 @@ export default function QuestionnaireForm({ clientData }: QuestionnaireFormProps
 
   if (isSubmitted) {
     return (
-        <div className="text-center bg-brand-dark p-8 rounded-lg max-w-3xl mx-auto border border-slate-700">
+        <div className="text-center bg-background p-8 rounded-lg max-w-3xl mx-auto border border-slate-700">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Thank you for your submission!</h2>
             <p className="text-slate-300 text-lg mb-6">We have received your project details and will be in touch shortly to discuss the next steps.</p>
         </div>
@@ -2685,7 +2685,7 @@ export default function QuestionnaireForm({ clientData }: QuestionnaireFormProps
   };
 
   return (
-    <div className="max-w-3xl mx-auto bg-brand-dark p-8 rounded-lg border border-slate-800 space-y-8">
+    <div className="max-w-3xl mx-auto bg-background p-8 rounded-lg border border-slate-800 space-y-8">
       <ProgressBar currentStep={currentStep} totalSteps={steps.length} />
       {renderStep()}
       {error && <p className="text-red-500 text-center bg-red-900/20 p-3 rounded-md">{error}</p>}
@@ -2898,7 +2898,7 @@ const QuestionnairePage: React.FC = () => {
     };
 
     const renderInitialStep = () => (
-        <div className="text-center bg-brand-dark p-8 rounded-lg max-w-2xl mx-auto border border-slate-700">
+        <div className="text-center bg-background p-8 rounded-lg max-w-2xl mx-auto border border-slate-700">
             {error && <p className="text-red-400 bg-red-900/20 p-3 rounded-md mb-6">{error}</p>}
             <h2 className="text-2xl font-bold text-white mb-4">Have you booked an initial session with us before?</h2>
             <p className="text-slate-400 mb-6">If so, we can pre-fill some of your information.</p>
@@ -2920,7 +2920,7 @@ const QuestionnairePage: React.FC = () => {
     );
 
     const renderPhonePrompt = () => (
-        <div className="text-center bg-brand-dark p-8 rounded-lg max-w-2xl mx-auto border border-slate-700">
+        <div className="text-center bg-background p-8 rounded-lg max-w-2xl mx-auto border border-slate-700">
             <h2 className="text-2xl font-bold text-white mb-2">Find Your Booking</h2>
             <p className="text-slate-400 mb-6">Please enter the phone number you used during your booking.</p>
             <div className="flex flex-col items-center gap-4 w-full max-w-sm mx-auto">
@@ -2948,7 +2948,7 @@ const QuestionnairePage: React.FC = () => {
     );
 
     const renderLoading = () => (
-        <div className="text-center bg-brand-dark p-8 rounded-lg max-w-2xl mx-auto border border-slate-700">
+        <div className="text-center bg-background p-8 rounded-lg max-w-2xl mx-auto border border-slate-700">
             <h2 className="text-2xl font-bold text-white mb-4 animate-pulse">Finding your booking...</h2>
         </div>
     );
@@ -3114,7 +3114,7 @@ const BookingForm: React.FC<Props> = ({ service }) => {
 
     if (isSubmitted) {
         return (
-            <div className="text-center bg-brand-dark p-8 rounded-lg max-w-3xl mx-auto border border-slate-700">
+            <div className="text-center bg-background p-8 rounded-lg max-w-3xl mx-auto border border-slate-700">
                 <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Thank you for booking your first meeting with AEN Nyath.</h2>
                 <p className="text-slate-300 text-lg mb-6">We’re excited to learn more about your business and goals. You’ll receive a confirmation email shortly with the meeting details.</p>
             </div>
@@ -3125,7 +3125,7 @@ const BookingForm: React.FC<Props> = ({ service }) => {
     const labelClass = "block text-sm font-medium text-slate-300";
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-8 max-w-3xl mx-auto bg-brand-dark p-8 rounded-lg border border-slate-800">
+        <form onSubmit={handleSubmit} className="space-y-8 max-w-3xl mx-auto bg-background p-8 rounded-lg border border-slate-800">
             <div className="text-center">
                 <h2 className="text-3xl font-bold text-white">Schedule Your First Meeting</h2>
                 <p className="text-slate-400 mt-2">This is the first step. Let's discuss your vision and goals for the <span className="text-brand-primary font-semibold">{service.title}</span>.</p>
@@ -3293,7 +3293,7 @@ const ServiceDetailPage: React.FC = () => {
 
   if (!servicePackage) {
     return (
-      <div className="py-20 bg-brand-dark min-h-[60vh] flex items-center justify-center">
+      <div className="py-20 bg-background min-h-[60vh] flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-white mb-4">Service Not Found</h1>
           <p className="text-slate-400 mb-8">Sorry, we couldn't find the service package you're looking for.</p>
@@ -3322,7 +3322,7 @@ const ServiceDetailPage: React.FC = () => {
           </header>
 
           <div className="grid lg:grid-cols-3 gap-12 max-w-6xl mx-auto">
-            <div className="lg:col-span-2 bg-brand-dark p-8 rounded-lg border border-slate-800">
+            <div className="lg:col-span-2 bg-background p-8 rounded-lg border border-slate-800">
               <h2 className="text-3xl font-bold text-white mb-6">Package Details</h2>
               <p className="text-slate-300 leading-relaxed mb-8">{servicePackage.longDescription}</p>
 
@@ -3338,7 +3338,7 @@ const ServiceDetailPage: React.FC = () => {
             </div>
 
             <aside className="lg:col-span-1 space-y-8">
-              <div className="bg-brand-dark p-8 rounded-lg border border-slate-800">
+              <div className="bg-background p-8 rounded-lg border border-slate-800">
                 <h3 className="text-2xl font-bold text-white mb-4">Who is this for?</h3>
                 <p className="text-slate-300 leading-relaxed">{servicePackage.idealFor}</p>
               </div>
@@ -3383,7 +3383,7 @@ export const metadata: Metadata = {
 };
 
 const ServiceDetailCard: React.FC<{ ServicePackage: ServicePackage }> = ({ ServicePackage }) => (
-  <div className="bg-brand-dark p-8 rounded-lg border border-slate-800 flex flex-col group hover:border-brand-primary/50 transition-colors duration-300">
+  <div className="bg-background p-8 rounded-lg border border-slate-800 flex flex-col group hover:border-brand-primary/50 transition-colors duration-300">
     <h3 className="text-3xl font-bold text-brand-primary mb-4">{ServicePackage.title}</h3>
     <p className="text-slate-400 text-lg mb-6 flex-grow">{ServicePackage.description}</p>
     
@@ -3451,7 +3451,7 @@ export default ServicesPage;
 @theme {
   --color-brand-primary: #10B981; /* Emerald-500 */
   --color-brand-secondary: #F59E0B; /* Amber-500 */
-  --color-brand-dark: #0F172A; /* Slate-900 */
+  --color-background: #0F172A; /* Slate-900 */
   --color-brand-light: #F8FAFC; /* Slate-50 */
 }
 
@@ -3567,7 +3567,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <html lang="en">
-      <body className="bg-brand-dark text-brand-light font-sans antialiased">
+      <body className="bg-background text-brand-light font-sans antialiased">
         <SkipToContent />
         <script
           type="application/ld+json"
@@ -3816,7 +3816,7 @@ const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-brand-dark/80 backdrop-blur-lg border-b border-slate-300/10" role="banner">
+    <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-lg border-b border-slate-300/10" role="banner">
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <Link href="/" aria-label="Malalang Pty Ltd - Return to homepage" className="flex items-center gap-2">
@@ -4027,7 +4027,7 @@ const ImageColorPicker: React.FC<ImageColorPickerProps> = ({ onPaletteChange }) 
   return (
     <div className="bg-slate-900/50 p-4 rounded-lg">
       <div
-        className="bg-brand-dark border-2 border-dashed border-slate-700 rounded-lg p-8 text-center cursor-pointer hover:border-brand-primary transition-colors focus-within:border-brand-primary focus-within:ring-2 focus-within:ring-brand-secondary"
+        className="bg-background border-2 border-dashed border-slate-700 rounded-lg p-8 text-center cursor-pointer hover:border-brand-primary transition-colors focus-within:border-brand-primary focus-within:ring-2 focus-within:ring-brand-secondary"
         onDrop={onDrop}
         onDragOver={(e) => e.preventDefault()}
         onClick={() => fileInputRef.current?.click()}
@@ -4067,7 +4067,7 @@ const ImageColorPicker: React.FC<ImageColorPickerProps> = ({ onPaletteChange }) 
               </div>
           )}
           {imageSrc && !isLoading && (
-              <div className="bg-brand-dark p-6 rounded-lg border border-slate-800">
+              <div className="bg-background p-6 rounded-lg border border-slate-800">
                   <img src={imageSrc} alt="Uploaded image for color palette extraction" className="rounded-lg max-w-full max-h-80 mx-auto shadow-lg" />
               </div>
           )}
@@ -5819,7 +5819,7 @@ import React from 'react';
 import type { ProcessStep } from '@/lib/types.ts';
 
 const ProcessStepIcon: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-    <div className="flex items-center justify-center w-12 h-12 bg-brand-primary/10 text-brand-primary rounded-full ring-8 ring-brand-dark">
+    <div className="flex items-center justify-center w-12 h-12 bg-brand-primary/10 text-brand-primary rounded-full ring-8 ring-background">
         {children}
     </div>
 );

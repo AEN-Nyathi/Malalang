@@ -49,7 +49,7 @@ const QuestionnairePage: React.FC = () => {
     };
 
     const renderInitialStep = () => (
-        <div className="text-center bg-brand-dark p-8 rounded-lg max-w-2xl mx-auto border border-slate-700">
+        <div className="text-center bg-background p-8 rounded-lg max-w-2xl mx-auto border border-slate-700">
             {error && <p className="text-red-400 bg-red-900/20 p-3 rounded-md mb-6">{error}</p>}
             <h2 className="text-2xl font-bold text-white mb-4">Have you booked an initial session with us before?</h2>
             <p className="text-slate-400 mb-6">If so, we can pre-fill some of your information.</p>
@@ -71,7 +71,7 @@ const QuestionnairePage: React.FC = () => {
     );
 
     const renderPhonePrompt = () => (
-        <div className="text-center bg-brand-dark p-8 rounded-lg max-w-2xl mx-auto border border-slate-700">
+        <div className="text-center bg-background p-8 rounded-lg max-w-2xl mx-auto border border-slate-700">
             <h2 className="text-2xl font-bold text-white mb-2">Find Your Booking</h2>
             <p className="text-slate-400 mb-6">Please enter the phone number you used during your booking.</p>
             <div className="flex flex-col items-center gap-4 w-full max-w-sm mx-auto">
@@ -99,7 +99,7 @@ const QuestionnairePage: React.FC = () => {
     );
 
     const renderLoading = () => (
-        <div className="text-center bg-brand-dark p-8 rounded-lg max-w-2xl mx-auto border border-slate-700">
+        <div className="text-center bg-background p-8 rounded-lg max-w-2xl mx-auto border border-slate-700">
             <h2 className="text-2xl font-bold text-white mb-4 animate-pulse">Finding your booking...</h2>
         </div>
     );

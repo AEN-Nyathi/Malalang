@@ -132,7 +132,7 @@ const ImageColorPicker: React.FC<ImageColorPickerProps> = ({ onPaletteChange }) 
   return (
     <div className="bg-slate-900/50 p-4 rounded-lg">
       <div
-        className="bg-brand-dark border-2 border-dashed border-slate-700 rounded-lg p-8 text-center cursor-pointer hover:border-brand-primary transition-colors focus-within:border-brand-primary focus-within:ring-2 focus-within:ring-brand-secondary"
+        className="bg-background border-2 border-dashed border-slate-700 rounded-lg p-8 text-center cursor-pointer hover:border-brand-primary transition-colors focus-within:border-brand-primary focus-within:ring-2 focus-within:ring-brand-secondary"
         onDrop={onDrop}
         onDragOver={(e) => e.preventDefault()}
         onClick={() => fileInputRef.current?.click()}
@@ -172,7 +172,7 @@ const ImageColorPicker: React.FC<ImageColorPickerProps> = ({ onPaletteChange }) 
               </div>
           )}
           {imageSrc && !isLoading && (
-              <div className="bg-brand-dark p-6 rounded-lg border border-slate-800">
+              <div className="bg-background p-6 rounded-lg border border-slate-800">
                   <img src={imageSrc} alt="Uploaded image for color palette extraction" className="rounded-lg max-w-full max-h-80 mx-auto shadow-lg" />
               </div>
           )}

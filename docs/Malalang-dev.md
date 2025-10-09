@@ -364,7 +364,7 @@ export const ai = genkit({
 @tailwind utilities;
 @layer base {
   :root {
-    --background: 199 92% 95%;
+    --color-background: 199 92% 95%;
     --foreground: 215 25% 27%;
     --card: 0 0% 100%;
     --card-foreground: 215 25% 27%;
@@ -391,7 +391,7 @@ export const ai = genkit({
     --chart-5: 199 45% 75%;
   }
   .dark {
-    --background: 220 13% 11%;
+    --color-background: 220 13% 11%;
     --foreground: 210 20% 98%;
     --card: 220 13% 18%;
     --card-foreground: 210 20% 98%;
@@ -5477,7 +5477,7 @@ export default {
         code: ['Source Code Pro', 'monospace'],
       },
       colors: {
-        background: 'hsl(var(--background))',
+        background: 'hsl(var(--color-background))',
         foreground: 'hsl(var(--foreground))',
         card: {
           DEFAULT: 'hsl(var(--card))',

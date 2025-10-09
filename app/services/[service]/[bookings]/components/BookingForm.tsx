@@ -126,7 +126,7 @@ const BookingForm: React.FC<Props> = ({ service }) => {
 
     if (isSubmitted) {
         return (
-            <div className="text-center bg-brand-dark p-8 rounded-lg max-w-3xl mx-auto border border-slate-700">
+            <div className="text-center bg-background p-8 rounded-lg max-w-3xl mx-auto border border-slate-700">
                 <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Thank you for booking your first meeting with AEN Nyath.</h2>
                 <p className="text-slate-300 text-lg mb-6">We’re excited to learn more about your business and goals. You’ll receive a confirmation email shortly with the meeting details.</p>
             </div>
@@ -137,7 +137,7 @@ const BookingForm: React.FC<Props> = ({ service }) => {
     const labelClass = "block text-sm font-medium text-slate-300";
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-8 max-w-3xl mx-auto bg-brand-dark p-8 rounded-lg border border-slate-800">
+        <form onSubmit={handleSubmit} className="space-y-8 max-w-3xl mx-auto bg-background p-8 rounded-lg border border-slate-800">
             <div className="text-center">
                 <h2 className="text-3xl font-bold text-white">Schedule Your First Meeting</h2>
                 <p className="text-slate-400 mt-2">This is the first step. Let's discuss your vision and goals for the <span className="text-brand-primary font-semibold">{service.title}</span>.</p>

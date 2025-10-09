@@ -21,7 +21,7 @@ const ContactPage: React.FC = () => {
           </div>
 
           <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
-            <div className="bg-brand-dark p-8 rounded-lg border border-slate-800">
+            <div className="bg-background p-8 rounded-lg border border-slate-800">
               <h2 className="text-2xl font-bold text-white mb-6">Contact Information</h2>
               <div className="space-y-4 text-slate-300">
                 <div className="flex items-start">

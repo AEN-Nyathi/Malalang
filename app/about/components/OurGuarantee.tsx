@@ -2,10 +2,10 @@ import React from 'react';
 
 const OurGuarantee: React.FC = () => {
   return (
-    <section id="guarantee" className="py-20 md:py-28 bg-brand-dark">
+    <section id="guarantee" className="py-20 md:py-28 bg-background">
       <div className="container mx-auto px-6">
         <div className="relative text-center bg-slate-900 rounded-2xl p-8 md:p-12 border-t-4 border-brand-primary shadow-2xl">
-            <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-brand-primary h-16 w-16 rounded-full flex items-center justify-center border-4 border-brand-dark">
+            <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-brand-primary h-16 w-16 rounded-full flex items-center justify-center border-4 border-background">
                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 20.944A12.02 12.02 0 0012 21a12.02 12.02 0 009-8.056c.32-1.178.524-2.41.524-3.676 0-3.322-1.34-6.32-3.524-8.516z" />
                 </svg>

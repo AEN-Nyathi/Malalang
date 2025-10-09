@@ -72,7 +72,7 @@ const BlogPage: React.FC = () => {
           {filteredPosts.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredPosts.map(post => (
-                <Link key={post.blogs } href={`/blog/${post.blogs }`} className="block bg-brand-dark rounded-lg overflow-hidden shadow-lg group">
+                <Link key={post.blogs } href={`/blog/${post.blogs }`} className="block bg-background rounded-lg overflow-hidden shadow-lg group">
                   <img src={post.imageUrl} alt={post.title} className="w-full h-48 object-cover group-hover:opacity-80 transition-opacity duration-300" />
                   <div className="p-6">
                     <p className="text-sm text-slate-400 mb-2">{post.date} &bull; {authorsById[post.authorId]?.name || 'Unknown Author'}</p>

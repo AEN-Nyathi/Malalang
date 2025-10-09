@@ -76,7 +76,7 @@ const ContactForm: React.FC = () => {
   if (isSubmitted) {
     return (
       <div
-        className="bg-brand-dark p-8 rounded-lg border border-brand-secondary/50 h-full flex flex-col justify-center items-center text-center"
+        className="bg-background p-8 rounded-lg border border-brand-secondary/50 h-full flex flex-col justify-center items-center text-center"
         role="status"
         aria-live="polite"
       >
@@ -92,7 +92,7 @@ const ContactForm: React.FC = () => {
   }
 
   return (
-    <div className="bg-brand-dark p-8 rounded-lg border border-slate-800">
+    <div className="bg-background p-8 rounded-lg border border-slate-800">
       <h2 className="text-2xl font-bold text-white mb-6">Send Us a Message</h2>
       <form onSubmit={handleSubmit} noValidate aria-label="Contact form">
         <div className="mb-4">

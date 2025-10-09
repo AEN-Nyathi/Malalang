@@ -6,7 +6,7 @@ import type { ServicePackage } from '@/lib/types';
 const ServiceCard: React.FC<{ packageInfo: ServicePackage }> = ({ packageInfo }) => {
     const cardClasses = packageInfo.isFeatured
         ? 'bg-slate-800 border-2 border-brand-primary'
-        : 'bg-brand-dark border border-slate-700';
+        : 'bg-background border border-slate-700';
 
     return (
         <article className={`p-8 rounded-lg ${cardClasses} flex flex-col transition-all duration-300`}>
