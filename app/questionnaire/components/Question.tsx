@@ -102,8 +102,8 @@ const Question: React.FC<QuestionProps> = ({ question, formData, aiLoading, onCh
           questionId={question.id}
           questionText={questionText}
           aiLoading={aiLoading}
-          onEnhance={onEnhance}
-          onSuggest={onSuggest}
+          onEnhance={() => onEnhance(question.id, questionText)}
+          onSuggest={() => onSuggest(question.id, questionText)}
         />
       )}
     </div>

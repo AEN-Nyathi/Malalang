@@ -1,0 +1,129 @@
+'use client';
+import { useRef, useState } from 'react';
+import Image from 'next/image';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
+import { Trash2, Pencil, Video } from 'lucide-react';
+import type { ScriptSegment } from '@/lib/types';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import MediaSelectionDialog from './media-selection-dialog';
+type ScriptSegmentItemProps = {
+  segment: ScriptSegment;
+  index: number;
+  setSegments: React.Dispatch<React.SetStateAction<ScriptSegment[]>>;
+  topic: string;
+};
+export default function ScriptSegmentItem({
+  segment,
+  index,
+  setSegments,
+  topic,
+}: ScriptSegmentItemProps) {
+  const [isMediaDialogOpen, setIsMediaDialogOpen] = useState(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newText = e.target.value;
+    setSegments(prev => {
+      const newSegments = [...prev];
+      newSegments[index].text = newText;
+      return newSegments;
+    });
+  };
+  const handleDelete = () => {
+    setSegments(prev => prev.filter((_, i) => i !== index));
+  };
+  const handleSelectVisual = (visualSrc: string) => {
+    setSegments(prev => {
+      const newSegments = [...prev];
+      newSegments[index].visualSrc = visualSrc;
+      return newSegments;
+    });
+    setIsMediaDialogOpen(false);
+  };
+  const isVideo = segment.visualSrc && (segment.visualSrc.includes('.mp4') || segment.visualSrc.includes('pexels.com'));
+  return (
+    <div className="p-4 rounded-lg border bg-brand-primary/10 space-y-3 relative group/segment">
+      <div className="flex items-start gap-4">
+        <span className="text-sm font-bold text-primary pt-2">{index + 1}.</span>
+        <Dialog open={isMediaDialogOpen} onOpenChange={setIsMediaDialogOpen}>
+          <DialogTrigger asChild>
+            <div 
+              className="aspect-video w-48 bg-primary rounded-md overflow-hidden relative group/preview cursor-pointer"
+              onMouseEnter={() => videoRef.current?.play().catch(() => {})}
+              onMouseLeave={() => {
+                if (videoRef.current) {
+                  videoRef.current.pause();
+                  videoRef.current.currentTime = 0;
+                }
+              }}
+            >
+              {segment.visualSrc ? (
+                 isVideo ? (
+                    <video 
+                        ref={videoRef}
+                        key={segment.visualSrc}
+                        src={segment.visualSrc} 
+                        className="object-cover w-full h-full"
+                        loop
+                        muted 
+                        playsInline 
+                    />
+                ) : (
+                    <Image
+                    src={segment.visualSrc}
+                    alt={`Visual for segment ${index + 1}`}
+                    fill
+                    className="object-cover"
+                    />
+                )
+              ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                    <Video className="w-8 h-8 text-muted-foreground" />
+                </div>
+              )}
+              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover/preview:opacity-100 transition-opacity flex items-center justify-center">
+                <Button size="icon" variant="ghost" className="text-white hover:bg-white/20 hover:text-white">
+                    <Pencil />
+                    <span className="sr-only">Edit video</span>
+                </Button>
+              </div>
+            </div>
+          </DialogTrigger>
+          <DialogContent className="max-w-4xl h-[80vh] flex flex-col">
+             <DialogHeader>
+                <DialogTitle>Select Media</DialogTitle>
+            </DialogHeader>
+            <MediaSelectionDialog 
+              onSelect={handleSelectVisual} 
+              initialSearchQuery={segment.videoSearchQuery}
+              topic={topic}
+            />
+          </DialogContent>
+        </Dialog>
+        <Textarea
+          value={segment.text}
+          onChange={handleTextChange}
+          className="font-code text-sm flex-1 bg-card"
+          rows={4}
+        />
+      </div>
+      <div className="flex items-center justify-end pl-6">
+        <Button
+            size="icon"
+            variant="ghost"
+            className="absolute top-2 right-2 text-muted-foreground opacity-0 group-hover/segment:opacity-100 transition-opacity"
+            onClick={handleDelete}
+            aria-label="Delete segment"
+        >
+            <Trash2 className="w-4 h-4" />
+        </Button>
+      </div>
+    </div>
+  );
+}

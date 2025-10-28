@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 const ServiceDetailCard: React.FC<{ ServicePackage: ServicePackage }> = ({ ServicePackage }) => (
-  <div className="bg-brand-dark p-8 rounded-lg border border-slate-800 flex flex-col group hover:border-brand-primary/50 transition-colors duration-300">
+  <div className="bg-background p-8 rounded-lg border border-slate-800 flex flex-col group hover:border-brand-primary/50 transition-colors duration-300">
     <h3 className="text-3xl font-bold text-brand-primary mb-4">{ServicePackage.title}</h3>
     <p className="text-slate-400 text-lg mb-6 flex-grow">{ServicePackage.description}</p>
     
