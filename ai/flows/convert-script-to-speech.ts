@@ -21,10 +21,10 @@ const ConvertScriptToSpeechOutputSchema = z.object({
     .describe('The audio data of the converted script segment in WAV format as a data URI.'),
   duration: z.number().describe('The duration of the audio in seconds.'),
 });
-export type ConvertScriptToTpeechOutput = z.infer<typeof ConvertScriptToSpeechOutputSchema>;
+export type ConvertScriptToSpeechOutput = z.infer<typeof ConvertScriptToSpeechOutputSchema>;
 export async function convertScriptToSpeech(
   input: ConvertScriptToSpeechInput
-): Promise<ConvertScriptToTpeechOutput> {
+): Promise<ConvertScriptToSpeechOutput> {
   return convertScriptToSpeechFlow(input);
 }
 const convertScriptToSpeechFlow = ai.defineFlow(
