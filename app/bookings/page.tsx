@@ -9,14 +9,18 @@ import { z, ZodError } from 'zod';
 import { bookingFormSchema } from '@/lib/validation';
 import PhoneNumberInput from '@/components/PhoneNumberInput';
 
+// Make the incoming prop optional because a Next.js page won't pass props by default.
 interface Props {
-    service: ServicePackage;
+    service?: ServicePackage;
 }
 
 const BookingForm: React.FC<Props> = ({ service }) => {
+    // ensure we always have a service to reference so the page does not crash when rendered without props
+    const resolvedService = service ?? SERVICE_PACKAGES[0];
+
     const [formData, setFormData] = useState<any>({
         meetingType: 'Face-to-Face',
-        servicePackage: service.serviceUrl,
+        servicePackage: resolvedService.serviceUrl,
         isWhatsApp: false,
         userName: '',
         businessName: '',
@@ -57,11 +61,12 @@ const BookingForm: React.FC<Props> = ({ service }) => {
 
         try {
             bookingFormSchema.parse(dataToValidate);
-        } catch (error) {
-            if (error instanceof ZodError) {
+        } catch (err) {
+            // avoid shadowing the outer `error` state variable
+            if (err instanceof ZodError) {
                 const errors: any = {};
-                error.issues.forEach((err) => {
-                    errors[err.path[0]] = err.message;
+                err.issues.forEach((issue) => {
+                    errors[issue.path[0]] = issue.message;
                 });
                 setFormErrors(errors);
                 return;
@@ -80,7 +85,8 @@ const BookingForm: React.FC<Props> = ({ service }) => {
                 submittedAt,
             };
 
-            await addDoc(collection(db, service.serviceUrl), finalData);
+            // use the resolved service so we don't attempt to access properties on undefined
+            await addDoc(collection(db, resolvedService.serviceUrl), finalData);
 
             const clientRef = doc(db, 'clients', fullPhoneNumber);
             const clientSnap = await getDoc(clientRef);
@@ -119,7 +125,7 @@ const BookingForm: React.FC<Props> = ({ service }) => {
         return (
             <div className="text-center bg-background p-8 rounded-lg max-w-3xl mx-auto border border-slate-700">
                 <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Thank you for booking your first meeting with AEN Nyath.</h2>
-                <p className="text-slate-300 text-lg mb-6">We’re excited to learn more about your business and goals. You’ll receive a confirmation email shortly with the meeting details.</p>
+                <p className="text-slate-300 text-lg mb-6">We're excited to learn more about your business and goals. You'll receive a confirmation email shortly with the meeting details.</p>
             </div>
         );
     }
@@ -131,7 +137,7 @@ const BookingForm: React.FC<Props> = ({ service }) => {
         <form onSubmit={handleSubmit} className="space-y-8 max-w-3xl mx-auto bg-background p-8 rounded-lg border border-slate-800">
             <div className="text-center">
                 <h2 className="text-3xl font-bold text-white">Schedule Your First Meeting</h2>
-                <p className="text-slate-400 mt-2">This is the first step. Let's discuss your vision and goals for the <span className="text-brand-primary font-semibold">{service.title}</span>.</p>
+                <p className="text-slate-400 mt-2">This is the first step. Let's discuss your vision and goals for the <span className="text-brand-primary font-semibold">{resolvedService.title}</span>.</p>
             </div>
 
             <fieldset>
