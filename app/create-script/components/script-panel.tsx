@@ -58,6 +58,7 @@ export default function ScriptPanel({
   const [isPreviewing, setIsPreviewing] = useState(false);
   const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
   const [combinedAudioUrl, setCombinedAudioUrl] = useState<string | null>(null);
+  const [combinedVideoUrl, setCombinedVideoUrl] = useState<string | null>(null);
   const [rateLimitedUntil, setRateLimitedUntil] = useState<number | null>(null);
   const [rateLimitMessage, setRateLimitMessage] = useState<string | null>(null);
   const [retrySecondsLeft, setRetrySecondsLeft] = useState<number | null>(null);
@@ -103,13 +104,13 @@ export default function ScriptPanel({
     }
 
     setIsGeneratingAudio(true);
-    toast.info('Generating audio...', { description: 'Please wait while we prepare your preview.' });
+    toast.info('Preparing preview...', { description: 'Please wait while we generate audio, merge videos and prepare the preview.' });
     try {
-      const resp = await fetch('/api/generate-audio', {
+      // Request a merged (stored) preview from Cloudinary so we can play a single combined video.
+      const resp = await fetch('/api/create-script', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        // Request combined audio for preview so we get a single audio URL
-        body: JSON.stringify({ segments: currentSegments, mode: 'combined' }),
+        body: JSON.stringify({ segments: currentSegments, storeMerged: true }),
       });
       // read text and attempt to parse JSON safely
       const text = await resp.text();
@@ -153,101 +154,25 @@ export default function ScriptPanel({
         throw new Error(errMsg);
       }
 
-      // Combined mode returns combinedAudioUrl (and optionally timestampsUrl/taskId).
-      if (json && json.combinedAudioUrl) {
-        setCombinedAudioUrl(json.combinedAudioUrl);
-        // If provider returned timestampsUrl, fetch it and use it to compute accurate
-        // per-segment durations so video switching aligns with the combined audio.
-        if (json.timestampsUrl) {
-          try {
-            const tsResp = await fetch(json.timestampsUrl);
-            if (tsResp.ok) {
-              const tsJson = await tsResp.json();
-              // Expect an array of { start, end, text } entries. We'll map these sequentially
-              // to the segments by consuming timestamp entries until the accumulated text
-              // length approximates the segment text length.
-              const entries: Array<{ start: number; end: number; text: string }> = Array.isArray(tsJson)
-                ? tsJson
-                : tsJson.timestamps || [];
-              const newSegments = currentSegments.map((s) => ({ ...s }));
-              // Normalization helper to make substring matches more robust
-              const normalize = (s: string) =>
-                (s || '')
-                  .replace(/[\s\n\r]+/g, ' ')
-                  .replace(/[^\n\w\s]/g, '')
-                  .trim()
-                  .toLowerCase();
-
-              let entryIndex = 0;
-              // Build a rolling concatenation of timestamp texts to allow substring matching
-              for (let i = 0; i < newSegments.length; i++) {
-                const seg = newSegments[i];
-                const target = normalize(seg.text || '');
-                if (!target) {
-                  // empty segment: keep or set default
-                  if (!seg.duration || seg.duration <= 0) seg.duration = 1;
-                  continue;
-                }
-                let acc = '';
-                let accNorm = '';
-                let firstStart: number | null = null;
-                let lastEnd: number | null = null;
-                let j = entryIndex;
-                let found = false;
-                while (j < entries.length) {
-                  const e = entries[j];
-                  if (firstStart === null && typeof e.start === 'number') firstStart = e.start;
-                  if (typeof e.end === 'number') lastEnd = e.end;
-                  acc = acc + ' ' + (e.text || '');
-                  accNorm = normalize(acc);
-                  // If acc contains the target as substring, we consider it a match
-                  if (accNorm.indexOf(target) !== -1) {
-                    found = true;
-                    j++;
-                    break;
-                  }
-                  j++;
-                }
-                if (found && firstStart !== null && lastEnd !== null) {
-                  seg.duration = Math.max(0, lastEnd - firstStart);
-                  entryIndex = j;
-                } else {
-                  // fallback: approximate using accumulated entries until length matches
-                  let accLen = 0;
-                  let segDuration = 0;
-                  const targetLen = (seg.text || '').length;
-                  while (entryIndex < entries.length && (accLen < targetLen || segDuration === 0)) {
-                    const e = entries[entryIndex];
-                    const textLen = (e.text || '').length;
-                    accLen += textLen;
-                    const dur = (typeof e.end === 'number' && typeof e.start === 'number') ? Math.max(0, e.end - e.start) : 0;
-                    segDuration += dur;
-                    entryIndex++;
-                    if (targetLen === 0) break;
-                  }
-                  if (segDuration > 0) {
-                    seg.duration = segDuration;
-                  } else if (!seg.duration || seg.duration <= 0) {
-                    seg.duration = Math.max(1, Math.ceil((seg.text || '').length / 15));
-                  }
-                }
-              }
-              setSegmentsFn(newSegments);
-            }
-          } catch (e) {
-            // ignore timestamp failures — we'll continue with previous durations
-            console.warn('Failed to fetch timestampsUrl', e);
-          }
-        }
+      // create-script returns { mergedUrl } when storeMerged=true
+      if (json && json.mergedUrl) {
+        // merged video (stored on Cloudinary) is ready
+        setCombinedAudioUrl(null);
+        setCombinedVideoUrl(json.mergedUrl);
         setIsPreviewing(true);
-        toast.success('Audio ready!', { description: 'Your video preview is ready to play.' });
+        toast.success('Preview ready!', { description: 'Merged video is ready to play.' });
         return;
       }
-      if (json && json.segments) {
-        // fallback: per-segment audio updated
-        setSegmentsFn(json.segments);
-        setIsPreviewing(true);
-        toast.success('Audio ready!', { description: 'Your video preview is ready to play.' });
+      if (json && json.transformedUrls) {
+        // Server returned per-segment transformed URLs (no stored merged asset).
+        const newSegments = currentSegments.map((s, i) => ({
+          ...s,
+          visualSrc: json.transformedUrls[i] || s.visualSrc,
+          audioSrc: (json.audioUrls && json.audioUrls[i]) || s.audioSrc,
+        }));
+        setSegmentsFn(newSegments);
+        setIsPreviewing(false);
+        toast.success('Per-segment transforms ready. To preview a single merged video, click Export to store a merged asset.');
       }
     } catch (error: any) {
       console.error('Audio Generation Failed', error);
@@ -354,16 +279,7 @@ export default function ScriptPanel({
           </div>
         )}
 
-        {isPreviewing && currentSegments.length > 0 && (
-          <VideoPreviewPlayer
-            segments={currentSegments}
-            combinedAudioUrl={combinedAudioUrl}
-            onExit={() => {
-              setIsPreviewing(false);
-              setCombinedAudioUrl(null);
-            }}
-          />
-        )}
+       
         
         <div className="flex-1 overflow-auto">
           <ScrollArea className="h-full pr-4" ref={scrollAreaRef}>
@@ -394,6 +310,17 @@ export default function ScriptPanel({
             </div>
           </ScrollArea>
         </div>
+        {isPreviewing && (
+          <VideoPreviewPlayer
+            combinedAudioUrl={combinedAudioUrl}
+            combinedVideoUrl={combinedVideoUrl}
+            onExit={() => {
+              setIsPreviewing(false);
+              setCombinedAudioUrl(null);
+              setCombinedVideoUrl(null);
+            }}
+          />
+        )}
       </CardContent>
     </Card>
   );
