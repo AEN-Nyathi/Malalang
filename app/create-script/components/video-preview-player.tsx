@@ -20,12 +20,14 @@ export default function VideoPreviewPlayer({
   const [currentTime, setCurrentTime] = useState(0);
   const [activeSegmentIndex, setActiveSegmentIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  // Double-buffered video refs for smooth swaps + a hidden third buffer for second-next preloading
-  const videoRefA = useRef<HTMLVideoElement | null>(null);
-  const videoRefB = useRef<HTMLVideoElement | null>(null);
-  const videoRefC = useRef<HTMLVideoElement | null>(null); // hidden preloader for second-next
-  const [activeVideoIsA, setActiveVideoIsA] = useState(true);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  // We render merged visuals into a canvas; media refs preload per-segment videos/images.
   const rafRef = useRef<number | null>(null);
+  const drawRafRef = useRef<number | null>(null);
+  const mediaRefs = useRef<Array<{ video?: HTMLVideoElement; img?: HTMLImageElement; loaded?: boolean }>>([]);
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const audioBufferSourceRef = useRef<AudioBufferSourceNode | null>(null);
+  const combinedAudioBufferRef = useRef<AudioBuffer | null>(null);
   const supportsSpeech = typeof window !== 'undefined' && 'speechSynthesis' in window;
   const [usingSpeechFallback, setUsingSpeechFallback] = useState(false);
   const speechIndexRef = useRef(0);
@@ -76,7 +78,7 @@ export default function VideoPreviewPlayer({
     setIsPlaying(false);
   };
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [showControlsOverride, setShowControlsOverride] = useState(false);
+  // Controls are always visible per user request; no override state needed.
   // Spacebar global handler: toggle play/pause when player is active and focus is not on an input.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -99,7 +101,7 @@ export default function VideoPreviewPlayer({
     return () => window.removeEventListener('keydown', onKey);
     // intentionally include handlePlayPause dependencies to keep logic up-to-date
   }, [isPlaying, activeSegmentIndex, currentTime, combinedAudioUrl, usingSpeechFallback]);
-  const { segmentStartTimes, totalDuration } = useMemo(() => {
+  const { segmentStartTimes: _computedSegmentStartTimes, totalDuration: _computedTotalDuration } = useMemo(() => {
     let cumulativeDuration = 0;
     const segmentStartTimes = segments.map((seg) => {
       const startTime = cumulativeDuration;
@@ -111,71 +113,65 @@ export default function VideoPreviewPlayer({
       totalDuration: cumulativeDuration,
     };
   }, [segments]);
+
+  // Keep start times static for this playback instance and allow the audio
+  // element to override the total duration when metadata is available.
+  const [segmentStartTimes] = useState<number[]>(_computedSegmentStartTimes);
+  const [totalDuration, setTotalDuration] = useState<number>(_computedTotalDuration);
+  // Preload media for canvas drawing and size the canvas to the container.
   useEffect(() => {
-    // Use double-buffer to preload the active segment visual and the next one.
-    const activeVideo = activeVideoIsA ? videoRefA.current : videoRefB.current;
-    const inactiveVideo = activeVideoIsA ? videoRefB.current : videoRefA.current;
-    if (!activeVideo) return;
-    const activeSegment = segments[activeSegmentIndex];
-    // ensure activeVideo src is current segment
-    if (activeSegment?.visualSrc && activeVideo.src !== activeSegment.visualSrc) {
-      activeVideo.src = activeSegment.visualSrc;
-      try {
-        activeVideo.load();
-      } catch {}
-    }
-    // Don't force-set video currentTime; letting the video play avoids costly seeks
-    // which can cause gaps and increased memory usage on some devices.
-    if (isPlaying) {
-      activeVideo.play().catch(e => console.error('Active video play failed', e));
-    } else {
-      activeVideo.pause();
+    const canvas = canvasRef.current;
+    const container = containerRef.current;
+    if (canvas && container) {
+      const rect = container.getBoundingClientRect();
+      canvas.width = Math.max(16, Math.floor(rect.width));
+      canvas.height = Math.max(16, Math.floor(rect.height));
     }
 
-    // Preload next segment into inactive video element to reduce gaps
-    const nextIndex = Math.min(activeSegmentIndex + 1, segments.length - 1);
-    const nextSeg = segments[nextIndex];
-    if (inactiveVideo && nextSeg?.visualSrc && inactiveVideo.src !== nextSeg.visualSrc) {
-      inactiveVideo.src = nextSeg.visualSrc;
+    // create offscreen media elements for each segment
+    mediaRefs.current = segments.map((seg) => {
+      const item: { video?: HTMLVideoElement; img?: HTMLImageElement; loaded?: boolean } = {};
       try {
-        inactiveVideo.load();
-        inactiveVideo.muted = true;
-        inactiveVideo.currentTime = 0;
-      } catch {}
-    }
-    // Preload second-next visual into hidden preloader (videoRefC)
-    const secondNextIndex = Math.min(activeSegmentIndex + 2, segments.length - 1);
-    const secondSeg = segments[secondNextIndex];
-    if (videoRefC.current && secondSeg?.visualSrc && videoRefC.current.src !== secondSeg.visualSrc) {
-      try {
-        videoRefC.current.src = secondSeg.visualSrc;
-        videoRefC.current.preload = 'auto';
-        videoRefC.current.load();
-        videoRefC.current.muted = true;
-      } catch {}
-    }
-
-    // Release far-behind video srcs to reduce memory usage: clear src for segments
-    // that are 3+ positions behind the active one.
-    try {
-      const releaseIndex = activeSegmentIndex - 3;
-      if (releaseIndex >= 0) {
-        // whichever buffer contained that segment previously can be cleared
-        const shouldBeA = releaseIndex % 2 === 0;
-        const refToClear = shouldBeA ? videoRefA.current : videoRefB.current;
-        if (refToClear && refToClear.src) {
-          refToClear.pause();
-          refToClear.removeAttribute('src');
-          try { refToClear.load(); } catch {}
+        if (seg.visualSrc && (seg.visualSrc.endsWith('.mp4') || seg.visualSrc.includes('pexels.com'))) {
+          const v = document.createElement('video');
+          v.muted = true;
+          v.playsInline = true;
+          v.preload = 'auto';
+          v.crossOrigin = 'anonymous';
+          v.src = seg.visualSrc;
+          v.load();
+          item.video = v;
+          v.oncanplay = () => { item.loaded = true; };
+        } else if (seg.visualSrc) {
+          const img = new Image();
+          img.crossOrigin = 'anonymous';
+          img.src = seg.visualSrc;
+          img.onload = () => { item.loaded = true; };
+          item.img = img;
         }
+      } catch {
+        // ignore
       }
-    } catch {}
-  }, [activeSegmentIndex, segments, segmentStartTimes, currentTime, isPlaying]);
+      return item;
+    });
 
-  // When active segment changes, alternate which buffer is visible to create a crossfade effect
-  useEffect(() => {
-    setActiveVideoIsA((prev) => (activeSegmentIndex % 2 === 0));
-  }, [activeSegmentIndex]);
+    return () => {
+      // cleanup
+      mediaRefs.current.forEach((m) => {
+        try {
+          if (m.video) {
+            m.video.pause();
+            m.video.removeAttribute('src');
+          }
+        } catch {}
+      });
+      mediaRefs.current = [];
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  // No per-element video buffering needed with canvas rendering; mediaRefs handle preloads.
+
+  // Canvas rendering draws the correct media for the active segment.
 
   // Use the audio element's timeupdate event to sync visuals. This reduces CPU
   // and memory pressure compared to a RAF loop while still keeping visuals
@@ -200,12 +196,17 @@ export default function VideoPreviewPlayer({
           try { a.load(); } catch {}
         }
       } catch {}
-      [videoRefA.current, videoRefB.current, videoRefC.current].forEach((v) => {
+      // release any preloaded offscreen media
+      mediaRefs.current.forEach((m) => {
         try {
-          if (v) {
-            v.pause();
-            v.removeAttribute('src');
-            try { v.load(); } catch {}
+          if (m.video) {
+            m.video.pause();
+            m.video.removeAttribute('src');
+            try { m.video.load(); } catch {}
+          }
+          if (m.img) {
+            // image cleanup not strictly necessary, but clear src
+            try { (m.img as HTMLImageElement).src = ''; } catch {}
           }
         } catch {}
       });
@@ -271,60 +272,206 @@ export default function VideoPreviewPlayer({
       setActiveSegmentIndex(newSegmentIndex);
     }
   };
+
+  // Draw loop: render active media into canvas synchronized to audio (either <audio> or AudioContext playback)
+  useEffect(() => {
+    let isMounted = true;
+    const canvas = canvasRef.current;
+    const ctx = canvas?.getContext('2d');
+
+    const draw = () => {
+      try {
+        if (!isMounted) return;
+        if (!ctx || !canvas) {
+          drawRafRef.current = requestAnimationFrame(draw);
+          return;
+        }
+        // compute global time
+        let globalTime = currentTime;
+        // if we're using AudioContext source, estimate currentTime via ctx.currentTime
+        if (!combinedAudioUrl && audioBufferSourceRef.current && audioCtxRef.current && audioCtxRef.current.state === 'running') {
+          // we can't get exact playback head from BufferSource, so use audioCtx.currentTime anchored by when started
+          // this is a best-effort; currentTime is already updated by handleTimeUpdate when using <audio>
+        }
+
+        // determine active segment
+        const idx = segmentStartTimes.findIndex((s, i) => globalTime >= s && (i === segments.length - 1 || globalTime < segmentStartTimes[i + 1]));
+        const segIndex = idx === -1 ? activeSegmentIndex : idx;
+        const seg = segments[segIndex];
+
+        // clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const media = mediaRefs.current[segIndex];
+        const drawMedia = () => {
+          if (!media) return;
+          // maintain aspect by drawing to cover
+          const cw = canvas.width;
+          const ch = canvas.height;
+          if (media.video && media.video.readyState >= 2) {
+            try {
+              // ensure video is playing
+              if (media.video.paused && isPlaying) {
+                media.video.play().catch(() => {});
+              }
+              ctx.drawImage(media.video as CanvasImageSource, 0, 0, cw, ch);
+            } catch {}
+          } else if (media.img && media.img.complete) {
+            try { ctx.drawImage(media.img, 0, 0, cw, ch); } catch {}
+          } else {
+            // fallback: draw black background
+            ctx.fillStyle = 'black';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+          }
+        };
+
+        drawMedia();
+      } catch (err) {
+        // swallow
+      }
+      drawRafRef.current = requestAnimationFrame(draw);
+    };
+
+    if (isPlaying) {
+      drawRafRef.current = requestAnimationFrame(draw);
+    }
+
+    return () => {
+      isMounted = false;
+      if (drawRafRef.current) {
+        cancelAnimationFrame(drawRafRef.current);
+        drawRafRef.current = null;
+      }
+    };
+    // we intentionally include currentTime and isPlaying so drawing follows playback
+  }, [isPlaying, currentTime, segmentStartTimes, segments, combinedAudioUrl]);
   const handlePlayPause = () => {
     const audio = audioRef.current;
     if (!audio) return;
     if (isPlaying) {
-      audio.pause();
-      // pause speech if using fallback
+      // Pause playback
+      try { audio.pause(); } catch {}
       if (usingSpeechFallback && typeof window !== 'undefined' && window.speechSynthesis) {
+        try { window.speechSynthesis.pause(); } catch {}
+      }
+      setIsPlaying(false);
+      return;
+    }
+
+    // Start playback (user-initiated)
+    // If combined audio is available, point the audio element at it and play.
+    if (combinedAudioUrl) {
       if (audio.src !== combinedAudioUrl) {
         audio.src = combinedAudioUrl!;
         try { audio.load(); } catch {}
       }
-      if (isPlaying) audio.play().catch(() => {});
-      }
-      // If combined audio is provided, ensure audio.src points to it and position at global time
-      if (combinedAudioUrl) {
-        if (audio.src !== combinedAudioUrl) {
-          audio.src = combinedAudioUrl;
-          audio.load();
-        }
-        audio.currentTime = Math.max(0, Math.min(currentTime, totalDuration));
-      } else {
-        // If audio src is not set (e.g., first play), set it to the active segment
-        if (!audio.src) {
-          const seg = segments[activeSegmentIndex];
+      try {
+        audio.play().catch((e) => console.error('Audio play failed', e));
+      } catch {}
+      setIsPlaying(true);
+      return;
+    }
+
+    // No combined audio: try per-segment audio or fallback to speech synthesis.
+    const seg = segments[activeSegmentIndex];
+    const hasPerSegmentAudio = segments.some((s) => s.audioSrc);
+    if (!hasPerSegmentAudio && supportsSpeech) {
+      startSpeechFromIndex(activeSegmentIndex);
+      return;
+    }
+
+    if (hasPerSegmentAudio) {
+      // If we already built a combined AudioBuffer, schedule it via AudioContext.
+      const startCombinedPlayback = async () => {
+        try {
+          if (!audioCtxRef.current) audioCtxRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+          const ctx = audioCtxRef.current!;
+          if (!combinedAudioBufferRef.current) {
+            // build combined buffer
+            const buffers: AudioBuffer[] = [];
+            for (const s of segments) {
+              if (!s.audioSrc) {
+                // insert silence of segment.duration if provided
+                if (s.duration && s.duration > 0) {
+                  const sampleRate = ctx.sampleRate;
+                  const length = Math.floor(s.duration * sampleRate);
+                  const silence = ctx.createBuffer(1, length, sampleRate);
+                  buffers.push(silence);
+                }
+                continue;
+              }
+              try {
+                const resp = await fetch(s.audioSrc);
+                const ab = await resp.arrayBuffer();
+                const decoded = await ctx.decodeAudioData(ab);
+                buffers.push(decoded);
+              } catch (err) {
+                // on error, fallback to silence for that segment length
+                if (s.duration && s.duration > 0) {
+                  const sampleRate = ctx.sampleRate;
+                  const length = Math.floor(s.duration * sampleRate);
+                  const silence = ctx.createBuffer(1, length, sampleRate);
+                  buffers.push(silence);
+                }
+              }
+            }
+            // concatenate buffers into one
+            const totalLength = buffers.reduce((acc, b) => acc + b.length, 0);
+            const out = ctx.createBuffer(1, totalLength, ctx.sampleRate);
+            let offset = 0;
+            for (const b of buffers) {
+              const data = b.getChannelData(0);
+              out.getChannelData(0).set(data, offset);
+              offset += b.length;
+            }
+            combinedAudioBufferRef.current = out;
+            setTotalDuration(out.duration);
+          }
+
+          // create source and play
+          if (audioBufferSourceRef.current) {
+            try { audioBufferSourceRef.current.stop(); } catch {}
+            audioBufferSourceRef.current.disconnect();
+            audioBufferSourceRef.current = null;
+          }
+          const src = ctx.createBufferSource();
+          src.buffer = combinedAudioBufferRef.current!;
+          src.connect(ctx.destination);
+          src.start(0);
+          audioBufferSourceRef.current = src;
+          setIsPlaying(true);
+        } catch (err) {
+          console.error('Combined audio playback failed', err);
+          // fallback: try per-segment audio via <audio>
           if (seg?.audioSrc) {
-            audio.src = seg.audioSrc;
-            audio.load();
-            audio.currentTime = Math.max(0, currentTime - segmentStartTimes[activeSegmentIndex]);
+            if (audio.src !== seg.audioSrc) {
+              audio.src = seg.audioSrc;
+              try { audio.load(); } catch {}
+            }
+            try { audio.play().catch(() => {}); } catch {}
+            setIsPlaying(true);
           }
         }
-      }
-      // If using speech fallback and no audio src available, resume speech
-      if (usingSpeechFallback && typeof window !== 'undefined' && window.speechSynthesis) {
-        window.speechSynthesis.resume();
-      }
-      audio.play().catch((e) => console.error('Audio play failed', e));
+      };
+      startCombinedPlayback();
+      return;
     }
-    setIsPlaying(!isPlaying);
+
+    if (seg?.audioSrc) {
+      if (audio.src !== seg.audioSrc) {
+        audio.src = seg.audioSrc;
+        try { audio.load(); } catch {}
+      }
+      try { audio.play().catch(() => {}); } catch {}
+      setIsPlaying(true);
+    }
   };
   const handleSeek = (value: number[]) => {
     const audio = audioRef.current;
     if (!audio) return;
     const newTime = value[0];
-    // If using combined audio, seek the single audio track directly
+    // If using combined audio, seeking is disabled — user controls only play/pause.
     if (combinedAudioUrl) {
-      if (audio.src !== combinedAudioUrl) {
-        audio.src = combinedAudioUrl;
-        audio.load();
-      }
-      audio.currentTime = Math.max(0, Math.min(newTime, totalDuration));
-      setCurrentTime(newTime);
-      const newIndex = segmentStartTimes.findIndex((s, i) => newTime >= s && (i === segments.length - 1 || newTime < segmentStartTimes[i + 1]));
-      if (newIndex !== -1) setActiveSegmentIndex(newIndex);
-      if (isPlaying) audio.play().catch(() => {});
       return;
     }
 
@@ -390,48 +537,26 @@ export default function VideoPreviewPlayer({
       ref={containerRef}
       className="aspect-video w-full bg-black rounded-lg overflow-hidden relative group/player"
     >
-      {/* Desktop control override toggle (visible on md+) - placed outside the overlay so
-          users can always toggle controls even when overlay is hidden on hover. */}
-      <div className="absolute top-3 right-12 hidden md:flex items-center gap-2 z-50">
-        <Button
-          size="sm"
-          variant={showControlsOverride ? 'outline' : 'ghost'}
-          className="text-white hover:bg-white/10"
-          onClick={() => setShowControlsOverride((v) => !v)}
-          aria-pressed={showControlsOverride}
-          title={showControlsOverride ? 'Hide controls' : 'Show controls'}
-        >
-          <Eye className="w-4 h-4" />
-        </Button>
-        <div className="hidden lg:flex items-center gap-2 text-white text-xs">
-          <Keyboard className="w-3 h-3 opacity-80" />
-          <span>Space to play/pause</span>
-        </div>
-      </div>
+          {/* Controls always visible — remove the desktop-only toggle that forced hover behavior. */}
 
       {/* Double-buffered videos stacked; only active one is visible. Crossfade via transition-opacity. */}
       <div className="w-full h-full relative">
-        <video
-          ref={videoRefA}
-          className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ease-linear ${activeVideoIsA ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
-          preload="auto"
-          playsInline
-          muted
-        />
-        <video
-          ref={videoRefB}
-          className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ease-linear ${!activeVideoIsA ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
-          preload="auto"
-          playsInline
-          muted
-        />
-        {/* Hidden preloader video for second-next visual */}
-        <video ref={videoRefC} style={{ display: 'none' }} muted preload="auto" />
+        {/* Canvas for merged preview rendering */}
+        <canvas ref={canvasRef} className="absolute inset-0 w-full h-full z-0" />
+        {/* Canvas-only rendering; visuals are preloaded into offscreen mediaRefs and drawn into the canvas. */}
       </div>
 
       <audio
         ref={audioRef}
         preload="metadata"
+        onLoadedMetadata={() => {
+          try {
+            const a = audioRef.current;
+            if (a && a.duration && !Number.isNaN(a.duration) && a.duration > 0) {
+              setTotalDuration(a.duration);
+            }
+          } catch {}
+        }}
         onTimeUpdate={handleTimeUpdate}
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
@@ -454,14 +579,7 @@ export default function VideoPreviewPlayer({
       {/* Controls overlay: visible by default on small screens (touch devices).
           On md+ screens it's hover-only unless the desktop override toggle is set.
           showControlsOverride forces visibility on md+ screens. */}
-      <div
-        className={
-          `absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 transition-opacity flex flex-col justify-between p-4 ` +
-          (showControlsOverride
-            ? 'opacity-100 md:opacity-100'
-            : 'opacity-100 md:opacity-0 md:group-hover/player:opacity-100')
-        }
-      >
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 transition-opacity flex flex-col justify-between p-4 opacity-100">
         <div className="flex justify-between items-start">
           <h3 className="text-white font-bold text-lg">Preview</h3>
           <Button size="icon" variant="ghost" className="text-white hover:bg-white/20" onClick={onExit}>
@@ -476,7 +594,11 @@ export default function VideoPreviewPlayer({
             step={0.1}
             onValueChange={handleSeek}
             className="w-full"
+            disabled={!!combinedAudioUrl}
           />
+          {combinedAudioUrl && (
+            <div className="text-white text-xs mt-1">Seeking disabled while using combined audio preview. Use play/pause.</div>
+          )}
           <div className="flex items-center justify-between mt-2">
             <div className="flex items-center gap-4">
               <Button
