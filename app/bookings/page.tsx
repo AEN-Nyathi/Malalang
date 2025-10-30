@@ -9,14 +9,9 @@ import { z, ZodError } from 'zod';
 import { bookingFormSchema } from '@/lib/validation';
 import PhoneNumberInput from '@/components/PhoneNumberInput';
 
-// Make the incoming prop optional because a Next.js page won't pass props by default.
-interface Props {
-    service?: ServicePackage;
-}
-
-const BookingForm: React.FC<Props> = ({ service }) => {
-    // ensure we always have a service to reference so the page does not crash when rendered without props
-    const resolvedService = service ?? SERVICE_PACKAGES[0];
+const BookingForm: React.FC = () => {
+    // Next.js app-route pages do not receive props by default. Use the first service as a fallback.
+    const resolvedService: ServicePackage = SERVICE_PACKAGES[0];
 
     const [formData, setFormData] = useState<any>({
         meetingType: 'Face-to-Face',
