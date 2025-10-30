@@ -49,12 +49,12 @@ export default function ScriptSegmentItem({
   const isVideo = segment.visualSrc && (segment.visualSrc.includes('.mp4') || segment.visualSrc.includes('pexels.com'));
   return (
     <div className="p-4 rounded-lg border bg-brand-primary/10 space-y-3 relative group/segment">
-      <div className="flex items-start gap-4">
+  <div className="flex flex-col md:flex-row items-start gap-4">
         <span className="text-sm font-bold text-primary pt-2">{index + 1}.</span>
         <Dialog open={isMediaDialogOpen} onOpenChange={setIsMediaDialogOpen}>
           <DialogTrigger asChild>
             <div 
-              className="aspect-video w-48 bg-primary rounded-md overflow-hidden relative group/preview cursor-pointer"
+              className="aspect-video w-full md:w-48 bg-primary rounded-md overflow-hidden relative group/preview cursor-pointer"
               onMouseEnter={() => videoRef.current?.play().catch(() => {})}
               onMouseLeave={() => {
                 if (videoRef.current) {
@@ -109,7 +109,7 @@ export default function ScriptSegmentItem({
         <Textarea
           value={segment.text}
           onChange={handleTextChange}
-          className="font-code text-sm flex-1 bg-card"
+          className="font-code text-sm flex-1 bg-card w-full"
           rows={4}
         />
       </div>
