@@ -107,13 +107,18 @@ export const concatenateSegmentsSequentially = (
   });
 };
 
-// --- The full video generation pipeline ---
+
+
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+
 export const generateFinalVideo = async (
   segments: ScriptSegment[]
 ): Promise<string> => {
   if (segments.length === 0) {
     throw new Error("No segments provided for video generation.");
-  } // 1. Check for missing source assets before starting (Your check is good)
+  } // 1. Check for missing source assets before starting
+
   for (const segment of segments) {
     if (!segment.visualSrc || !segment.audioSrc) {
       throw new Error(
@@ -122,9 +127,9 @@ export const generateFinalVideo = async (
     }
   }
 
-  let mergedSegmentIds: string[] = []; // 🔑 CHANGE: Store URLs, not public IDs // --- STEP 1: Uploading individual segment assets (Audio + Video) ---
+  let mergedSegmentIds: string[] = []; // --- STEP 1: Uploading individual segment assets (Audio + Video) ---
 
-  console.log("Step 1/4: Starting parallel upload of all raw assets...");
+  console.log("Step 1/4: Starting parallel upload of all raw assets..."); // 🔑 FIX: uploadPromises must be defined here
 
   const uploadPromises = segments.map(async (segment) => {
     const videoUrl = segment.visualSrc!;
@@ -138,69 +143,61 @@ export const generateFinalVideo = async (
   });
 
   const uploadedAssets = await Promise.all(uploadPromises);
-  console.log(`Step 1/4 Complete. ${uploadedAssets.length} segments uploaded.`); // --- STEP 2: Generating Merged URLs for each segment ---
+  console.log(`Step 1/4 Complete. ${uploadedAssets.length} segments uploaded.`); // 🔑 FIX: Wait 1 to 2 seconds to allow Cloudinary's indexing to catch up.
 
-  console.log("Step 2/4: Starting parallel Audio/Video URL generation..."); // 🔑 FIX: Instead of attempting to merge and save a new public_id, // we generate the URL for the merged asset.
-
-  const mergeUrls = uploadedAssets.map((asset) => {
-    return getMergedVideoUrl(
-      asset.videoId,
-      asset.audioId,
-      ASSET_WIDTH,
-      ASSET_HEIGHT
-    );
-  }); // 🔑 IMPORTANT: To use concatenateSegmentsSequentially (which expects public IDs), // --- Simplified Merged ID Generation (We use the base video ID and rely on the full chain) --- // --- CORRECTED STEP 2: Explicitly Creating Derived Merged Assets ---
-
-  // we must get the public IDs from the merged URLs. This requires an extra step.
-  // The simplest way to proceed is to explicitly create the derived assets here,
-  // but let's stick to the most serverless approach:
-  // We'll generate the full URL chain at the end, eliminating the need to save temporary merged public IDs.
-
-  // To avoid complex chaining issues when combining audio/video merge and segment concatenation,
-  // we must first derive the merged assets using the 'eager' property or the 'explicit' method
-  // to get a persistent public ID for the segment.
-  // However, since we want to keep it simple and serverless:
-
-  // Let's modify the entire pipeline to use the final concatenation URL as the one true transformation.
-
-  // For the next step to work, we need public IDs that *represent* the merged segments.
-  // The simplest (though slightly less efficient) way is to use the original video ID and
-  // assume the audio is layered on in the final concatenation step.
-
-  // However, the original structure is better: merge first, then concatenate.
-  // Since `getMergedVideoUrl` only returns a URL, we need to save the merged asset to Cloudinary
-  // to get a public ID for the next step.
-
-  // ➡️ REVERTING: We need to use `uploader.explicit` to generate a DERIVED asset
-  // and get a new public ID.
+  console.log("Waiting 2 seconds for Cloudinary indexing...");
+  await delay(2000); // Wait 2000 milliseconds (2 seconds) // --- STEP 2: Explicitly Creating Derived Merged Assets ---
 
   console.log(
     "Step 2/4: Explicitly creating derived Merged Assets (to get Public IDs)..."
   );
+  const MERGED_FOLDER = "segment_uploads/merged";
 
-  // Corrected Step 2 implementation (check asset.videoId)
+ // In Cloudinary.ts, inside generateFinalVideo
+
+// ...
+
 const explicitMergePromises = uploadedAssets.map((asset) => {
-    // If the folder is 'segment_uploads', the asset.videoId returned 
-    // from Step 1 is already 'segment_uploads/raw-vid-...'
     
-    // We want the new merged asset to also be in that folder.
-    const mergedId = `merged-${asset.videoId}`; // 🛑 ERROR PRONE: This adds "merged-" to the full path.
-
-    // Let's ensure the original asset ID is clean before we use it:
-    const baseVideoPublicId = asset.videoId; // This is e.g., 'segment_uploads/raw-vid-...'
-
-    // We define the new ID without the folder, and let Cloudinary handle the folder via the API call
-    const newMergedPublicId = `merged-${Date.now()}-${asset.videoId.split('/').pop()}`;
+    // 1. Define the base asset reference as an object
+    // This explicitly tells Cloudinary the resource_type and type of the source asset.
+   const baseAssetRef = {
+        public_id: asset.videoId,
+        resource_type: 'video', // The type of the SOURCE asset
+        type: 'upload',         // The storage type of the SOURCE asset
+    };
     
-    // Use explicit() to generate a derived asset from an existing public ID
-    return cloudinary.uploader.explicit(baseVideoPublicId, { // Use the full Public ID
-        type: 'upload', 
-        resource_type: "video",
-        public_id: newMergedPublicId, // The ID of the NEW derived asset
-        folder: "segment_uploads/merged", // OPTIONAL: Save the merged asset to a new subfolder
-        // ... rest of the transformations ...
-    }).then(result => result.public_id);
+    // 2. The rest of your variables remain the same (they are correct)
+    const baseVideoPublicId = asset.videoId; 
+    const cleanAudioPublicId = asset.audioId.replace(/\.(mp3|wav|ogg|m4a)$/i, ''); 
+    const MERGED_FOLDER = "segment_uploads/merged";
+    const newMergedPublicId = `${MERGED_FOLDER}/merged-${Date.now()}-${baseVideoPublicId.split('/').pop()}`;
+
+    // 3. Call explicit using the object reference
+    return cloudinary.uploader
+        .explicit(baseAssetRef as any, { // <-- FIX: Assert type as 'any'
+            // Note: The options below are for the *NEW DERIVED* asset
+            type: "upload",
+            resource_type: "video",
+            public_id: newMergedPublicId,
+            
+            // Eager transformation logic is correct
+            eager: [
+                {
+                    overlay: "audio:" + cleanAudioPublicId, 
+                    flags: "layer_apply",
+                    effect: "volume:0",
+                    width: ASSET_WIDTH,
+                    height: ASSET_HEIGHT,
+                    crop: "fill",
+                    format: "mp4",
+                },
+            ],
+        })
+        .then((result) => result.public_id);
 });
+
+// ...
 
   mergedSegmentIds = await Promise.all(explicitMergePromises);
   console.log(
@@ -210,7 +207,7 @@ const explicitMergePromises = uploadedAssets.map((asset) => {
   console.log("Step 3/4: Generating final concatenation URL...");
 
   const finalVideoUrl = concatenateSegmentsSequentially(
-    mergedSegmentIds, // Use the new public IDs
+    mergedSegmentIds,
     ASSET_WIDTH,
     ASSET_HEIGHT
   );

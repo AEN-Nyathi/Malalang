@@ -42,6 +42,8 @@ export default function ScriptFooter({
 
 // Handler for preview generation
 const handlePreview = async () => {
+  setIsPreview(false);
+  toast.loading("Generating video preview...", { duration: 5000 });
     // ... (Your data preparation/cleanup logic to get a cleanSegments array)
     const segmentsToSend = Segments.map(segment => ({
         // Ensure you only send necessary, serializable data
@@ -97,7 +99,7 @@ const handlePreview = async () => {
       <Button
         className="flex-1"
         onClick={() => handlePreview()}
-        disabled={Segments.length === 0}
+        disabled={Segments.length === 0|| isPreview}
       >
         <PlayCircle className="mr-2 h-5 w-5" />
         <span>{"Preview Video"}</span>
