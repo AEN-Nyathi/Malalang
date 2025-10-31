@@ -7,12 +7,13 @@ import { Dispatch, SetStateAction, useCallback, useState } from "react";
 import { toast } from "sonner";
 
 interface ScriptGeneratorFormProps {
-  setInternalSegments: Dispatch<SetStateAction<ScriptSegment[]>>;
-  setIsPreviewing: Dispatch<SetStateAction<boolean>>
+  setSegments: Dispatch<SetStateAction<ScriptSegment[]>>;
+  setIsPreview: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function ScriptGeneratorForm({
-  setInternalSegments,setIsPreviewing
+  setSegments,
+  setIsPreview,
 }: ScriptGeneratorFormProps) {
   const [isGeneratingScript, setIsGeneratingScript] = useState(false);
   const [Topic, setTopic] = useState<string>(
@@ -32,9 +33,9 @@ export default function ScriptGeneratorForm({
         if (!resp.ok || !json.success) {
           toast.error(json.error || "Failed to generate script");
         } else if (json.segments) {
-          setInternalSegments(json.segments);
+          setSegments(json.segments);
           toast.success("Script generated successfully.");
-          setIsPreviewing(false);
+          setIsPreview(false);
         }
       } catch (err: any) {
         console.error(err);
@@ -43,7 +44,7 @@ export default function ScriptGeneratorForm({
         setIsGeneratingScript(false);
       }
     },
-    [Topic, setInternalSegments]
+    [Topic, setSegments]
   );
   return (
     <form onSubmit={handleGenerateScript} className="space-y-4">

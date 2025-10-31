@@ -54,9 +54,7 @@ export default function VideoPreviewPlayer({ onExit, combinedAudioUrl, combinedV
     return () => v.removeEventListener('loadedmetadata', onMeta);
   }, []);
 
-  // No per-segment visuals anymore — playback is driven by the merged Cloudinary video.
 
-  // No separate audio element: playback uses the video element (merged or per-segment).
 
   const handlePlayPause = () => {
     const v = videoRef.current;
@@ -112,7 +110,7 @@ export default function VideoPreviewPlayer({ onExit, combinedAudioUrl, combinedV
   };
 
   return (
-    <div className="aspect-video w-full bg-black rounded-lg overflow-hidden relative group/player">
+    <div className="aspect-video flex-1 w-full bg-black rounded-lg overflow-hidden relative group/player">
       <video
         ref={videoRef}
         className="w-full h-full object-cover absolute inset-0"
