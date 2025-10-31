@@ -88,33 +88,8 @@ export async function generateScriptAction(
     };
   }
 }
-const searchPexelsSchema = z.object({
-  prompt: z.string().min(3, 'Prompt must be at least 3 characters long.'),
-});
-export async function searchPexelsVideosAction(prompt: string) {
-  try {
-    const validatedFields = searchPexelsSchema.safeParse({ prompt });
-    if (!validatedFields.success) {
-      return { success: false, videos: null, error: 'Invalid prompt.' };
-    }
-    if (!process.env.PEXELS_API_KEY) {
-      throw new Error('Pexels API key is not configured.');
-    }
-    const client = createClient(process.env.PEXELS_API_KEY);
-    const response = await client.videos.search({ query: validatedFields.data.prompt, per_page: 10 });
-    if ('error' in response) {
-      throw new Error(response.error);
-    }
-    return { success: true, videos: response.videos, error: null };
-  } catch (e: any) {
-    console.error(e);
-    return {
-      success: false,
-      videos: null,
-      error: e.message || 'Failed to search for videos.',
-    };
-  }
-}
+
+
 export async function generateAudioForSegmentsAction(segments: ScriptSegment[]): Promise<{segmentsWithAudio: ScriptSegment[] | null, error: string | null}> {
     try {
         const segmentsWithAudio = await Promise.all(

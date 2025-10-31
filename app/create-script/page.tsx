@@ -1,13 +1,15 @@
-import ScriptPanel from '@/app/create-script/components/script-panel';
-import { initialProject } from '@/lib/placeholder-data';
+import ScriptPanel from "@/app/create-script/components/script-panel";
+import { Card } from "@/components/ui/card";
+import ScriptHeader from "./components/ScriptHeader";
 
 export default function CreateScriptPage() {
   return (
     <main>
-      <section className="py-20 bg-slate-900">
-        <div className="container mx-auto px-6">
-          <ScriptPanel initialSegments={initialProject.scriptSegments} initialTopic={initialProject.name} />
-        </div>
+      <section className="p-20 bg-slate-900">
+        <Card className="flex flex-col h-full overflow-hidden">
+          <ScriptHeader />
+          <ScriptPanel />
+        </Card>
       </section>
     </main>
   );
