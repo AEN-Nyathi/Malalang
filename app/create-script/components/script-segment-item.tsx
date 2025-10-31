@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Trash2, Pencil, Video, Volume2 } from "lucide-react"; // Added Volume2 for a potential audio icon
+import { Trash2, Pencil, Video, Volume2, Download, RefreshCcw } from "lucide-react"; // Added Volume2 for a potential audio icon
 import type { ScriptSegment } from "@/lib/types";
 import {
   Dialog,
@@ -13,6 +13,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import MediaSelectionDialog from "./media-selection-dialog";
+import Link from "next/link";
 
 type ScriptSegmentItemProps = {
   segment: ScriptSegment;
@@ -59,25 +60,41 @@ export default function ScriptSegmentItem({
 
   return (
     <div className="p-4 rounded-lg border bg-brand-primary/10 space-y-3 relative group/segment">
-      <div className="flex justify-between items-center pl-10 md:pl-6">
+      <div className="flex justify-between items-center ">
         <span className="text-sm font-bold text-primary pt-2">
           {index + 1}.
         </span>
         {/* --- Delete Button (moved and styled slightly) --- */}
-        <Button
-          size="icon"
-          variant="ghost"
-          className="text-muted-foreground opacity-0 group-hover/segment:opacity-100 transition-opacity ml-auto"
-          onClick={handleDelete}
-          aria-label="Delete segment"
-        >
-          <Trash2 className="w-4 h-4" />
-        </Button>
+        <div className="opacity-0 group-hover/segment:opacity-100 transition-opacity flex">
+          <Button
+            size="icon"
+            variant="ghost"
+            className="text-muted-foreground   "
+            onClick={handleDelete}
+            aria-label="Delete segment"
+          >
+            <Trash2 className="w-4 h-4" />
+          </Button>
+          <Button
+            size="icon"
+            variant="ghost"
+            className="text-muted-foreground   "
+          >
+            <Link
+              href={segment.visualSrc || "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground inline-flex items-center"
+            > <Download/></Link>
+          </Button>
+        </div>
       </div>
       <div className="flex flex-col md:flex-row items-start gap-4">
-        
-
         {/* --- Media Preview Dialog Trigger --- */}
+
+       
+        <span className="sr-only">download video</span>
+
         <Dialog open={isMediaDialogOpen} onOpenChange={setIsMediaDialogOpen}>
           <DialogTrigger asChild>
             <div
@@ -114,7 +131,7 @@ export default function ScriptSegmentItem({
                   <Video className="w-8 h-8 text-muted-foreground" />
                 </div>
               )}
-              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover/preview:opacity-100 transition-opacity flex items-center justify-center">
+              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover/preview:opacity-100 transition-opacity flex items-center justify-center gap-2">
                 <Button
                   size="icon"
                   variant="ghost"
@@ -159,6 +176,16 @@ export default function ScriptSegmentItem({
               >
                 Your browser does not support the audio element.
               </audio>
+              <Button
+            size="icon"
+            variant="ghost"
+            className="text-muted-foreground opacity-0 group-hover/segment:opacity-100 transition-opacity"
+            onClick={handleDelete}
+            aria-label="Delete segment"
+          >
+          
+              <RefreshCcw/>
+          </Button>
             </div>
           ) : (
             <div className="text-sm text-muted-foreground italic">
@@ -167,8 +194,6 @@ export default function ScriptSegmentItem({
           )}
         </div>
       </div>
-
-      
     </div>
   );
 }

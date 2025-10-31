@@ -7,10 +7,11 @@ import Image from 'next/image';
 import type { MediaAsset } from '@/lib/types';
 import { initialProject } from '@/lib/placeholder-data';
 import { Button } from '@/components/ui/button';
-import { searchPexelsVideosAction } from '@/lib/actions';
+
 import { LoaderCircle, Clapperboard, Video as VideoIcon } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import type { Video } from 'pexels';
+import { searchPexelsVideosAction } from '@/lib/pexels/pexels';
 type MediaSelectionDialogProps = {
   onSelect: (src: string) => void;
   initialSearchQuery?: string;
@@ -29,7 +30,7 @@ const generateSuggestions = (topic?: string, initialQuery?: string) => {
     return Array.from(suggestions).slice(0, 10);
 }
 export default function MediaSelectionDialog({ onSelect, initialSearchQuery, topic }: MediaSelectionDialogProps) {
-  const mediaAssets: MediaAsset[] = initialProject.mediaAssets;
+  // const mediaAssets: MediaAsset[] = initialProject.mediaAssets;
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery || '');
   const [isSearching, setIsSearching] = useState(false);
   const [searchResults, setSearchResults] = useState<Video[]>([]);
@@ -85,14 +86,14 @@ export default function MediaSelectionDialog({ onSelect, initialSearchQuery, top
           <ScrollArea className="h-full pr-4">
             <TabsContent value="my-media">
                 <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                {mediaAssets.map(asset => (
+                {/* {mediaAssets.map(asset => (
                   <div key={asset.id} className="aspect-video relative rounded-md overflow-hidden group cursor-pointer" onClick={() => onSelect(asset.thumbnail)}>
                     <Image src={asset.thumbnail} alt={asset.name} fill className="object-cover" data-ai-hint={asset.hint} />
                     <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                       <p className="text-white text-xs font-bold text-center p-1">{asset.name}</p>
                     </div>
                   </div>
-                ))}
+                ))} */}
               </div>
             </TabsContent>
             <TabsContent value="stock-media" className="space-y-4">
