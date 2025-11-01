@@ -17,7 +17,7 @@ export async function createFinalVideoAction(segments: ScriptSegment[]): Promise
         
         // This is where your Cloudinary logic runs
         const finalUrl = await generateFinalVideo(segments);
-        
+         
         // Success: Return a primitive string URL
         return finalUrl;
         

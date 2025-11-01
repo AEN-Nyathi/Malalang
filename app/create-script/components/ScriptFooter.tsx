@@ -20,6 +20,7 @@ export default function ScriptFooter({
 }: ScriptFooterProps) {
   const [combinedAudioUrl, setCombinedAudioUrl] = useState<string | null>(null);
   const [combinedVideoUrl, setCombinedVideoUrl] = useState<string | null>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
   // Handler to add a new segment
   const handleAddSegment = useCallback(() => {
     const newSegment: ScriptSegment = {
@@ -38,57 +39,70 @@ export default function ScriptFooter({
 
   // ScriptFooter.tsx
 
-// ScriptFooter.tsx
+  // ScriptFooter.tsx
 
-// Handler for preview generation
-const handlePreview = async () => {
-  setIsPreview(false);
-  toast.loading("Generating video preview...", { duration: 5000 });
+  // Handler for preview generation
+  const handlePreview = async () => {
+    setIsGenerating(false);
+    toast.info("Generating video preview...", { duration: 5000 });
     // ... (Your data preparation/cleanup logic to get a cleanSegments array)
-    const segmentsToSend = Segments.map(segment => ({
-        // Ensure you only send necessary, serializable data
-        id: segment.id,
-        text: segment.text,
-        audioSrc: segment.audioSrc,
-        visualSrc: segment.visualSrc,
-        duration: segment.duration,
-        videoSearchQuery: segment.videoSearchQuery,
-    })).filter(s => s.audioSrc && s.visualSrc); // Filter out incomplete segments
+    const segmentsToSend = Segments.map((segment) => ({
+      // Ensure you only send necessary, serializable data
+      id: segment.id,
+      text: segment.text,
+      audioSrc: segment.audioSrc,
+      visualSrc: segment.visualSrc,
+      duration: segment.duration,
+      videoSearchQuery: segment.videoSearchQuery,
+    })).filter((s) => s.audioSrc && s.visualSrc); // Filter out incomplete segments
 
     if (segmentsToSend.length === 0) {
-        toast.error("No complete segments to generate video.");
-        return;
+      toast.error("No complete segments to generate video.");
+      setIsGenerating(false);
+      return;
     }
 
     try {
-        // 🔑 FIX: Use the standard Fetch API to call the new API Route
-        const response = await fetch('/api/video', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            // Pass the segments array in the request body
-            body: JSON.stringify({ segments: segmentsToSend }), 
-        });
+      // 🔑 FIX: Use the standard Fetch API to call the new API Route
+      const response = await fetch("/api/video", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // Pass the segments array in the request body
+        body: JSON.stringify({ segments: segmentsToSend }),
+      });
+      // const url = "https://hooks.mediaflows.cloudinary.com/v3/2fec0b33-05be-4d85-a7a9-b1f3ee83c08c/d197438f-ccf2-45c6-8964-92cd9973fcac"
+      //  const response = await fetch(url, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   // Pass the segments array in the request body
+      //   body: JSON.stringify({ segments: segmentsToSend }),
+      // });
 
-        const data = await response.json();
+      const data = await response.json();
 
-        if (response.ok) {
-            // SUCCESS: Response body contains { url: finalUrl }
-            const finalUrl = data.url;
-            setCombinedVideoUrl(finalUrl);
-            setIsPreview(true);
-            toast.success("Video Preview Ready!");
-        } else {
-            // FAILURE: Response body contains { error: errorMessage }
-            console.error("API Error:", data.error);
-            toast.error(`Video generation failed: ${data.error}`);
-        }
+      if (response.ok) {
+        // SUCCESS: Response body contains { url: finalUrl }
+        const finalUrl = data.url;
+        setCombinedVideoUrl(finalUrl);
+        console.log("Final video URL received:", finalUrl);
+        setIsPreview(true);
+        setIsGenerating(false);
+        toast.success("Video Preview Ready!");
+      } else {
+        // FAILURE: Response body contains { error: errorMessage }
+        console.error("API Error:", data.error);
+        toast.error(`Video generation failed: ${data.error}`);
+      }
+      setIsPreview(true);
     } catch (error) {
-        console.error("Network or JSON parsing error:", error);
-        toast.error("An unexpected error occurred while contacting the server.");
+      console.error("Network or JSON parsing error:", error);
+      toast.error("An unexpected error occurred while contacting the server.");
     }
-};
+  };
 
   return (
     <div className="pt-4 flex gap-2 sticky bottom-0 bg-gray-900 z-10 p-2 -mx-2 border-t">
@@ -99,12 +113,12 @@ const handlePreview = async () => {
       <Button
         className="flex-1"
         onClick={() => handlePreview()}
-        disabled={Segments.length === 0|| isPreview}
+        disabled={Segments.length === 0 && isGenerating}
       >
         <PlayCircle className="mr-2 h-5 w-5" />
         <span>{"Preview Video"}</span>
       </Button>
-      {isPreview && combinedVideoUrl && (
+      {combinedVideoUrl && (
         <video
           // ref={videoRef}
           className="w-full h-full object-cover absolute inset-0"

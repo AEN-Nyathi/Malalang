@@ -3,8 +3,8 @@ import type { ReactNode } from 'react';
 export interface ScriptSegment {
   id: string;
   text: string;
-  audioSrc: string | null;
-  visualSrc: string | null;
+  audioSrc: string ;
+  visualSrc: string ;
   duration: number; // in seconds
   videoSearchQuery: string;
 }
